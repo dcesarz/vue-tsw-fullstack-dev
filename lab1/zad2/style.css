@@ -1,0 +1,13 @@
+.tresc {
+    background-image: url("papier.gif");
+    text-align: justify;
+    padding: 2%;
+    border-style: solid;
+    border-width: 1px;
+}
+
+p 
+{
+    text-indent: 2%;    
+}
+
