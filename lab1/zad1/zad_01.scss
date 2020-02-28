@@ -1,3 +1,5 @@
+$pos: absolute;
+
 body{
 
     text-align: center;
@@ -10,10 +12,18 @@ body{
     }
 
     .A{
-
+        background-color: yellow;
+        border-color: red;
+        position: $pos;
+        right: calc(50% - 150px);
+        top: calc(50% - 50px);
     }
     .B
     {
-
+        background-color: white;
+        border-color: blue;
+        position: $pos;
+        right: calc(45% - 150px);
+        top: calc(55% - 50px);
     }
 }

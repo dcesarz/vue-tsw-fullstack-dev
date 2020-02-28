@@ -8,4 +8,20 @@ body * {
   width: 300px;
   border-style: solid;
 }
+
+body .A {
+  background-color: yellow;
+  border-color: red;
+  position: absolute;
+  right: calc(50% - 150px);
+  top: calc(50% - 50px);
+}
+
+body .B {
+  background-color: white;
+  border-color: blue;
+  position: absolute;
+  right: calc(45% - 150px);
+  top: calc(55% - 50px);
+}
 /*# sourceMappingURL=zad_01.css.map */
