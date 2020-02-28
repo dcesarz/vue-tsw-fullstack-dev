@@ -1,0 +1,43 @@
+body {
+  margin: 0 auto;
+}
+
+#menu {
+  overflow: hidden;
+  background-color: blanchedalmond;
+  position: fixed;
+  text-align: center;
+  height: 100%;
+  width: 40%;
+}
+
+#menu span {
+  margin: 0 auto;
+  display: block;
+  padding: 24px;
+}
+
+#menu a {
+  padding: 8px 14px;
+  background-color: black;
+  color: white;
+  text-decoration: none;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#menu a a:visited {
+  color: blanchedalmond;
+}
+
+#tresc {
+  scroll-snap-type-y: mandatory;
+  font-family: Arial, Helvetica, sans-serif;
+  height: 100%;
+  width: 50%;
+  float: right;
+}
+
+#tresc p {
+  scroll-snap-align: start;
+}
+/*# sourceMappingURL=zad_03.css.map */
