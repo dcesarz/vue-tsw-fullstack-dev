@@ -1,0 +1,39 @@
+$size: 120px;
+
+body{
+    margin: 0;
+    height: 100%
+}
+
+
+#outer{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    .box{
+        width: $size;
+        height: $size;
+        color: white;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 80px;
+        text-align: center;
+    };
+
+    #one
+    {
+        align-self: flex-start;
+        background-color: #d4d4d4;
+    }
+
+    #two{
+        background-color: #949494;
+    }
+
+    #three{
+        align-self: flex-end;
+        background-color: #444444;
+    }
+
+}

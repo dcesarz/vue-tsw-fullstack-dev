@@ -1,0 +1,42 @@
+body {
+  margin: 0;
+}
+
+#outer {
+  height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#outer .box {
+  width: 120px;
+  height: 120px;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 80px;
+  text-align: center;
+}
+
+#outer #one {
+  background-color: #d4d4d4;
+}
+
+#outer #two {
+  background-color: #949494;
+}
+
+#outer #three {
+  background-color: #444444;
+}
+/*# sourceMappingURL=zad_01.css.map */
