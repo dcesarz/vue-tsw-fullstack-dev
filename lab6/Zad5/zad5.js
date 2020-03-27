@@ -18,4 +18,4 @@ const razem = (n, fun1, fun2, cb) => {
     Promise.all([p1, p2]).then(results => cb(results));
 };
 
-razem(4, f1, f2, callback);
+razem(2, f1, f2, callback);
