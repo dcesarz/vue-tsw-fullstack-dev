@@ -4,9 +4,10 @@ const zadanie1 = () => {
     document.getElementsByTagName("ul")[0].getElementsByTagName("li")[3].innerHTML = "Wsparcie telefoniczne 24/7";
 };
 
-// const zadanie2 = () => {
-//     // rozwiązanie
-// };
+const zadanie2 = () => {
+    let container = document.body.firstElementChild.firstElementChild;
+    container.appendChild(container.firstElementChild);        
+};
 
 // const zadanie3 = () => {
 //     // rozwiązanie
@@ -54,5 +55,6 @@ const isDomReady = () => {
 
 domReady(() =>{
     zadanie1();
+    zadanie2();
 });
 
