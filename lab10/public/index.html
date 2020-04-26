@@ -8,16 +8,39 @@
   </head>
   <body>
     <div id="ui">
-      <p>
-        Tutaj znajdzie się interfejs użytkownika gry.
-        Do obsługi odwołań do serwera należy wykorzystać bibliotekę
-        <a href="https://github.com/axios/axios" target="_blank">axios</a>.
-        Zwróć uwagę na to, że narzędzie to zwraca <em>promesy</em>!
-      </p>
-      <p>
-        Interfejs powinien działać bez „przeładowywania strony”. Do jego obsługi
-        należy wykorzystać wyłącznie standardowe metody DOM API.
-      </p>
+      <div id="game-data-form">
+        <div id = "size-div">
+          <label for="size">Size:</label><br>
+          <input type="number" id="size" name="size" value="5" min="1" max="24"><br>
+        </div>
+        <div id = "dim-div">
+          <label for="dim">Difficulty:</label><br>
+          <input type="number" id="dim" name="dim" value="9" min="2" max="9"><br>
+        </div>
+        <div id = "max-div">
+          <label for="max">Max moves:</label><br>
+          <input type="number" id="max" name="max" value="0" min="0" max="99"><br><br>  
+        </div>
+        <!-- TODO: implement newGame() function -->
+        <button id="new-game" onclick="newGame()">New game</button>
+      </div>
+      <div id="current-game-data">
+        <div id="score">
+          <h1>SCORE:</h1>
+            <h2>BLACK: <span id="black-score"> </span></h2>
+            <h2>WHITE: <span id="white-score"> </span></h2>
+        </div>
+        <div id="guesses">
+          <h1>GUESSES:</h1>
+            <h2>LEFT UNRATED: <span id="unrated"> </span></h2>
+            <h2>LEFT: <span id="tries-left"> </span></h2>
+        </div>
+        <div id="current-guess">
+          <input type="number" id="guess" name="guess" placeholder="???" min="0" value="0">
+        <!-- TODO: implement guess() function -->
+          <button id="guess-btn" onclick="guess()">Try it!</button></div>
+      </div>
+      </div>
     </div>
   </body>
 </html>
