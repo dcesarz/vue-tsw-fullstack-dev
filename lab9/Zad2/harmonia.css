@@ -5,7 +5,7 @@ div {
   border: 1px solid black;
 }
 
-div .hd {
+.hd {
   background-color: blue;
   font-family: sans-serif;
   font-weight: bold;
@@ -14,7 +14,7 @@ div .hd {
   border-bottom: 1px solid purple;
 }
 
-div .bd {
+.bd {
   border-top: 0;
 }
 /*# sourceMappingURL=harmonia.css.map */
