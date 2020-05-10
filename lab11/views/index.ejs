@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mastermind</title>
+    <link rel='stylesheet' href='/css/style.css' />
+    <script src='/lib/axios.min.js'></script>
+    <script src='/js/skrypt.js'></script>
+  </head>
+  <body>
+    <% if (isAuthenticated) { %>
+        <div id="ui">
+            <div id="game-data-form">
+              <div id = "size-div">
+                <label for="size">Size:</label><br>
+                <input type="number" id="size" name="size" value="5" min="1" max="24"><br>
+              </div>
+              <div id = "dim-div">
+                <label for="dim">Difficulty:</label><br>
+                <input type="number" id="dim" name="dim" value="9" min="2" max="9"><br>
+              </div>
+              <div id = "max-div">
+                <label for="max">Max moves:</label><br>
+                <input type="number" id="max" name="max" value="0" min="0" max="99"><br><br>  
+              </div>
+              <button id="new-game" onclick="start()">New game</button>
+            </div>
+            <div id="current-game-data">
+              <div id="score">
+                <h1>SCORE:</h1>
+                  <h2>BLACK: <span id="bscore"> </span></h2>
+                  <h2>WHITE: <span id="wscore"> </span></h2>
+              </div>
+              <div id="guesses">
+                <h1>GUESSES:</h1>
+                  <h2>LEFT UNRATED: <span id="unrated"> </span></h2>
+                  <h2>LEFT: <span id="guesses-left"> </span></h2>
+              </div>
+              <div id="current-guess">
+                <input type="number" id="guess" name="guess" placeholder="0" min="0" value="0">
+                <button id="guess-btn" onclick="guess()">Try it!</button></div>
+            </div>
+            </div>
+            <h2>Guess history</h2>
+            <div id="past-guesses">empty</div>
+          </div>
+        <a href="/logout">Wyloguj</a>
+    <% } else { %>
+        <a href="/login">Login</a>
+    <% } %>
+  </body>
+</html>
