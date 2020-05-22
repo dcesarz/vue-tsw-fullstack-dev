@@ -1,8 +1,8 @@
 // Query DOM 
 const messageContent = document.getElementById("message-content"),
-      btn            = document.getElementById("btn-send"),
-      output         = document.getElementById("output"),
-      roomName       = document.getElementById("room-name").innerHTML;
+    btn            = document.getElementById("btn-send"),
+    output         = document.getElementById("output"),
+    roomName       = document.getElementById("room-name").innerHTML;
 
 // Make connection
 const socket = io.connect();
