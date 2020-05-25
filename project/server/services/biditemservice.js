@@ -1,15 +1,15 @@
-const Message = require("../models");
+const BidItem = require("../models");
 
 const processErrors = (err) => {
     let msg = {};
     for (let key in err.errors) {
-        msg[key] = err.errors[key].message;
+        msg[key] = err.errors[key].biditem;
     }
     return msg;
 };
 
-const saveMessage = (message, res) => {
-    message.save( (err, doc) => {
+const saveBidItem = (biditem, res) => {
+    biditem.save( (err, doc) => {
         if (err) {
             // Unprocessable Entity
             res.status(422).json(processErrors(err));
@@ -20,17 +20,17 @@ const saveMessage = (message, res) => {
 };
 
 module.exports.create = (req, res) => {
-    let message = new Message(req.body);
-    saveMessage(message, res);
+    let biditem = new BidItem(req.body);
+    saveBidItem(biditem, res);
 };
 
 module.exports.read = (req, res, next) => {
-    Message.findById(req.params.id, (err, message) => {
+    BidItem.findById(req.params.id, (err, biditem) => {
         if (err) {
             next(err);
         } else {
-            if (message) {
-                res.json(message);
+            if (biditem) {
+                res.json(biditem);
             } else {
                 // Not Found
                 res.sendStatus(404);
@@ -40,39 +40,39 @@ module.exports.read = (req, res, next) => {
 };
 
 module.exports.list = (req, res, next) => {
-    Message.find({}, (err, messages) => {
+    BidItem.find({}, (err, biditem) => {
         if (err) {
             next(err);
         } else {
-            res.json(messages);
+            res.json(biditem);
         }
     });
 };
 
-// let MessageSchema = new Schema({
-//     sender: UserSchema,
-//     recipent: UserSchema,
-//     content: {
+// let BidItemSchema = new Schema({
+//     name: {
 //         type: String,
 //         required: true,
-//         max: 255
+//         max: 20
 //     },
-//     timestamps: { 
-//         createdAt: 'created_at' 
-//     }
-// })
+//     price: {
+//         type: Number,
+//         required: true,
+//         max: 20
+//     },
+// });
+
 
 
 module.exports.update = (req, res, next) => {
-    Message.findById(req.params.id, (err, message) => {
+    BidItem.findById(req.params.id, (err, biditem) => {
         if (err) {
             next(err);
         } else {
-            if (message) {
-                message.sender = req.body.sender;
-                message.recipent = req.body.recipent;
-                message.content = req.body.content;
-                saveMessage(message, res);
+            if (biditem) {
+                biditem.name = req.body.name;
+                biditem.price = req.body.price;
+                saveBidItem(biditem, res);
             } else {
                 // Not Found
                 res.sendStatus(404);
@@ -82,7 +82,7 @@ module.exports.update = (req, res, next) => {
 };
 
 module.exports.delete = (req, res, next) => {
-    Message.findByIdAndRemove(req.params.id, err => {
+    BidItem.findByIdAndRemove(req.params.id, err => {
         if (err) {
             return next(err);
         } else {
