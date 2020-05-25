@@ -39,9 +39,9 @@ let MessageSchema = new Schema({
         max: 255
     },
     timestamps: { 
-        createdAt: 'created_at' 
+        createdAt: "created_at"
     }
-})
+});
 
 const errorHandler = {};
 errorHandler.processErrors = (err) => {
@@ -56,9 +56,9 @@ errorHandler.processErrors = (err) => {
 // błędu przy naruszeniu „unikatowości” nazwy użytkownika
 const uniqueValidator = require("mongoose-unique-validator");
 // ale z nią – już wszystko będzie jak należy
-userSchema.plugin(uniqueValidator);
+UserSchema.plugin(uniqueValidator);
 
-userSchema.methods.isValidPassword = function (password) {
+UserSchema.methods.isValidPassword = function (password) {
     return bcrypt.compare(password, this.password);
 };
 
