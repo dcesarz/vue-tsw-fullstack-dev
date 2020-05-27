@@ -4,8 +4,8 @@ const passportLocal = require("passport-local");
 const passportHttp = require("passport-http");
 
 // reprezentacja „użytkownika” (Mongoose)
-const model = require("../model");
-const User = model.user;
+//const model = require("../model");
+const User = require("../models/user");
 
 // Konfiguracja Passport.js
 const validateUser = (username, password, done) => {

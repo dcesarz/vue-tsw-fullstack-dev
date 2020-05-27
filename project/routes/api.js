@@ -1,7 +1,7 @@
 const router = require("express").Router();
-const userservices = require("../services/userservices.js");
-const biditemservices = require("../services/biditemservices.js");
-const messageservices = require("../services/messageservices.js");
+const userservices = require("../services/userservices");
+const biditemservices = require("../services/biditemservices");
+const messageservices = require("../services/messageservices");
 
 const rejectMethod = (_req, res, _next) => {
     // Method Not Allowed

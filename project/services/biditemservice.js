@@ -1,15 +1,15 @@
-const User = require("../models");
+const BidItem = require("../models/biditem");
 
 const processErrors = (err) => {
     let msg = {};
     for (let key in err.errors) {
-        msg[key] = err.errors[key].user;
+        msg[key] = err.errors[key].biditem;
     }
     return msg;
 };
 
-const saveUser = (user, res) => {
-    user.save( (err, doc) => {
+const saveBidItem = (biditem, res) => {
+    biditem.save( (err, doc) => {
         if (err) {
             // Unprocessable Entity
             res.status(422).json(processErrors(err));
@@ -20,17 +20,17 @@ const saveUser = (user, res) => {
 };
 
 module.exports.create = (req, res) => {
-    let user = new User(req.body);
-    saveUser(user, res);
+    let biditem = new BidItem(req.body);
+    saveBidItem(biditem, res);
 };
 
 module.exports.read = (req, res, next) => {
-    User.findById(req.params.id, (err, user) => {
+    BidItem.findById(req.params.id, (err, biditem) => {
         if (err) {
             next(err);
         } else {
-            if (user) {
-                res.json(user);
+            if (biditem) {
+                res.json(biditem);
             } else {
                 // Not Found
                 res.sendStatus(404);
@@ -40,41 +40,39 @@ module.exports.read = (req, res, next) => {
 };
 
 module.exports.list = (req, res, next) => {
-    User.find({}, (err, users) => {
+    BidItem.find({}, (err, biditem) => {
         if (err) {
             next(err);
         } else {
-            res.json(users);
+            res.json(biditem);
         }
     });
 };
 
-// let UserSchema = new Schema({
-//     username: {
+// let BidItemSchema = new Schema({
+//     name: {
 //         type: String,
 //         required: true,
 //         max: 20
 //     },
-//     password: {
-//         type: String,
+//     price: {
+//         type: Number,
 //         required: true,
 //         max: 20
 //     },
-//     biditems: [BidItemSchema],
-//     messages: [MessageSchema]
 // });
 
+
+
 module.exports.update = (req, res, next) => {
-    User.findById(req.params.id, (err, user) => {
+    BidItem.findById(req.params.id, (err, biditem) => {
         if (err) {
             next(err);
         } else {
-            if (user) {
-                user.username = req.body.username;
-                user.password = req.body.password;
-                user.biditems = req.body.biditems;
-                user.messages = req.body.messages;
-                saveUser(user, res);
+            if (biditem) {
+                biditem.name = req.body.name;
+                biditem.price = req.body.price;
+                saveBidItem(biditem, res);
             } else {
                 // Not Found
                 res.sendStatus(404);
@@ -84,7 +82,7 @@ module.exports.update = (req, res, next) => {
 };
 
 module.exports.delete = (req, res, next) => {
-    User.findByIdAndRemove(req.params.id, err => {
+    BidItem.findByIdAndRemove(req.params.id, err => {
         if (err) {
             return next(err);
         } else {

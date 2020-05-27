@@ -1,15 +1,15 @@
-const Message = require("../models");
+const User = require("../models/user.js");
 
 const processErrors = (err) => {
     let msg = {};
     for (let key in err.errors) {
-        msg[key] = err.errors[key].message;
+        msg[key] = err.errors[key].user;
     }
     return msg;
 };
 
-const saveMessage = (message, res) => {
-    message.save( (err, doc) => {
+const saveUser = (user, res) => {
+    user.save( (err, doc) => {
         if (err) {
             // Unprocessable Entity
             res.status(422).json(processErrors(err));
@@ -20,17 +20,17 @@ const saveMessage = (message, res) => {
 };
 
 module.exports.create = (req, res) => {
-    let message = new Message(req.body);
-    saveMessage(message, res);
+    let user = new User(req.body);
+    saveUser(user, res);
 };
 
 module.exports.read = (req, res, next) => {
-    Message.findById(req.params.id, (err, message) => {
+    User.findById(req.params.id, (err, user) => {
         if (err) {
             next(err);
         } else {
-            if (message) {
-                res.json(message);
+            if (user) {
+                res.json(user);
             } else {
                 // Not Found
                 res.sendStatus(404);
@@ -40,39 +40,41 @@ module.exports.read = (req, res, next) => {
 };
 
 module.exports.list = (req, res, next) => {
-    Message.find({}, (err, messages) => {
+    User.find({}, (err, users) => {
         if (err) {
             next(err);
         } else {
-            res.json(messages);
+            res.json(users);
         }
     });
 };
 
-// let MessageSchema = new Schema({
-//     sender: UserSchema,
-//     recipent: UserSchema,
-//     content: {
+// let UserSchema = new Schema({
+//     username: {
 //         type: String,
 //         required: true,
-//         max: 255
+//         max: 20
 //     },
-//     timestamps: { 
-//         createdAt: 'created_at' 
-//     }
-// })
-
+//     password: {
+//         type: String,
+//         required: true,
+//         max: 20
+//     },
+//     biditems: [BidItemSchema],
+//     messages: [MessageSchema]
+// });
 
 module.exports.update = (req, res, next) => {
-    Message.findById(req.params.id, (err, message) => {
+    User.findById(req.params.id, (err, user) => {
         if (err) {
             next(err);
         } else {
-            if (message) {
-                message.sender = req.body.sender;
-                message.recipent = req.body.recipent;
-                message.content = req.body.content;
-                saveMessage(message, res);
+            if (user) {
+                user.username = req.body.username;
+                user.password = req.body.password;
+                user.biditems = req.body.biditems;
+                user.messages = req.body.messages;
+                saveUser(user, res);
             } else {
                 // Not Found
                 res.sendStatus(404);
@@ -82,7 +84,7 @@ module.exports.update = (req, res, next) => {
 };
 
 module.exports.delete = (req, res, next) => {
-    Message.findByIdAndRemove(req.params.id, err => {
+    User.findByIdAndRemove(req.params.id, err => {
         if (err) {
             return next(err);
         } else {

@@ -1,15 +1,15 @@
-const BidItem = require("../models");
+const Message = require("../models/message.js");
 
 const processErrors = (err) => {
     let msg = {};
     for (let key in err.errors) {
-        msg[key] = err.errors[key].biditem;
+        msg[key] = err.errors[key].message;
     }
     return msg;
 };
 
-const saveBidItem = (biditem, res) => {
-    biditem.save( (err, doc) => {
+const saveMessage = (message, res) => {
+    message.save( (err, doc) => {
         if (err) {
             // Unprocessable Entity
             res.status(422).json(processErrors(err));
@@ -20,17 +20,17 @@ const saveBidItem = (biditem, res) => {
 };
 
 module.exports.create = (req, res) => {
-    let biditem = new BidItem(req.body);
-    saveBidItem(biditem, res);
+    let message = new Message(req.body);
+    saveMessage(message, res);
 };
 
 module.exports.read = (req, res, next) => {
-    BidItem.findById(req.params.id, (err, biditem) => {
+    Message.findById(req.params.id, (err, message) => {
         if (err) {
             next(err);
         } else {
-            if (biditem) {
-                res.json(biditem);
+            if (message) {
+                res.json(message);
             } else {
                 // Not Found
                 res.sendStatus(404);
@@ -40,39 +40,39 @@ module.exports.read = (req, res, next) => {
 };
 
 module.exports.list = (req, res, next) => {
-    BidItem.find({}, (err, biditem) => {
+    Message.find({}, (err, messages) => {
         if (err) {
             next(err);
         } else {
-            res.json(biditem);
+            res.json(messages);
         }
     });
 };
 
-// let BidItemSchema = new Schema({
-//     name: {
+// let MessageSchema = new Schema({
+//     sender: UserSchema,
+//     recipent: UserSchema,
+//     content: {
 //         type: String,
 //         required: true,
-//         max: 20
+//         max: 255
 //     },
-//     price: {
-//         type: Number,
-//         required: true,
-//         max: 20
-//     },
-// });
-
+//     timestamps: { 
+//         createdAt: 'created_at' 
+//     }
+// })
 
 
 module.exports.update = (req, res, next) => {
-    BidItem.findById(req.params.id, (err, biditem) => {
+    Message.findById(req.params.id, (err, message) => {
         if (err) {
             next(err);
         } else {
-            if (biditem) {
-                biditem.name = req.body.name;
-                biditem.price = req.body.price;
-                saveBidItem(biditem, res);
+            if (message) {
+                message.sender = req.body.sender;
+                message.recipent = req.body.recipent;
+                message.content = req.body.content;
+                saveMessage(message, res);
             } else {
                 // Not Found
                 res.sendStatus(404);
@@ -82,7 +82,7 @@ module.exports.update = (req, res, next) => {
 };
 
 module.exports.delete = (req, res, next) => {
-    BidItem.findByIdAndRemove(req.params.id, err => {
+    Message.findByIdAndRemove(req.params.id, err => {
         if (err) {
             return next(err);
         } else {
