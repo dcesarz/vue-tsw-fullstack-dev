@@ -1,12 +1,19 @@
 <template>
 <div>
-  <p>This is placeholder text.</p>
+  <div>
+    <h1>Welcome to Auction app!</h1>
+  </div>
+  <ul>
+    <li>Home</li>
+    <li>Login</li>
+    <li>Contact</li>
+  </ul>
 </div>
 </template>
 
 <script>
 export default {
-  name: 'Home',
+  name: 'Navigation',
   data() {
     return {
       msg: 'Welcome to Your Vue.js App',
@@ -22,7 +29,9 @@ h1, h2 {
 }
 ul {
   list-style-type: none;
-  padding: 0;
+  color: white;
+  background-color:lightslategray;
+  padding: 1%;
 }
 li {
   display: inline-block;
