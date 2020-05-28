@@ -44,4 +44,17 @@ router.route("api/messages/:id")
     .delete(messageservices.delete)
     .all(rejectMethod);
 
+router
+    .route("/")
+    .get((req, res) => {
+        
+        res.send("Home Page");
+        //if(req.isAuthenticated())
+        //    res.send("Home page");
+        //else
+        //    res.redirect("/login");
+    })
+    .all(rejectMethod);
+
+
 module.exports = router;

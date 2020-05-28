@@ -1,7 +1,7 @@
 {
   "name": "client",
   "version": "1.0.0",
-  "description": "tsw vue.js project",
+  "description": "tsw project - auction site",
   "author": "Dominika Cesarz",
   "private": true,
   "scripts": {

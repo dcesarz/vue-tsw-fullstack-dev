@@ -1,6 +1,6 @@
 # client
 
-> tsw vue.js project
+> tsw project - auction site
 
 ## Build Setup
 

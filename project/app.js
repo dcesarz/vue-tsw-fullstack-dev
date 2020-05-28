@@ -41,7 +41,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // routing aplikacji
-const routes = require("../routes/index");
+const routes = require("../routes/api");
 app.use("/",routes);
 //const auction_routes = require("./routes/api");
 //app.use("/auction",auction_routes);
@@ -54,7 +54,7 @@ app.use((_, res) => {
 // Serwer HTTPS
 // openssl req -x509 -nodes -days 365 -newkey rsa:1024 -out my.crt -keyout my.key
 const server = require("./https")(app);
-const port = process.env.port;
+const port = 5000;
 
 
 server.listen(port, () => {
