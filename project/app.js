@@ -41,7 +41,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // routing aplikacji
-const routes = require("../routes/api");
+const routes = require("./routes/api");
 app.use("/",routes);
 //const auction_routes = require("./routes/api");
 //app.use("/auction",auction_routes);

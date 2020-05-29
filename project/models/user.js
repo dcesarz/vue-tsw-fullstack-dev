@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const bcrypt = require("../bcrypt");
-const BidItemSchema = require("../models/biditem");
-const MessageSchema = require("../models/message");
+const BidItemSchema = require("./Biditem").schema;
+const MessageSchema = require("./Message").schema;
 
 let UserSchema = new Schema({
     username: {
@@ -15,9 +15,13 @@ let UserSchema = new Schema({
         required: true,
         max: 20
     },
-    biditems: [BidItemSchema],
-    messages: [MessageSchema]
-});
+    biditems:
+    {
+        type: [BidItemSchema],
+    },
+    messages: {
+        type: [MessageSchema]
+    }},{timestamps: true});
 
 // bez poniższej wtyczki nie dostaniemy sensownego sygnału
 // błędu przy naruszeniu „unikatowości” nazwy użytkownika
@@ -26,9 +30,10 @@ const uniqueValidator = require("mongoose-unique-validator");
 UserSchema.plugin(uniqueValidator);
 
 UserSchema.methods.isValidPassword = function (password) {
-    return bcrypt.compare(password, this.password);
+    return bcrypt.compare(password, this.password);//
 };
 
+delete mongoose.connection.models['User'];
 const User = mongoose.model("User", UserSchema);
 
 User.processErrors = (err) => {
@@ -39,4 +44,5 @@ User.processErrors = (err) => {
     return msg;
 };
 
-module.exports = User;
+global.UserSchema = global.UserSchema || User;
+module.exports = global.UserSchema;

@@ -1,20 +1,25 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const UserSchema = require("../models/user");
+const UserSchema = require("./User").schema;
 
 let MessageSchema = new Schema({
-    sender: UserSchema,
-    recipent: UserSchema,
+    sender: 
+    {
+        type: [UserSchema],
+    },
+    recipent: 
+    {
+        type: [UserSchema],
+    },
     content: {
         type: String,
         required: true,
         max: 255
     },
-    timestamps: { 
-        createdAt: "created_at"
-    }
-});
+    
+},{timestamps: true});
 
+delete mongoose.connection.models['Message'];
 const Message = mongoose.model("Message", MessageSchema);
 
 // mały „postprocessing” błędów mongoosowych
@@ -26,4 +31,5 @@ Message.processErrors = (err) => {
     return msg;
 };
 
-module.exports = Message;
+global.MessageSchema = global.MessageSchema || Message;
+module.exports = global.MessageSchema;

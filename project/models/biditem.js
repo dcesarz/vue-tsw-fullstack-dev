@@ -1,7 +1,9 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const UserSchema = require("./User").schema;
 
 let BidItemSchema = new Schema({
+    seller: UserSchema,
     name: {
         type: String,
         required: true,
@@ -12,8 +14,9 @@ let BidItemSchema = new Schema({
         required: true,
         max: 20
     },
-});
+},{timestamps: true});
 
+delete mongoose.connection.models['BidItem'];
 const BidItem = mongoose.model("BidItem", BidItemSchema);
 
 BidItem.processErrors = (err) => {
@@ -24,4 +27,6 @@ BidItem.processErrors = (err) => {
     return msg;
 };
 
-module.exports = BidItem;
+global.BidItemSchema = global.BidItemSchema || BidItem;
+module.exports = global.UserSchema;
+//module.exports = BidItem;

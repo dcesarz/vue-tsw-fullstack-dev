@@ -4,12 +4,18 @@ import Home from '@/components/Home';
 
 Vue.use(Router);
 
-export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'Home',
-      component: Home,
-    },
-  ],
+const routes = [
+  {
+    path: '/',
+    name: 'Home',
+    component: Home,
+  },
+];
+
+const router = new Router({
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes,
 });
+
+export default router;
