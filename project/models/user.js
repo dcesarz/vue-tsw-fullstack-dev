@@ -8,11 +8,13 @@ let UserSchema = new Schema({
     username: {
         type: String,
         required: true,
+        min: 8,
         max: 20
     },
     password: {
         type: String,
         required: true,
+        min: 8,
         max: 20
     },
     biditems:

@@ -13,7 +13,7 @@ router.route("/api/users")
     .post(userservices.create)
     .all(rejectMethod);
 
-router.route("api/users/:id")
+router.route("/api/users/:id")
     .all(userservices.validateId)
     .get(userservices.read)
     .put(userservices.update)
@@ -25,19 +25,19 @@ router.route("/api/biditems")
     .post(biditemservices.create)
     .all(rejectMethod);
 
-router.route("api/biditems/:id")
+router.route("/api/biditems/:id")
     .all(biditemservices.validateId)
     .get(biditemservices.read)
     .put(biditemservices.update)
     .delete(biditemservices.delete)
     .all(rejectMethod);
 
-router.route("/api/users")
-    .get(userservices.list)
-    .post(userservices.create)
+router.route("/api/messages")
+    .get(messageservices.list)
+    .post(messageservices.create)
     .all(rejectMethod);
 
-router.route("api/messages/:id")
+router.route("/api/messages/:id")
     .all(messageservices.validateId)
     .get(messageservices.read)
     .put(messageservices.update)

@@ -6,7 +6,7 @@ const express = require("express");
 const app = express();
 //const socketio = require("socket.io");
 //const passportSocketIo = require("passport.socketio");
-const mongoose = require("mongoose");
+const mongoose = require("./mongoose");
 const bodyParser = require("body-parser");
 
 //app.set("view engine", "ejs");
@@ -29,7 +29,7 @@ const MongoStore = require("connect-mongo")(expressSession);
 const sessionStore = new MongoStore({mongooseConnection: mongoose.connection});
 
 app.use(expressSession({
-    secret: process.env.APP_SECRET,
+    secret: 'very secret string',
     store: sessionStore,
     resave: false,
     saveUninitialized: false
@@ -41,7 +41,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // routing aplikacji
-const routes = require("./routes/api");
+const routes = require("./routes");
 app.use("/",routes);
 //const auction_routes = require("./routes/api");
 //app.use("/auction",auction_routes);

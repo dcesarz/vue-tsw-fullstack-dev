@@ -3,7 +3,11 @@ const Schema = mongoose.Schema;
 const UserSchema = require("./User").schema;
 
 let BidItemSchema = new Schema({
-    seller: UserSchema,
+    seller:{ 
+        type: String,
+        required: true,
+        max: 20
+    },
     name: {
         type: String,
         required: true,

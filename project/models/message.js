@@ -5,11 +5,15 @@ const UserSchema = require("./User").schema;
 let MessageSchema = new Schema({
     sender: 
     {
-        type: [UserSchema],
+        type: String,
+        required: true,
+        max: 20
     },
     recipent: 
     {
-        type: [UserSchema],
+        type: String,
+        required: true,
+        max: 20
     },
     content: {
         type: String,
