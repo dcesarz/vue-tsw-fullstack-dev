@@ -1,4 +1,5 @@
 const User = require("../models/user.js");
+const passport = require("passport");
 
 const processErrors = (err) => {
     let msg = {};
@@ -102,3 +103,33 @@ module.exports.validateId = (req, res, next) => {
     }
     next();
 };
+
+module.exports.login = (req, res, next) => {
+    passport.authenticate("local", (err, user, info) => {
+      if (err) {
+        return next(err);
+      }
+  
+      if (!user) {
+        return res.status(400).send([user, "Cannot log in", info]);
+      }
+  
+      req.login(user, err => {
+        res.send("Logged in");
+      });
+    })(req, res, next);
+  };
+
+  module.exports.logout = (req, res, next) => {
+    req.logout();
+    console.log("logged out")
+    return res.send();
+  };
+
+  module.exports.authMiddleware = (req, res, next) => {
+    if (!req.isAuthenticated()) {
+      res.status(401).send('You are not authenticated')
+    } else {
+      return next()
+    }
+  }

@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
-    "start": "npm run dev",
+    "start": "npm run dev --https",
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
@@ -17,6 +17,7 @@
     "axios": "^0.19.2",
     "sass-loader": "^7.3.1",
     "vue": "^2.5.2",
+    "vue-cookies": "^1.7.0",
     "vue-router": "^3.0.1",
     "vuex": "^3.4.0"
   },

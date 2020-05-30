@@ -18,8 +18,9 @@ app.use(express.json());
 app.use(bodyParser.json());
 
 // machnaizm sesji – z wykorzystaniem ciasteczek
-const cookieParser = require("cookie-parser");
-app.use(cookieParser());
+const LocalStrategy = require('passport-local').Strategy
+//const cookieParser = require("cookie-parser");
+//app.use(cookieParser());
 const expressSession = require("express-session");
 
 
@@ -27,13 +28,18 @@ const expressSession = require("express-session");
 const MongoStore = require("connect-mongo")(expressSession);
 
 const sessionStore = new MongoStore({mongooseConnection: mongoose.connection});
+const cookieSession = require('cookie-session')
 
-app.use(expressSession({
-    secret: 'very secret string',
-    store: sessionStore,
-    resave: false,
-    saveUninitialized: false
-}));
+const axios = require("axios");
+const cors = require("cors");
+
+
+app.use(cookieSession({
+    name: 'mysession',
+    keys: ['vueauthrandomkey'],
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+}))
+
 
 // do obsługi autoryzacji używamy Passport.js
 const passport = require("./passport");
@@ -56,6 +62,18 @@ app.use((_, res) => {
 const server = require("./https")(app);
 const port = 5000;
 
+app.use(cors({ credentials: true, origin: "https://localhost:8080" }));
+const axiosConfig = {
+    withCredentials: true,
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "http://localhost:8080/",
+      "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE"
+    }
+  };
+  
+axios.config = axiosConfig;
+  
 
 server.listen(port, () => {
     console.log(`Serwer działa pod adresem: https://localhost:${port}`);

@@ -44,7 +44,6 @@ passport.deserializeUser((id, done) => {
                 id: user._id,
                 username: user.username,
                 password: user.password,
-                gameHistory: user.gameHistory
             });
         } else {
             done({

@@ -1,16 +1,40 @@
 <template>
-<div>
-  <p>This is placeholder text.</p>
-</div>
+    <div>
+        <h2>Home</h2>
+        <p>Name: {{ user.username }}</p>
+    </div>
 </template>
-
 <script>
+import axios from 'axios';
+import router from '../router';
+
 export default {
-  name: 'Home',
+  name: 'Login',
   data() {
     return {
-      msg: 'Welcome to Your Vue.js App',
+      user: {
+        name: 'Jesse',
+      },
     };
+  },
+  methods: {
+    getUserData() {
+      const self = this;
+      axios.get('/api/api/user')
+        .then((response) => {
+          // eslint-disable-next-line
+          console.log(response);
+          self.$set(this, 'user', response.data.user);
+        })
+        .catch((errors) => {
+          // eslint-disable-next-line
+          console.log(errors);
+          router.push('/');
+        });
+    },
+  },
+  mounted() {
+    this.getUserData();
   },
 };
 </script>

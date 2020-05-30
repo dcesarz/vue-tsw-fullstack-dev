@@ -4,19 +4,16 @@
     <h4>Register</h4>
     <form ref="form">
       <label>Username</label>
-      <input
-        type="text"
-        name="username"
-        v-model="username"
-        required >
+      <br />
+      <input type="text" name="username" v-model="username" required />
+      <br />
       <label>Password</label>
-      <input
-        type="password"
-        name="password"
-        v-model="password"
-        required >
-      <input type="button" @click="register" value="Submit">
-      <input type="button" @click="clear" value="Clear">
+      <br />
+      <input type="password" name="password" v-model="password" required />
+      <br />
+      <input type="button" @click="register" value="Submit" />
+      <br />
+      <input type="button" @click="clear" value="Clear" />
     </form>
   </div>
 </template>
@@ -43,11 +40,11 @@ export default {
         username: this.username,
         password: this.password,
       };
-      axios.post(
-        '/api/register',
-        user,
-        { headers: { 'Content-Type': 'application/json' }, withCredentials: true },
-      )
+      axios
+        .post('/api/api/users', user, {
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: true,
+        })
         .then(() => {
           this.$swal('Registered user', 'Ok', 'success');
           this.$router.push({ name: 'Home' });
@@ -67,7 +64,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
+h1,
+h2 {
   font-weight: normal;
 }
 ul {
