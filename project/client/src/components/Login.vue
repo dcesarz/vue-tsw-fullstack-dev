@@ -1,47 +1,62 @@
 <template>
-<div>
-    <h1>Please log in.</h1>
-    <input v-model="message" placeholder="edit me">
-    <p>Your login</p>
-    <input v-model="message" placeholder="edit me">
-    <p>Your password</p>
-    <input v-model="message" placeholder="edit me">
-    <p>Message is: {{ message }}</p>
-    <p>
-        <input
-        type="submit"
-        value="Submit"
-        >
-     </p>
-     <p>No account? Please register a new one!</p>
-</div>
+  <div class="login-form">
+    <h4>Login</h4>
+    <form ref="form">
+      <label>Username</label>
+      <input
+        type="text"
+        name="username"
+        v-model="username"
+        required >
+      <label>Password</label>
+      <input
+        type="password"
+        name="password"
+        v-model="password"
+        required >
+      <input type="button" @click="submit" value="Submit">
+      <input type="button" @click="clear" value="Clear">
+    </form>
+  </div>
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
+
 export default {
-  name: 'Home',
   data() {
     return {
-      msg: 'Welcome to Your Vue.js App',
+      username: '',
+      password: '',
     };
+  },
+  computed: {
+    ...mapGetters(['user']),
+  },
+  methods: {
+    ...mapActions(['login', 'logError']),
+    async submit() {
+      const user = {
+        username: this.username,
+        password: this.password,
+      };
+      this.login(user)
+        .then(() => {
+          this.$swal('Great', 'Ready', 'success');
+          this.$router.push({ name: 'Home' });
+          this.clear();
+        })
+        .catch((error) => {
+          this.logError(error);
+          this.$swal('Oh ho', `${error}`, 'error');
+        });
+    },
+    clear() {
+      this.$refs.form.reset();
+    },
   },
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+<style>
 </style>
