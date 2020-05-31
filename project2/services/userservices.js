@@ -28,6 +28,8 @@ const saveUser = (user, res) => {
     });
 };
 
+module.exports.saveUser = saveUser;
+
 module.exports.create = (req, res) => {
     let user = new User(req.body);
     saveUser(user, res);
@@ -90,8 +92,6 @@ module.exports.update = (req, res, next) => {
             if (user) {
                 user.username = req.body.username;
                 user.password = req.body.password;
-                user.biditems = req.body.biditems;
-                user.messages = req.body.messages;
                 saveUser(user, res);
             } else {
                 // Not Found

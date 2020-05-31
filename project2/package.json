@@ -1,13 +1,13 @@
 {
-  "name": "tsw-project",
-  "version": "0.1.0",
-  "description": "Project for tsw.",
+  "name": "project2",
+  "version": "1.0.0",
+  "description": "once again",
   "main": "index.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
-  "author": "Dominika Cesarz",
+  "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.19.2",

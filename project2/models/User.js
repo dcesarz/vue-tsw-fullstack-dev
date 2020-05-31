@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require("../mongoose");
 const Schema = mongoose.Schema;
 const bcrypt = require("../bcrypt");
 const BidItemSchema = require("./Biditem").schema;
@@ -9,22 +9,13 @@ let UserSchema = new Schema({
         type: String,
         required: true,
         unique: true,
-        min: 8,
-        max: 20
+        minlength: 3
     },
     password: {
         type: String,
         required: true,
-        min: 8,
-        max: 20
-    },
-    biditems:
-    {
-        type: [BidItemSchema],
-    },
-    messages: {
-        type: [MessageSchema]
-    }},{timestamps: true});
+        minlength: 3
+    },},{timestamps: true});
 
 // bez poniższej wtyczki nie dostaniemy sensownego sygnału
 // błędu przy naruszeniu „unikatowości” nazwy użytkownika

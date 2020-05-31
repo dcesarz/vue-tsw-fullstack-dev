@@ -4,7 +4,7 @@ const biditemservices = require("../services/biditemservices");
 const messageservices = require("../services/messageservices");
 const passport = require("../passport");
 const bcrypt = require("../bcrypt");
-const User = require("../models/user");
+const User = require("../models/User");
 // Uwierzytelnianie
 
 const isAuth = (req, res, next) => {
@@ -112,7 +112,7 @@ router
                     password: "Error – password must not be empty!"
                 });
             } else {
-                res.status(422).json(model.processErrors(err));
+                res.status(422).json(User.processErrors(err));
             }
         }
     })

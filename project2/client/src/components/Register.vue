@@ -35,7 +35,7 @@ export default {
   methods: {
     handleSubmit() {
       axios
-        .post('api/register', this.user)
+        .post('/register', this.user)
         .then(() => {
           router.push('/');
         })

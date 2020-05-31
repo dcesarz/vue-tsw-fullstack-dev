@@ -20,7 +20,7 @@ export default {
   methods: {
     getUserData() {
       const self = this;
-      axios.get('/api/user')
+      axios.get('/user')
         .then((response) => {
           // eslint-disable-next-line
           console.log(response);
