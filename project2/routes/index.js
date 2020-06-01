@@ -19,6 +19,7 @@ const isAuth = (req, res, next) => {
 // Wyłapywanie odwołań nieobsługiwanymi metodami HTTP
 const rejectMethod = (_req, res, _next) => {
     // Method Not Allowed
+    console.log(_next);
     res.sendStatus(405);
 };
 

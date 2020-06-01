@@ -1,8 +1,6 @@
 const mongoose = require("../mongoose");
 const Schema = mongoose.Schema;
 const bcrypt = require("../bcrypt");
-const BidItemSchema = require("./Biditem").schema;
-const MessageSchema = require("./Message").schema;
 
 let UserSchema = new Schema({
     username: {
