@@ -28,9 +28,21 @@ router.route("/users")
     .post(userservices.create)
     .all(rejectMethod);
 
-router.route("/user")
-    .get(userservices.loggeduser)
-    .all(rejectMethod);
+router
+    .route("/user")
+    .get((req, res) => {
+        if (req.isAuthenticated()) {
+            res.send({
+                username: req.user.username,
+                isAuth: req.isAuthenticated()
+            });
+        } else {
+            res.send({
+                message: "Not logged in"
+            });
+        }
+    });
+
 
 router.route("/users/:id")
     .all(userservices.validateId)

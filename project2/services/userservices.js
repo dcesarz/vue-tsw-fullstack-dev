@@ -60,15 +60,21 @@ module.exports.list = (req, res, next) => {
     });
 };
 
+
 module.exports.loggeduser = authMiddleware, (req, res) => {
-    let user = users.find(user => {
-      return user.id === req.session.passport.user
-    })
-  
-    console.log([user, req.session])
-  
-    res.send({ user: user })
-  };
+    console.log("GOT HERE");
+    if (req.isAuthenticated()) {
+        console.log(req);
+        res.send({
+            username: req.user.username,
+            isAuth: req.isAuthenticated()
+        });
+    } else {
+        res.send({
+            message: "Not logged in"
+        });
+    }
+};
 // let UserSchema = new Schema({
 //     username: {
 //         type: String,
