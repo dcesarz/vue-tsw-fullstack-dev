@@ -49,20 +49,6 @@ module.exports.list = (req, res, next) => {
     });
 };
 
-// let MessageSchema = new Schema({
-//     sender: UserSchema,
-//     recipent: UserSchema,
-//     content: {
-//         type: String,
-//         required: true,
-//         max: 255
-//     },
-//     timestamps: { 
-//         createdAt: 'created_at' 
-//     }
-// })
-
-
 module.exports.update = (req, res, next) => {
     Message.findById(req.params.id, (err, message) => {
         if (err) {
@@ -99,4 +85,12 @@ module.exports.validateId = (req, res, next) => {
         return res.sendStatus(400);
     }
     next();
+};
+
+module.exports.processErrors = (err) => {
+    const msg = {};
+    for (const key in err.errors) {
+        msg[key] = err.errors[key].message;
+    }
+    return msg;
 };

@@ -1,10 +1,8 @@
 const router = require("express").Router();
 const userservices = require("../services/userservices");
-const biditemservices = require("../services/biditemservices");
-const messageservices = require("../services/messageservices");
 const passport = require("../passport");
 const bcrypt = require("../bcrypt");
-const User = require("../models/User");
+const User = require("../models/user");
 // Uwierzytelnianie
 
 const isAuth = (req, res, next) => {
@@ -17,9 +15,8 @@ const isAuth = (req, res, next) => {
 };
 
 // Wyłapywanie odwołań nieobsługiwanymi metodami HTTP
-const rejectMethod = (_req, res, _next) => {
+const rejectMethod = (_req, res) => {
     // Method Not Allowed
-    console.log(_next);
     res.sendStatus(405);
 };
 
@@ -28,21 +25,9 @@ router.route("/users")
     .post(userservices.create)
     .all(rejectMethod);
 
-router
-    .route("/user")
-    .get((req, res) => {
-        if (req.isAuthenticated()) {
-            res.send({
-                username: req.user.username,
-                isAuth: req.isAuthenticated()
-            });
-        } else {
-            res.send({
-                message: "Not logged in"
-            });
-        }
-    });
-
+router.route("/users/currentuser")
+    .get(userservices.loggeduser)
+    .all(rejectMethod);
 
 router.route("/users/:id")
     .all(userservices.validateId)
@@ -51,8 +36,10 @@ router.route("/users/:id")
     .delete(userservices.delete)
     .all(rejectMethod);
 
+//TODO : methods below in userservices. Yep i have problems with that.
+
 router
-    .route("/login")
+    .route("/users/login")
     .post(passport.authenticate("local"), async (req, res) => {
         await res.json({
             message: "success"
@@ -61,7 +48,7 @@ router
     .all(rejectMethod);
 
 router
-    .route("/logout")
+    .route("/users/logout")
     .get(isAuth, (req, res) => {
         console.log("Logging out");
         req.logout();
@@ -71,44 +58,9 @@ router
     })
     .all(rejectMethod);
 
-router.route("/biditems")
-    .get(biditemservices.list)
-    .post(biditemservices.create)
-    .all(rejectMethod);
-
-router.route("/biditems/:id")
-    .all(biditemservices.validateId)
-    .get(biditemservices.read)
-    .put(biditemservices.update)
-    .delete(biditemservices.delete)
-    .all(rejectMethod);
-
-router.route("/messages")
-    .get(messageservices.list)
-    .post(messageservices.create)
-    .all(rejectMethod);
-
-router.route("/messages/:id")
-    .all(messageservices.validateId)
-    .get(messageservices.read)
-    .put(messageservices.update)
-    .delete(messageservices.delete)
-    .all(rejectMethod);
-
+//TODO: register in userservices : tried before, didnt work
 router
-    .route("/")
-    .get((req, res) => {
-        
-        res.send("Home Page");
-        //if(req.isAuthenticated())
-        //    res.send("Home page");
-        //else
-        //    res.redirect("/login");
-    })
-    .all(rejectMethod);
-
-router
-    .route("/register")
+    .route("/users/register")
     .post(async (req, res) => {
         try {
             const passwordHash = bcrypt.hash(req.body.password);

@@ -49,21 +49,6 @@ module.exports.list = (req, res, next) => {
     });
 };
 
-// let BidItemSchema = new Schema({
-//     name: {
-//         type: String,
-//         required: true,
-//         max: 20
-//     },
-//     price: {
-//         type: Number,
-//         required: true,
-//         max: 20
-//     },
-// });
-
-
-
 module.exports.update = (req, res, next) => {
     BidItem.findById(req.params.id, (err, biditem) => {
         if (err) {
@@ -72,6 +57,12 @@ module.exports.update = (req, res, next) => {
             if (biditem) {
                 biditem.name = req.body.name;
                 biditem.price = req.body.price;
+                biditem.seller = req.body.seller;
+                biditem.type = req.body.type;
+                biditem.highestBidder = req.body.highestBidder;
+                biditem.bidders = req.body.bidders;
+                biditem.duration = req.body.duration;
+                biditem.status = req.body.status;
                 saveBidItem(biditem, res);
             } else {
                 // Not Found
@@ -99,4 +90,12 @@ module.exports.validateId = (req, res, next) => {
         return res.sendStatus(400);
     }
     next();
+};
+
+module.exports.processErrors = (err) => {
+    const msg = {};
+    for (const key in err.errors) {
+        msg[key] = err.errors[key].message;
+    }
+    return msg;
 };

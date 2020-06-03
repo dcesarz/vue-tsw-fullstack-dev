@@ -38,7 +38,7 @@ export default {
       // eslint-disable-next-line
       console.log('accessed innder logginh thingie');
       axios
-        .post('/api/login', this.formData)
+        .post('/api/api/login', this.formData)
         .then((res) => {
           // eslint-disable-next-line
           console.log(res)

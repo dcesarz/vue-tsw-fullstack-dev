@@ -61,35 +61,6 @@ module.exports.list = (req, res, next) => {
 };
 
 
-// module.exports.loggeduser = authMiddleware, (req, res) => {
-//     console.log("GOT HERE");
-//     if (req.isAuthenticated()) {
-//         console.log(req);
-//         res.send({
-//             username: req.user.username,
-//             isAuth: req.isAuthenticated()
-//         });
-//     } else {
-//         res.send({
-//             message: "Not logged in"
-//         });
-//     }
-// };
-// let UserSchema = new Schema({
-//     username: {
-//         type: String,
-//         required: true,
-//         max: 20
-//     },
-//     password: {
-//         type: String,
-//         required: true,
-//         max: 20
-//     },
-//     biditems: [BidItemSchema],
-//     messages: [MessageSchema]
-// });
-
 module.exports.update = (req, res, next) => {
     User.findById(req.params.id, (err, user) => {
         if (err) {
@@ -138,6 +109,7 @@ module.exports.login = (req, res, next) => {
       }
   
       req.login(user, err => {
+        console.log(err);
         res.send("Logged in");
       });
     })(req, res, next);
@@ -145,8 +117,17 @@ module.exports.login = (req, res, next) => {
 
   module.exports.logout = (req, res, next) => {
     req.logout();
+    console.log(next);
     console.log("logged out")
     return res.send();
   };
 
   module.exports.authMiddleware = authMiddleware;
+
+  module.exports.processErrors = (err) => {
+    const msg = {};
+    for (const key in err.errors) {
+        msg[key] = err.errors[key].message;
+    }
+    return msg;
+};

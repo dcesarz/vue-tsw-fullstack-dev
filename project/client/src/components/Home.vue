@@ -13,14 +13,15 @@ export default {
   data() {
     return {
       user: {
-        name: 'Jesse',
+        username: 'Jesse',
+        password: 'password',
       },
     };
   },
   methods: {
     getUserData() {
       const self = this;
-      axios.get('/api/user')
+      axios.get('/api/api/user')
         .then((response) => {
           // eslint-disable-next-line
           console.log(response);

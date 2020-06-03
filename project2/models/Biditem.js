@@ -1,27 +1,38 @@
-const mongoose = require("../mongoose");
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 let BidItemSchema = new Schema({
-    seller:{ 
-        type: String,
-        required: true,
-        minlength: 3
-    },
-    highestbidder:{ 
-        type: String,
-        required: true,
-        minlength: 3
-    },
     name: {
         type: String,
         required: true,
-        minlength: 3
+        minlength: 3,
+        trim: true
     },
     price: {
         type: Number,
-        required: true,
-        minlength: 3
+        min: 0.01,
+        required: true
     },
+    seller: {
+        type: String,
+        required: true
+    },
+    type: {
+        type: String,
+        enum: ["Bid", "Buy"]
+    },
+    highestBidder: {
+        type: String,
+        default: ""
+    },
+    bidders: [{ type: String }],
+    duration: {
+        type: Number
+    },
+    status: {
+        type: String,
+        enum: ["New", "On Sale", "Sold"]
+    }
 },{timestamps: true});
 
 delete mongoose.connection.models['BidItem'];
