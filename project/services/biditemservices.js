@@ -49,20 +49,6 @@ module.exports.list = (req, res, next) => {
     });
 };
 
-// let BidItemSchema = new Schema({
-//     name: {
-//         type: String,
-//         required: true,
-//         max: 20
-//     },
-//     price: {
-//         type: Number,
-//         required: true,
-//         max: 20
-//     },
-// });
-
-
 
 module.exports.update = (req, res, next) => {
     BidItem.findById(req.params.id, (err, biditem) => {

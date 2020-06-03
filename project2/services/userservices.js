@@ -61,20 +61,20 @@ module.exports.list = (req, res, next) => {
 };
 
 
-module.exports.loggeduser = authMiddleware, (req, res) => {
-    console.log("GOT HERE");
-    if (req.isAuthenticated()) {
-        console.log(req);
-        res.send({
-            username: req.user.username,
-            isAuth: req.isAuthenticated()
-        });
-    } else {
-        res.send({
-            message: "Not logged in"
-        });
-    }
-};
+// module.exports.loggeduser = authMiddleware, (req, res) => {
+//     console.log("GOT HERE");
+//     if (req.isAuthenticated()) {
+//         console.log(req);
+//         res.send({
+//             username: req.user.username,
+//             isAuth: req.isAuthenticated()
+//         });
+//     } else {
+//         res.send({
+//             message: "Not logged in"
+//         });
+//     }
+// };
 // let UserSchema = new Schema({
 //     username: {
 //         type: String,

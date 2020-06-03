@@ -1,7 +1,5 @@
 const router = require("express").Router();
 const userservices = require("../services/userservices");
-const biditemservices = require("../services/biditemservices");
-const messageservices = require("../services/messageservices");
 const passport = require("../passport");
 const bcrypt = require("../bcrypt");
 const User = require("../models/user");
@@ -38,6 +36,8 @@ router.route("/users/:id")
     .delete(userservices.delete)
     .all(rejectMethod);
 
+//TODO : methods below in userservices. Yep i have problems with that.
+
 router
     .route("/login")
     .post(passport.authenticate("local"), async (req, res) => {
@@ -58,42 +58,7 @@ router
     })
     .all(rejectMethod);
 
-router.route("/biditems")
-    .get(biditemservices.list)
-    .post(biditemservices.create)
-    .all(rejectMethod);
-
-router.route("/biditems/:id")
-    .all(biditemservices.validateId)
-    .get(biditemservices.read)
-    .put(biditemservices.update)
-    .delete(biditemservices.delete)
-    .all(rejectMethod);
-
-router.route("/messages")
-    .get(messageservices.list)
-    .post(messageservices.create)
-    .all(rejectMethod);
-
-router.route("/messages/:id")
-    .all(messageservices.validateId)
-    .get(messageservices.read)
-    .put(messageservices.update)
-    .delete(messageservices.delete)
-    .all(rejectMethod);
-
-router
-    .route("/")
-    .get((req, res) => {
-        
-        res.send("Home Page");
-        //if(req.isAuthenticated())
-        //    res.send("Home page");
-        //else
-        //    res.redirect("/login");
-    })
-    .all(rejectMethod);
-
+//TODO: register in userservices : tried before, didnt work
 router
     .route("/register")
     .post(async (req, res) => {
