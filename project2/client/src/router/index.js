@@ -3,26 +3,74 @@ import Router from 'vue-router';
 import Home from '@/components/Home';
 import Register from '@/components/Register';
 import Login from '@/components/Login';
+import MyBids from '@/components/Login';
+import MyAuctions from '@/components/Login';
+import AuctionNewForm from '@/components/AuctionNewForm';
+import Convos from '@/components/Convos';
+import Error from '@/components/Error';
 import store from "../store";
-
 Vue.use(Router);
 
 const routes = [
   {
-    path: '/Home',
-    name: 'Home',
-    component: Home,
+      path: "/page/:page(\\d+)",
+      name: "Home",
+      component: Home,
+      meta: {
+        requiresAuth: true
+      }
   },
   {
-    path: '/',
-    name: 'Login',
-    component: Login,
+    path: "/404",
+    name: "Error",
+    component: Error,
+    meta: {
+        requiresAuth: false
+      }
   },
   {
-    path: '/Register',
-    name: 'Register',
-    component: Register,
+      path: "/login",
+      name: "Login",
+      component: Login,
+      meta: {
+        requiresAuth: false
+      }
   },
+  {
+      path: "/register",
+      name: "Register",
+      component: Register,
+      meta: {
+        requiresAuth: false
+      }
+  },
+  {
+      path: "/my-bids/page/:page(\\d+)",
+      name: "MyBids",
+      component: MyBids
+  },
+  {
+      path: "/my-auctions/page/:page(\\d+)",
+      name: "MyAuctions",
+      component: MyAuctions
+  },
+  {
+      path: "/my-history/page/:page(\\d+)",
+      name: "MyHistory",
+      component: function () {
+          return import("../components/MyHistory.vue");
+      }
+  },
+  {
+      path: "/auction",
+      name: "AuctionNewForm",
+      component: AuctionNewForm
+  },
+  {
+      path: "/convos",
+      name: "Convos",
+      component: Convos
+  }
 ];
 
 const router = new Router({
@@ -31,35 +79,53 @@ const router = new Router({
   routes,
 });
 
-const isInRoutes = (name) => {
-  const routeNames = [];
-  router.options.routes.forEach(route => {
-      routeNames.push(route.name);
-  });
-  return routeNames.includes(name);
-};
+// const isInRoutes = (name) => {
+//   const routeNames = [];
+//   router.options.routes.forEach(route => {
+//       routeNames.push(route.name);
+//   });
+//   return routeNames.includes(name);
+// };
+
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.reuiresAuth)){
+      if(!store.getters.currentUser.isAuth){
+        next('/login');
+      } else {
+        next();
+      }
+    } else if (to.matched.some(record => record.meta.reuiresGuest)){
+      if(store.getters.currentUser.isAuth){
+        next('/auction');
+      } else {
+        next();
+      }
+    } else {
+      next()
+    }
+  })
 
 // TODO register should not be reachable by logged user
-router.beforeEach((to, from, next) => {
-  store.dispatch("fetchCurrentUser");
-  // console.log("Route " + to.path + " is " + isInRoutes(to.name));
-  if (to.name === "Error404") {
-      // next({ name: "Error404" }); DONT (Infinite recursion)
-  } else if (!isInRoutes(to.name)) {
-      console.log("Error 404");
-      next({ name: "Error404" });
-  } else if (to.name === "Register" || to.name === "Home") {
-      next();
-  } else if (to.name !== "Login" && !store.getters.currentUser.isAuth) {
-      console.log("Not logged in. Redirecting to login page");
-      next({ name: "Login" });
-  } else if (to.name === "Login" && store.getters.currentUser.isAuth) {
-      console.log("Logged in. Redirecting to home page");
-      next({ name: "Home" });
-  } else {
-      // console.log("Other");
-      next();
-  }
-});
+// router.beforeEach((to, from, next) => {
+//   store.dispatch("fetchCurrentUser");
+//   // console.log("Route " + to.path + " is " + isInRoutes(to.name));
+//   if (to.name === "Error") {
+//       // next({ name: "Error404" }); DONT (Infinite recursion)
+//   } else if (!isInRoutes(to.name)) {
+//       console.log("Error 404");
+//       next({ name: "Error" });
+//   } else if (to.name === "Register" || to.name === "Home") {
+//       next();
+//   } else if (to.name !== "Login" && !store.getters.currentUser.isAuth) {
+//       console.log("Not logged in. Redirecting to login page");
+//       next({ name: "Login" });
+//   } else if (to.name === "Login" && store.getters.currentUser.isAuth) {
+//       console.log("Logged in. Redirecting to home page");
+//       next({ name: "Home" });
+//   } else {
+//       // console.log("Other");
+//       next();
+//   }
+// });
 
 export default router;

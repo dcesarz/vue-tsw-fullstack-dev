@@ -2,8 +2,6 @@
   <div class="register">
     <h2>Register</h2>
     <hr>
-    <!-- @submit handles any form of submission. -->
-    <!-- .prevent keeps the event from bubbling around and doing anything else. -->
     <form @submit.prevent="handleSubmit()">
       <input v-model="user.username" type="text" name="username" id="username"
       placeholder="Username" minLength="3" required="">
@@ -11,8 +9,6 @@
       <input v-model="user.password" type="password" name="password" id="password"
       placeholder="Password" required="">
       <br><br>
-      <!-- confirm password
-      -->
       <button type="submit">Register</button>
     </form>
   </div>
@@ -20,8 +16,6 @@
 
 <script>
 import axios from 'axios';
-import router from '../router';
-
 export default {
   name: 'Register',
   data() {
@@ -35,9 +29,9 @@ export default {
   methods: {
     handleSubmit() {
       axios
-        .post('/register', this.user)
+        .post(`${location.origin}/api/users/register`, this.user)
         .then(() => {
-          router.push('/');
+          this.$router.push('/login');
         })
         .catch((err) => {
           // eslint-disable-next-line

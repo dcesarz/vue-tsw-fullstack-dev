@@ -21,17 +21,16 @@ let BidItemSchema = new Schema({
         type: String,
         enum: ["Bid", "Buy"]
     },
-    highestBidder: {
-        type: String,
-        default: ""
-    },
     bidders: [{ type: String }],
+    latestBidder: {
+        type: String
+    },
     duration: {
         type: Number
     },
     status: {
         type: String,
-        enum: ["New", "On Sale", "Sold"]
+        enum: ["New", "OnSale", "Sold", "NotSold"]
     }
 },{timestamps: true});
 
@@ -47,5 +46,5 @@ BidItem.processErrors = (err) => {
 };
 
 global.BidItemSchema = global.BidItemSchema || BidItem;
-module.exports = global.UserSchema;
+module.exports = global.BidItemSchema;
 //module.exports = BidItem;

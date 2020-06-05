@@ -15,12 +15,15 @@ const getters = {
 const actions = {
     fetchCurrentUser ({ commit }) {
         return new Promise((resolve, reject) => {
-            axios.get("/user")
+            axios.get(`${location.origin}/api/users/currentuser`)
                 .then((resp) => {
+                    console.log(resp.data);
                     commit("authRefresh", resp.data);
                     resolve(resp);
                 })
                 .catch((err) => {
+                    console.log(err);
+                    console.log("2 JUST AS I THOUGHT!!! > : 0 ")
                     commit("authNotLoggedIn");
                     reject(err);
                 });
@@ -41,7 +44,7 @@ const mutations = {
 
 export default {
     state,
-    getters,
     actions,
-    mutations
+    mutations,
+    getters
 };

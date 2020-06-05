@@ -1,30 +1,34 @@
 <template>
-  <div class="home">
-    <!-- <img alt="Vue logo" src="../assets/logo.png"><br> -->
+  <div>
+    <h1>My auctions</h1>
     <div v-if="currentUser.isAuth">
-      Welcome {{currentUser.username}}
+      <button @click="newAuction()">New auction</button>
     </div>
-    <h2>Available auctions</h2>
     <AuctionList :apiurl="apiurl"/>
   </div>
 </template>
 
 <script>
-import AuctionList from "./AuctionList";
+import AuctionList from "../components/AuctionList";
 import { mapGetters } from "vuex";
 
 export default {
-    name: "Home",
+    name: "MyAuctions",
     components: {
         AuctionList
     },
     data () {
         return {
-            apiurl: "/api/biditems/page/"
+            apiurl: "/api/biditems/my-auctions/page/"
         };
     },
     computed: {
         ...mapGetters(["currentUser"])
+    },
+    methods: {
+        goToAuctionForm () {
+            this.$router.push("/auction");
+        }
     }
 };
 </script>

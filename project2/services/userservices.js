@@ -1,5 +1,15 @@
 const User = require("../models/user.js");
 const passport = require("passport");
+const bcrypt = require("../bcrypt");
+
+const isAuth = (req, res, next) => {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.status(403).json({
+        message: "Not authenticated"
+    });
+};
 
 const authMiddleware = (req, res, next) => {
     if (!req.isAuthenticated()) {
@@ -31,7 +41,11 @@ const saveUser = (user, res) => {
 module.exports.saveUser = saveUser;
 
 module.exports.create = (req, res) => {
-    let user = new User(req.body);
+    const passwordHash = bcrypt.hash(req.body.password);
+    const user = new User({
+        username: req.body.username,
+        password: passwordHash
+    });
     saveUser(user, res);
 };
 
@@ -98,36 +112,64 @@ module.exports.validateId = (req, res, next) => {
     next();
 };
 
-module.exports.login = (req, res, next) => {
-    passport.authenticate("local", (err, user, info) => {
-      if (err) {
-        return next(err);
-      }
-  
-      if (!user) {
-        return res.status(400).send([user, "Cannot log in", info]);
-      }
-  
-      req.login(user, err => {
-        console.log(err);
-        res.send("Logged in");
-      });
-    })(req, res, next);
-  };
+module.exports.login = (passport.authenticate("local"), async (req, res) => {
+    await res.json({
+        message: "success"
+    });
+})
 
-  module.exports.logout = (req, res, next) => {
+module.exports.logout = (isAuth, (req, res) => {
+    console.log("Logging out");
     req.logout();
-    console.log(next);
-    console.log("logged out")
-    return res.send();
-  };
+    res.status(200).json({
+        isAuth: req.isAuthenticated()
+    });
+})
 
-  module.exports.authMiddleware = authMiddleware;
+module.exports.authMiddleware = authMiddleware;
 
-  module.exports.processErrors = (err) => {
+module.exports.processErrors = (err) => {
     const msg = {};
     for (const key in err.errors) {
         msg[key] = err.errors[key].message;
     }
     return msg;
 };
+
+module.exports.loggeduser = (req, res) => {
+        console.log(req.isAuthenticated());
+        if (req.isAuthenticated()) {
+            console.log("auth");
+            res.send({
+                username: req.user.username,
+                isAuth: req.isAuthenticated()
+            });
+        } else {
+            res.send({
+                message: "Not logged in!"
+            });
+        }
+};
+
+module.exports.register = (async (req, res) => {
+    try {
+        const passwordHash = bcrypt.hash(req.body.password);
+        const user = new User({
+            username: req.body.username,
+            password: passwordHash
+        });
+        console.log(req.body);
+        console.log(user);
+        const doc = await user.save();
+        return res.json(doc);
+    } catch (err) {
+        if (!req.body.password) {
+            // Unprocessable Entity
+            return res.status(422).json({
+                password: "Error – password must not be empty!"
+            });
+        } else {
+            return res.status(422).json(User.processErrors(err));
+        }
+    }
+});

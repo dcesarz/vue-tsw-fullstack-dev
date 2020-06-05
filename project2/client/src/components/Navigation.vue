@@ -4,24 +4,55 @@
     <h1>Welcome to Auction app!</h1>
   </div>
   <ul>
-    <li>Home</li>
-    <li>Login</li>
-    <li>Contact</li>
+    <li v-if="currentUser.isAuth">
+    <router-link to="/page/1">Home</router-link>
+      </li>
+    <li v-if="!currentUser.isAuth">
+    <router-link to="/login">Login</router-link>
+      </li>
+    <li v-if="!currentUser.isAuth">
+      <router-link to="/register">Register</router-link>
+      </li>
+    <li v-if="currentUser.isAuth">
+      <a @click="logout()">Log out</a>
+      </li>
+    <li v-if="currentUser.isAuth" class="nav-item">
+      <router-link to="/my-bids/page/1">My bids</router-link>
+    </li>
+      <li v-if="currentUser.isAuth" class="nav-item">
+    <router-link to="/my-auctions/page/1">My offers</router-link>
+      </li>
+    <li v-if="currentUser.isAuth" class="nav-item">
+      <router-link to="/my-history/page/1">My History</router-link>
+      </li>
   </ul>
 </div>
 </template>
 
 <script>
+import axios from "axios";
+// import router from "../router";
+import { mapGetters, mapActions } from "vuex";
 export default {
-  name: 'Navigation',
-  data() {
-    return {
-      msg: 'Welcome to Your Vue.js App',
-    };
-  },
+    name: "Navigation",
+    computed: mapGetters(['currentUser']),
+    methods: {
+        ...mapActions(["fetchCurrentUser"]),
+        logout () {
+            axios
+                .get("/api/users/logout")
+                .then(() => {
+                    // router.push("/"); // uncaught exception error
+                    location.reload();
+                })
+                .catch((err) => {
+                    console.log(err);
+                    // location.reload();
+                });
+        }
+    }
 };
 </script>
-
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h1, h2 {
@@ -29,7 +60,6 @@ h1, h2 {
 }
 ul {
   list-style-type: none;
-  color: white;
   background-color:lightslategray;
   padding: 1%;
 }
@@ -38,6 +68,7 @@ li {
   margin: 0 10px;
 }
 a {
-  color: #42b983;
+  color: white;
+  text-decoration: none;
 }
 </style>

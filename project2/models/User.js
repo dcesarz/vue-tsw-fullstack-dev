@@ -22,7 +22,7 @@ const uniqueValidator = require("mongoose-unique-validator");
 UserSchema.plugin(uniqueValidator);
 
 UserSchema.methods.isValidPassword = function (password) {
-    return bcrypt.compare(password, this.password);//
+    return bcrypt.compare(password, this.password);
 };
 
 delete mongoose.connection.models['User'];

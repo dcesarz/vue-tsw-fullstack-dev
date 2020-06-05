@@ -8,12 +8,12 @@ const rejectMethod = (_req, res) => {
     res.sendStatus(405);
 };
 
-router.route("/messages")
+router.route("/")
     .get(messageservices.list)
     .post(messageservices.create)
     .all(rejectMethod);
 
-router.route("/messages/:id")
+router.route("/message/:id")
     .all(messageservices.validateId)
     .get(messageservices.read)
     .put(messageservices.update)

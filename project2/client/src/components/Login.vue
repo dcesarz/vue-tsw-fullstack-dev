@@ -2,7 +2,7 @@
   <div class="login">
     <h2>Log in</h2>
     <hr>
-      <form @submit.prevent="handleSubmit()" ref="form">
+      <form @submit.prevent="handleSubmit" ref="form">
         <input v-model="formData.username" type="text" name="username" id="username"
         placeholder="Username" minLength="3" required="">
         <br><br>
@@ -17,7 +17,6 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import axios from 'axios';
-import router from '../router';
 
 export default {
   name: 'Login',
@@ -35,27 +34,20 @@ export default {
   methods: {
     ...mapActions(['fetchCurrentUser']),
     handleSubmit() {
-      // eslint-disable-next-line
       console.log('accessed innder logginh thingie');
       axios
-        .post('/login', this.formData)
+        .post(`${location.origin}/api/users/login`, this.formData)
         .then((res) => {
-          // eslint-disable-next-line
-          console.log(res)
-          router.push('/home');
+          console.log(res);
+          console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+          this.$router.push('/page/1');
         })
         .catch((err) => {
-          // eslint-disable-next-line
           console.log(err);
           location.reload();
         });
     },
-  },
-  // }// ,
-  // destroyed () {
-  //     alert("destroyed");
-  //     this.$store.dispatch("fetchCurrentUser");
-  // }
+  }
 };
 </script>
 
