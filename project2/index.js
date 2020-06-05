@@ -26,8 +26,7 @@ const messageRoutes = require("./routes/messageroutes");
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-app.use(cors({ credentials: true,
-}));
+app.use(cors());
 
 // Sesja z wykorzystaniem ciasteczek
 app.use(cookieParser());
