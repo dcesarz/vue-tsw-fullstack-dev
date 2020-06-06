@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const userservices = require("../services/userservices");
+const passport = require("../passport");
 
 const rejectMethod = (_req, res) => {
     // Method Not Allowed
@@ -18,7 +19,7 @@ router.route("/currentuser")
 
 router
     .route("/login")
-    .post(userservices.login)
+    .post(passport.authenticate("local"), userservices.login)
     .all(rejectMethod);
 
 router

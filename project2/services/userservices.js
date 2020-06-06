@@ -1,5 +1,5 @@
 const User = require("../models/user.js");
-const passport = require("passport");
+const passport = require("../passport");
 const bcrypt = require("../bcrypt");
 
 const isAuth = (req, res, next) => {
@@ -112,11 +112,11 @@ module.exports.validateId = (req, res, next) => {
     next();
 };
 
-module.exports.login = (passport.authenticate("local"), async (req, res) => {
-    await res.json({
-        message: "success"
-    });
-})
+// module.exports.login = (passport.authenticate("local"), async (req, res) => {
+//     await res.json({
+//         message: "success"
+//     });
+// })
 
 module.exports.logout = (isAuth, (req, res) => {
     console.log("Logging out");
@@ -125,6 +125,25 @@ module.exports.logout = (isAuth, (req, res) => {
         isAuth: req.isAuthenticated()
     });
 })
+
+
+module.exports.login = async (req, res) => {
+    res.status(200).send({ isAuthenticated: true, user: req.user });
+  };
+  
+module.exports.loggeduser = (req, res) => {
+    if (req.isAuthenticated()) {
+      res.json({
+        isAuthenticated: req.isAuthenticated(),
+        user: req.user
+      });
+    } else {
+      res.json({
+        isAuthenticated: req.isAuthenticated(),
+        user: {}
+      });
+    }
+  };
 
 module.exports.authMiddleware = authMiddleware;
 
@@ -136,20 +155,20 @@ module.exports.processErrors = (err) => {
     return msg;
 };
 
-module.exports.loggeduser = (req, res) => {
-        console.log(req.isAuthenticated());
-        if (req.isAuthenticated()) {
-            console.log("auth");
-            res.send({
-                username: req.user.username,
-                isAuth: req.isAuthenticated()
-            });
-        } else {
-            res.send({
-                message: "Not logged in!"
-            });
-        }
-};
+// module.exports.loggeduser = (req, res) => {
+//         console.log(req.isAuthenticated());
+//         if (req.isAuthenticated()) {
+//             console.log("auth");
+//             res.send({
+//                 username: req.user.username,
+//                 isAuth: req.isAuthenticated()
+//             });
+//         } else {
+//             res.send({
+//                 message: "Not logged in!"
+//             });
+//         }
+// };
 
 module.exports.register = (async (req, res) => {
     try {

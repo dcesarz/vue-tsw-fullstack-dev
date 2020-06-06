@@ -33,7 +33,8 @@ app.use(cookieParser());
 
 // Session store
 const sessionStore = new MongoStore({
-    mongooseConnection: mongoose.connection
+    mongooseConnection: mongoose.connection,
+    collection: "sessions"
 });
 
 app.use(session({
@@ -42,7 +43,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }));
-
+// (   o  w  o)/
 // Inicjalizacja sesji
 app.use(passport.initialize());
 app.use(passport.session());
