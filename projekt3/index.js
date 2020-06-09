@@ -15,11 +15,11 @@ const port = process.env.PORT;
 const socketio = require("socket.io");
 const passportSocketIo = require("passport.socketio");
 const socket = socketio(server);
-const BidItem = require("./models/BidItem");
+const Auction = require("./models/Auction");
 const axios = require("axios");
 const path = require("path");
 const userRoutes = require("./routes/userroutes");
-const biditemRoutes = require("./routes/biditemroutes");
+const AuctionRoutes = require("./routes/Auctionroutes");
 const messageRoutes = require("./routes/messageroutes");
 
 // Wszelkie dane przesyłamy w formacie JSON
@@ -61,13 +61,13 @@ if (process.env.NODE_ENV === "development") {
 
 // Publiczny folder
 
-app.use(express.static(path.join(__dirname, "dist")));
+//app.use(express.static(path.join(__dirname, "dist")));
 
 // app.use("/lib", express.static(path.normalize("./node_modules/axios/dist")));
 
 // Routing
 app.use("/api/users", userRoutes);
-app.use("/api/biditems", biditemRoutes);
+app.use("/api/auctions", AuctionRoutes);
 app.use("/api/messages", messageRoutes);
 
 // Wyłapujemy odwołania do nieobsługiwanych adresów
@@ -116,7 +116,7 @@ socket.on("connection", (socket) => {
             const filter = data.id;
             let oldBidders;
             try {
-                const doc = await BidItem.findById(filter);
+                const doc = await Auction.findById(filter);
                 oldBidders = doc.bidders;
             } catch (err) {
                 console.log(err);
@@ -135,7 +135,7 @@ socket.on("connection", (socket) => {
                 update.bidders = updatedBidders;
             };
 
-            BidItem.findByIdAndUpdate(filter, update,
+            Auction.findByIdAndUpdate(filter, update,
                 (err, doc) => {
                     if (err) {
                         io.sockets.in(data.id).emit("server-error");

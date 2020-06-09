@@ -42,7 +42,7 @@ import axios from "axios";
 import io from "@/../node_modules/socket.io-client";
 
 export default {
-    name: "AuctionForm",
+    name: "AuctionNewForm",
     data () {
         return {
             socket: io(),

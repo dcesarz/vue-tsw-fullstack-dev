@@ -4,6 +4,9 @@
     <h1>Welcome to Auction app!</h1>
   </div>
   <ul>
+    <li>
+    <router-link to="/auction">Auction form</router-link>
+      </li>
     <li v-if="currentUser.isAuth">
     <router-link to="/page/1">Home</router-link>
       </li>
