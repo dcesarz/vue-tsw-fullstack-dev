@@ -20,22 +20,46 @@ router.route("/auction")
     .delete(auctionservices.deleteAuction)
     .all(rejectMethod);
 
+// TODO: PAGINATION !
+
 router
     .route("/auctions/page/:page")
     .get(auctionservices.auctionPage)
     .all(rejectMethod);
 
-router.route("/my-bids/page/:page")
-    .get(auctionservices.mybidsPage)
-    .all(rejectMethod);
+// TODO: those below
 
-router.route("/my-auctions/page/:page")
-    .get(auctionservices.myauctionsPage)
-    .all(rejectMethod);
+//router.route("/my-bids/page/:page")
+//    .get(auctionservices.mybidsPage)
+//     .all(rejectMethod);
 
-router.route("/my-history/page/:page")
-    .get(auctionservices.myhistoryPage)
-    .all(rejectMethod);
+// router.route("/my-auctions/page/:page")
+//     .get(auctionservices.myauctionsPage)
+//     .all(rejectMethod);
+
+// router.route("/my-history/page/:page")
+//     .get(auctionservices.myhistoryPage)
+//     .all(rejectMethod);
+
+// TODO : implement pagination heeere.
+
+
+// router
+//     .route("/auctions/page/:page")
+//     .get(auctionservices.auctionPage)
+//     .all(rejectMethod);
+
+// router.route("/my-bids/page/:page")
+//     .get(auctionservices.mybidsPage)
+//     .all(rejectMethod);
+
+// router.route("/my-auctions/page/:page")
+//     .get(auctionservices.myauctionsPage)
+//     .all(rejectMethod);
+
+// router.route("/my-history/page/:page")
+//     .get(auctionservices.myhistoryPage)
+//     .all(rejectMethod);
 
 router.route("/")
     .get(auctionservices.list)

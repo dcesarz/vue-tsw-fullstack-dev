@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 (async () => {
     try {
+        // eslint-disable-next-line
         await mongoose.connect(process.env.DATABASE, {
             useUnifiedTopology: true,
             useNewUrlParser: true,
@@ -9,6 +10,7 @@ const mongoose = require("mongoose");
         });
     } catch (err) {
         console.error(err);
+        // eslint-disable-next-line
         process.exit(1);
     }
 })();

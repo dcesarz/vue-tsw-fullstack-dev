@@ -3,18 +3,17 @@ import Router from 'vue-router';
 import Home from '@/components/Home';
 import Register from '@/components/Register';
 import Login from '@/components/Login';
-import MyBids from '@/components/Login';
-import MyAuctions from '@/components/Login';
-import AuctionNewForm from '@/components/AuctionNewForm';
-import Convos from '@/components/Convos';
+// import MyBids from '@/components/Login';
+// import MyAuctions from '@/components/Login';
+// import AuctionNewForm from '@/components/AuctionNewForm';
+// import Convos from '@/components/Convos';
 import Error from '@/components/Error';
-//import store from "../store";
-
+import store from "../store";
 Vue.use(Router);
 
 const routes = [
   {
-      path: "/page/:page(\\d+)",
+      path: "/",
       name: "Home",
       component: Home,
       meta: {
@@ -44,34 +43,34 @@ const routes = [
       meta: {
         requiresAuth: false
       }
-  },
-  {
-      path: "/my-bids/page/:page(\\d+)",
-      name: "MyBids",
-      component: MyBids
-  },
-  {
-      path: "/my-auctions/page/:page(\\d+)",
-      name: "MyAuctions",
-      component: MyAuctions
-  },
-  {
-      path: "/my-history/page/:page(\\d+)",
-      name: "MyHistory",
-      component: function () {
-          return import("../components/MyHistory.vue");
-      }
-  },
-  {
-      path: "/auction",
-      name: "AuctionNewForm",
-      component: AuctionNewForm
-  },
-  {
-      path: "/convos",
-      name: "Convos",
-      component: Convos
   }
+//   {
+//       path: "/my-bids/page/:page(\\d+)",
+//       name: "MyBids",
+//       component: MyBids
+//   },
+//   {
+//       path: "/my-auctions/page/:page(\\d+)",
+//       name: "MyAuctions",
+//       component: MyAuctions
+//   },
+//   {
+//       path: "/my-history/page/:page(\\d+)",
+//       name: "MyHistory",
+//       component: function () {
+//           return import("../components/MyHistory.vue");
+//       }
+//   },
+//   {
+//       path: "/newauction",
+//       name: "AuctionNewForm",
+//       component: AuctionNewForm
+//   },
+//   {
+//       path: "/convos",
+//       name: "Convos",
+//       component: Convos
+//   }
 ];
 
 const router = new Router({
@@ -80,31 +79,42 @@ const router = new Router({
   routes,
 });
 
-// const isInRoutes = (name) => {
-//   const routeNames = [];
-//   router.options.routes.forEach(route => {
-//       routeNames.push(route.name);
-//   });
-//   return routeNames.includes(name);
-// };
+const isInRoutes = (name) => {
+  const routeNames = [];
+  router.options.routes.forEach(route => {
+      routeNames.push(route.name);
+  });
+  return routeNames.includes(name);
+};
 
 router.beforeEach((to, from, next) => {
-    if (to.matched.some(record => record.meta.reuiresAuth)){
-      if(!this.$store.getters.currentUser.isAuth){
-        next('/login');
-      } else {
-        next();
-      }
-    } else if (to.matched.some(record => record.meta.reuiresGuest)){
-      if(this.$store.getters.currentUser.isAuth){
-        next('/auction');
-      } else {
-        next();
-      }
+  if (!isInRoutes(to.name)) {
+    console.log("hmmmgggg");
+    console.log("Error 404");
+    next({ name: "Error" });
+    return;
+  }
+  if (to.matched.some(record => record.meta.requiresAuth)){
+    console.log("hmmm");
+    if(!store.getters.currentUser.isAuth){
+      console.log("hmmmggyyyyy");
+      next('/login');
     } else {
-      next()
+      console.log("hmmdfddffdm");
+      next();
     }
-  })
+  }
+  else{
+    console.log("hmmmaaaaaa");
+    next();
+  }
+      // if(!this.$store.getters.currentUser.isAuth){
+      //   next('/login');
+      // } else {
+      //   next();
+      // }
+})
+  
 
 // TODO register should not be reachable by logged user
 // router.beforeEach((to, from, next) => {
