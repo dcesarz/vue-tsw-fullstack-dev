@@ -88,6 +88,7 @@ const isInRoutes = (name) => {
 };
 
 router.beforeEach((to, from, next) => {
+  store.dispatch("fetchCurrentUser");
   if (!isInRoutes(to.name)) {
     console.log("hmmmgggg");
     console.log("Error 404");
@@ -96,7 +97,8 @@ router.beforeEach((to, from, next) => {
   }
   if (to.matched.some(record => record.meta.requiresAuth)){
     console.log("hmmm");
-    if(!store.getters.currentUser.isAuth){
+    console.log(store.getters.currentUser);
+    if(!store.getters.currentUser.isAuthenticated){
       console.log("hmmmggyyyyy");
       next('/login');
     } else {

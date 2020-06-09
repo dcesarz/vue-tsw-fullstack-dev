@@ -3,8 +3,8 @@ import axios from "axios";
 
 const state = {
     currentUser: {
-        username: null,
-        isAuth: false
+        user: {},
+        isAuthenticated: false
     }
 };
 
@@ -17,12 +17,13 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.get(`https://localhost:3000/api/users/currentuser`)
                 .then((resp) => {
-                    console.log(resp.data);
+                    console.log("LOOK HERE SMARTASS")
+                    console.dir(resp.data);
                     commit("authRefresh", resp.data);
                     resolve(resp);
                 })
                 .catch((err) => {
-                    console.log(err);
+                    console.dir(err);
                     console.log("2 JUST AS I THOUGHT!!! > : 0 ")
                     commit("authNotLoggedIn");
                     reject(err);
@@ -33,12 +34,12 @@ const actions = {
 
 const mutations = {
     authRefresh (state, data) {
-        state.currentUser.username = data.username;
-        state.currentUser.isAuth = data.isAuth;
+        state.currentUser.user = data.user;
+        state.currentUser.isAuthenticated = data.isAuthenticated;
     },
     authNotLoggedIn (state) {
-        state.currentUser.username = null;
-        state.currentUser.isAuth = false;
+        state.currentUser.user = null;
+        state.currentUser.isAuthenticated = false;
     }
 };
 

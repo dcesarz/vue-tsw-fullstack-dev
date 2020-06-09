@@ -1,6 +1,6 @@
 const Auction = require("../models/Auction");
 
-const isAuth = (req, res, next) => {
+const isAuthenticated = (req, res, next) => {
     if (req.isAuthenticated()) {
         return next();
     }
@@ -184,7 +184,7 @@ module.exports.validateId = (req, res, next) => {
     next();
 };
 
-module.exports.startAuction = (isAuth, (req, res) => {
+module.exports.startAuction = (isAuthenticated, (req, res) => {
         const filter = {
             _id: req.body.id,
             seller: req.user.username
@@ -320,7 +320,7 @@ module.exports.deleteAuction = ((req, res) => {
 module.exports.auctionPage = (paginatedResults({ status: "OnSale" }), (req, res) => {
     res.json(res.paginatedResults)});
 
-module.exports.mybidsPage = (isAuth, async (req, res) => {
+module.exports.mybidsPage = (isAuthenticated, async (req, res) => {
         const filter = {
             bidders: req.user.username,
             status: "OnSale"
@@ -334,7 +334,7 @@ module.exports.mybidsPage = (isAuth, async (req, res) => {
         }
     });
 
-module.exports.myauctionsPage = (isAuth, async (req, res) => {
+module.exports.myauctionsPage = (isAuthenticated, async (req, res) => {
     const filter = {
         $or: [
             { seller: req.user.username, status: "New" },
@@ -350,7 +350,7 @@ module.exports.myauctionsPage = (isAuth, async (req, res) => {
     }
 });
 
-module.exports.myhistoryPage = (isAuth, async (req, res) => {
+module.exports.myhistoryPage = (isAuthenticated, async (req, res) => {
     const filter = {
         $or: [
             { latestBidder: req.user.username, status: "Sold" },

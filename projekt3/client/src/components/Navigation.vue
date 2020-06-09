@@ -5,28 +5,28 @@
   </div>
   <ul>
     <li>
-    <li v-if="currentUser.isAuth">
+    <li v-if="currentUser.isAuthenticated">
     <router-link to="/auction">Auction form</router-link>
       </li>
-    <li v-if="currentUser.isAuth">
+    <li v-if="currentUser.isAuthenticated">
     <router-link to="/">Home</router-link>
       </li>
-    <li v-if="!currentUser.isAuth">
+    <li v-if="!currentUser.isAuthenticated">
     <router-link to="/login">Login</router-link>
       </li>
-    <li v-if="!currentUser.isAuth">
+    <li v-if="!currentUser.isAuthenticated">
       <router-link to="/register">Register</router-link>
       </li>
-    <li v-if="currentUser.isAuth">
+    <li v-if="currentUser.isAuthenticated">
       <a @click="logout()">Log out</a>
       </li>
-<!--    <li v-if="currentUser.isAuth" class="nav-item">
+<!--    <li v-if="currentUser.isAuthenticated" class="nav-item">
       <router-link to="/my-bids/page/1">My bids</router-link>
     </li>
-      <li v-if="currentUser.isAuth" class="nav-item">
+      <li v-if="currentUser.isAuthenticated" class="nav-item">
     <router-link to="/my-auctions/page/1">My offers</router-link>
       </li>
-    <li v-if="currentUser.isAuth" class="nav-item">
+    <li v-if="currentUser.isAuthenticated" class="nav-item">
       <router-link to="/my-history/page/1">My History</router-link>
       </li> -->
   </ul>

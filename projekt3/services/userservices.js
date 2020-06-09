@@ -1,8 +1,8 @@
 const User = require("../models/user.js");
 //const passport = require("../passport");
 const bcrypt = require("../bcrypt");
-
-const isAuth = (req, res, next) => {
+//t
+const isAuthenticated = (req, res, next) => {
     if (req.isAuthenticated()) {
         return next();
     }
@@ -118,7 +118,7 @@ module.exports.validateId = (req, res, next) => {
 //     });
 // })
 
-module.exports.logout = (isAuth, (req, res) => {
+module.exports.logout = (isAuthenticated, (req, res) => {
     console.log("Logging out");
     req.logout();
     res.status(200).json({
