@@ -35,6 +35,8 @@ export default {
     ...mapActions(['fetchCurrentUser']),
     async handleSubmit() {
       axios
+      //`https://localhost:3000/api/users/login`
+      //${location.origin}/api/users/login
         .post(`https://localhost:3000/api/users/login`, this.formData)
         .then((res) => {
           console.log(res);

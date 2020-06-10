@@ -5,7 +5,7 @@ import Register from '@/components/Register';
 import Login from '@/components/Login';
 // import MyBids from '@/components/Login';
 // import MyAuctions from '@/components/Login';
-// import AuctionNewForm from '@/components/AuctionNewForm';
+import AuctionForm from '@/components/AuctionForm';
 // import Convos from '@/components/Convos';
 import Error from '@/components/Error';
 import store from "../store";
@@ -43,7 +43,7 @@ const routes = [
       meta: {
         requiresAuth: false
       }
-  }
+  },
 //   {
 //       path: "/my-bids/page/:page(\\d+)",
 //       name: "MyBids",
@@ -61,11 +61,14 @@ const routes = [
 //           return import("../components/MyHistory.vue");
 //       }
 //   },
-//   {
-//       path: "/newauction",
-//       name: "AuctionNewForm",
-//       component: AuctionNewForm
-//   },
+  {
+      path: "/new",
+      name: "AuctionForm",
+      component: AuctionForm,
+      meta: {
+        requiresAuth: true
+      }
+  },
 //   {
 //       path: "/convos",
 //       name: "Convos",

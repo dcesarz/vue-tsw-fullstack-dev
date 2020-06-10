@@ -14,7 +14,7 @@ let AuctionSchema = new Schema({
     },
     price: {
         type: Number,
-        min: 0.01,
+        min: 1,
         required: true
     },
     seller: {
@@ -23,18 +23,18 @@ let AuctionSchema = new Schema({
     },
     type: {
         type: String,
-        enum: ["Bid", "Buy"]
+        enum: ["bid", "buy"]
     },
     bidders: [{ type: String }],
     latestBidder: {
         type: String
     },
-    duration: {
-        type: Number
+    date: {
+        type: Date
     },
     status: {
         type: String,
-        enum: ["New", "OnSale", "Sold", "NotSold"]
+        enum: ["new", "onSale", "sold", "notSold"]
     }
 },{timestamps: true});
 

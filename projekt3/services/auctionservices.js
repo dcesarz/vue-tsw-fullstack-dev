@@ -230,36 +230,26 @@ module.exports.startAuction = (isAuthenticated, (req, res) => {
     
 })
 
-module.exports.newAuction = (async (req, res) => {
-        try {
-            const user = req.user;
-            const body = req.body;
-            let Auction = {};
-            if (req.body.type === "Bid") {
-                Auction = new Auction({
-                    name: body.name,
-                    price: body.price,
-                    type: body.type,
-                    seller: user.username,
-                    duration: body.duration,
-                    status: body.status
-                });
-            } else {
-                Auction = new Auction({
-                    name: body.name,
-                    price: body.price,
-                    type: body.type,
-                    seller: user.username,
-                    status: body.status
-                });
-            }
-            const doc = await Auction.save();
-            res.json(doc);
-        } catch (err) {
-            console.log(err);
-            res.status(422).json(Auction.processErrors(err));
-        }
-});
+module.exports.newAuction = async (req, res) => {
+    const auction = new Auction({
+      seller: req.user.username,
+      status: req.body.status,
+      type: req.body.type,
+      name: req.body.name,
+      price: req.body.price,
+      date: req.body.date,
+      description: req.body.description,
+      bidders: [],
+      latestBidder: ""
+    });
+    try {
+      const doc = await auction.save();
+      res.status(201).json(doc);
+    } catch (error) {
+      res.status(500).json(processErrors(error));
+    }
+  };
+
 
 module.exports.patchAuction = (async (req, res) => { 
         const body = req.body;

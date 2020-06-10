@@ -6,7 +6,7 @@
   <ul>
     <li>
     <li v-if="isAuthenticated">
-    <router-link to="/auction">Auction form</router-link>
+    <router-link to="/new">New auction</router-link>
       </li>
     <li v-if="isAuthenticated">
     <router-link to="/">Home</router-link>
@@ -44,7 +44,9 @@ export default {
         ...mapActions(["fetchCurrentUser"]),
         logout () {
             axios
-                .get("https://localhost:3000/api/users/logout")
+            //${location.origin}/api/users/logout
+            //https://localhost:3000/api/users/logout
+                .get(`https://localhost:3000/api/users/logout`)
                 .then(() => {
                     // router.push("/"); // uncaught exception error
                     location.reload();

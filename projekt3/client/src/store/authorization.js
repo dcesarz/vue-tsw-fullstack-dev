@@ -14,6 +14,8 @@ const getters = {
 const actions = {
     fetchCurrentUser ({ commit }) {
         return new Promise((resolve, reject) => {
+            //https://localhost:3000/api/users/currentuser
+            //`${location.origin}/api/users/currentuser`
             axios.get(`https://localhost:3000/api/users/currentuser`)
                 .then((resp) => {
                     console.dir(resp.data);

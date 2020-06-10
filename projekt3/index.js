@@ -26,6 +26,7 @@ const messageRoutes = require("./routes/messageroutes");
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+//app.use(cors({credentials: true, origin: 'https://localhost:8080'}));
 app.use(cors({credentials: true, origin: 'https://localhost:8080'}));
 
 // Sesja z wykorzystaniem ciasteczek

@@ -1,12 +1,12 @@
 <template>
   <div>
-      404 error : (
+      Auction edit form here
   </div>
 </template>
 
 <script>
 export default {
-    name: "Error",
+    name: "AuctionEdit",
 };
 </script>
 
