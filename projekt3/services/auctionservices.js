@@ -116,15 +116,15 @@ module.exports.read = (req, res, next) => {
     });
 };
 
-module.exports.list = (req, res, next) => {
-    Auction.find({}, (err, Auction) => {
-        if (err) {
-            next(err);
-        } else {
-            res.json(Auction);
-        }
+module.exports.list = (req, res) => {
+    Auction.find((error, docs) => {
+      if (error) {
+        res.json(error);
+      } else {
+        res.json(docs);
+      }
     });
-};
+  };
 
 module.exports.listBids = (req, res, next) => {
     Auction.findById(req.params.id, (err, Auction) => {
@@ -141,28 +141,40 @@ module.exports.listBids = (req, res, next) => {
     });
 };
 
-module.exports.update = (req, res, next) => {
-    Auction.findById(req.params.id, (err, Auction) => {
-        if (err) {
-            next(err);
+module.exports.update = (req, res) => {
+    Auction.updateOne({ _id: req.body._id }, req.body,
+      (error, doc) => {
+        if (error) {
+          res.status(500).json(processErrors(error));
         } else {
-            if (Auction) {
-                Auction.name = req.body.name;
-                Auction.price = req.body.price;
-                Auction.seller = req.body.seller;
-                Auction.type = req.body.type;
-                Auction.latestBidder = req.body.latestBidder;
-                Auction.bidders = req.body.bidders;
-                Auction.duration = req.body.duration;
-                Auction.status = req.body.status;
-                saveAuction(Auction, res);
-            } else {
-                // Not Found
-                res.sendStatus(404);
-            }
+          res.status(201).json(doc);
         }
-    });
-};
+      });
+  };
+
+// module.exports.update = (req, res, next) => {
+//     console.log("got hereeeeeeeeeeeeeeee")
+//     Auction.findById(req.params.id, (err, Auction) => {
+//         if (err) {
+//             next(err);
+//         } else {
+//             if (Auction) {
+//                 Auction.name = req.body.name;
+//                 Auction.price = req.body.price;
+//                 Auction.seller = req.body.seller;
+//                 Auction.type = req.body.type;
+//                 Auction.latestBidder = req.body.latestBidder;
+//                 Auction.bidders = req.body.bidders;
+//                 Auction.duration = req.body.duration;
+//                 Auction.status = req.body.status;
+//                 saveAuction(Auction, res);
+//             } else {
+//                 // Not Found
+//                 res.sendStatus(404);
+//             }
+//         }
+//     });
+// };
 
 module.exports.delete = (req, res, next) => {
     Auction.findByIdAndRemove(req.params.id, err => {

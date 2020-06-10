@@ -63,13 +63,13 @@ router
 
 router.route("/")
     .get(auctionservices.list)
+    .put(auctionservices.update)
     .post(auctionservices.create)
     .all(rejectMethod);
     
 
 router.route("/auction/:id")
     .all(auctionservices.validateId)
-    .put(auctionservices.update)
     .delete(auctionservices.delete)
     .all(rejectMethod);
 

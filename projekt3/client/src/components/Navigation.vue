@@ -48,8 +48,8 @@ export default {
             //https://localhost:3000/api/users/logout
                 .get(`https://localhost:3000/api/users/logout`)
                 .then(() => {
-                    // router.push("/"); // uncaught exception error
-                    location.reload();
+                    // router.push("/"); // uncaught exception error          
+                    this.$router.push('/login');
                 })
                 .catch((err) => {
                     console.log(err);

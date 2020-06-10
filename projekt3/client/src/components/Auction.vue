@@ -1,7 +1,8 @@
+<!-- WILL SHOW SINGLE AUCTION. -->
 <template>
     <div>
-        <AuctionDetails/>
-        <AuctionEdit/>
+        <AuctionDetails :auction="auction"/>
+        <AuctionEdit :oldAuction="auction"/>
     </div>
 </template>
 
