@@ -88,34 +88,23 @@ const isInRoutes = (name) => {
 };
 
 router.beforeEach((to, from, next) => {
-  store.dispatch("fetchCurrentUser");
+  store.dispatch("fetchCurrentUser").then(res =>{
   if (!isInRoutes(to.name)) {
-    console.log("hmmmgggg");
-    console.log("Error 404");
     next({ name: "Error" });
     return;
   }
   if (to.matched.some(record => record.meta.requiresAuth)){
-    console.log("hmmm");
-    console.log(store.getters.currentUser);
-    if(!store.getters.currentUser.isAuthenticated){
-      console.log("hmmmggyyyyy");
+    console.log(res);
+    if(!store.getters.isAuthenticated){
       next('/login');
     } else {
-      console.log("hmmdfddffdm");
       next();
     }
   }
   else{
-    console.log("hmmmaaaaaa");
     next();
   }
-      // if(!this.$store.getters.currentUser.isAuth){
-      //   next('/login');
-      // } else {
-      //   next();
-      // }
-})
+})});
   
 
 // TODO register should not be reachable by logged user

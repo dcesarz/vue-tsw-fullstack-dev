@@ -5,19 +5,19 @@
   </div>
   <ul>
     <li>
-    <li v-if="currentUser.isAuthenticated">
+    <li v-if="isAuthenticated">
     <router-link to="/auction">Auction form</router-link>
       </li>
-    <li v-if="currentUser.isAuthenticated">
+    <li v-if="isAuthenticated">
     <router-link to="/">Home</router-link>
       </li>
-    <li v-if="!currentUser.isAuthenticated">
+    <li v-if="!isAuthenticated">
     <router-link to="/login">Login</router-link>
       </li>
-    <li v-if="!currentUser.isAuthenticated">
+    <li v-if="!isAuthenticated">
       <router-link to="/register">Register</router-link>
       </li>
-    <li v-if="currentUser.isAuthenticated">
+    <li v-if="isAuthenticated">
       <a @click="logout()">Log out</a>
       </li>
 <!--    <li v-if="currentUser.isAuthenticated" class="nav-item">
@@ -39,7 +39,7 @@ import axios from '../axios';
 import { mapGetters, mapActions } from "vuex";
 export default {
     name: "Navigation",
-    computed: mapGetters(['currentUser']),
+    computed: mapGetters(['isAuthenticated']),
     methods: {
         ...mapActions(["fetchCurrentUser"]),
         logout () {

@@ -33,13 +33,11 @@ export default {
   },
   methods: {
     ...mapActions(['fetchCurrentUser']),
-    handleSubmit() {
-      console.log('accessed innder logginh thingie');
+    async handleSubmit() {
       axios
         .post(`https://localhost:3000/api/users/login`, this.formData)
         .then((res) => {
           console.log(res);
-          console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
           this.$router.push('/');
         })
         .catch((err) => {
