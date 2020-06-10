@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from '../axios';
 // import router from "../router";
 import { mapGetters, mapActions } from "vuex";
 export default {
@@ -44,7 +44,7 @@ export default {
         ...mapActions(["fetchCurrentUser"]),
         logout () {
             axios
-                .get("/api/users/logout")
+                .get("https://localhost:3000/api/users/logout")
                 .then(() => {
                     // router.push("/"); // uncaught exception error
                     location.reload();

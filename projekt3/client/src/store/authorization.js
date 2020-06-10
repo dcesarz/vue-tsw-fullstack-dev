@@ -1,6 +1,6 @@
-import axios from "axios";
+//import axios from "axios";
 // import router from "../router";
-
+import axios from '../axios';
 const state = {
     currentUser: {
         user: {},

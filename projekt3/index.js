@@ -26,7 +26,7 @@ const messageRoutes = require("./routes/messageroutes");
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-app.use(cors());
+app.use(cors({credentials: true, origin: 'https://localhost:8080'}));
 
 // Sesja z wykorzystaniem ciasteczek
 app.use(cookieParser());
@@ -61,7 +61,7 @@ if (process.env.NODE_ENV === "development") {
 
 // Publiczny folder
 
-//app.use(express.static(path.join(__dirname, "dist")));
+app.use(express.static(path.join(__dirname, "dist")));
 
 // app.use("/lib", express.static(path.normalize("./node_modules/axios/dist")));
 
