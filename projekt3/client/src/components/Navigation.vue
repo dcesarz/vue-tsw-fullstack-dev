@@ -21,7 +21,7 @@
       <router-link to="/register">Register</router-link>
       </li>
     <li v-if="isAuthenticated">
-      <a @click="logout()">Inbox</a>
+      <router-link to="/inbox">Inbox</router-link>
     </li>
     <li v-if="isAuthenticated">
       <a @click="logout()">Log out</a>
@@ -52,7 +52,7 @@ export default {
             axios
             //${location.origin}/api/users/logout
             //https://localhost:3000/api/users/logout
-                .get(`https://localhost:3000/api/users/logout`)
+                .get(`${location.origin}/api/users/logout`)
                 .then(() => {
                     // router.push("/"); // uncaught exception error          
                     this.$router.push('/login');

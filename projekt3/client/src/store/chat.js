@@ -2,21 +2,20 @@
 // import router from "../router";
 import axios from '../axios';
 const state = {
-        user: {},
-        isAuthenticated: false
+        activeConvos: [{
+        }]
 };
 
 const getters = {
-    currentUser: state => state.user,
-    isAuthenticated: state => state.isAuthenticated
+    activeConvos: state => state.activeConvos,
 };
 //`${location.origin}/api/users/currentuser
 const actions = {
-    fetchCurrentUser ({ commit }) {
+    fetchMessages ({ commit }) {
         return new Promise((resolve, reject) => {
             //https://localhost:3000/api/users/currentuser
             //`${location.origin}/api/users/currentuser`
-            axios.get(`${location.origin}/api/users/currentuser`)
+            axios.get(`${location.origin}/api/messages/all`)
                 .then((resp) => {
                     console.dir(resp.data);
                     commit("authRefresh", resp.data);
@@ -24,6 +23,7 @@ const actions = {
                 })
                 .catch((err) => {
                     console.dir(err);
+                    //i think this will inly happen if ur not logged in so 
                     commit("authNotLoggedIn");
                     reject(err);
                 });
@@ -33,12 +33,10 @@ const actions = {
 
 const mutations = {
     authRefresh (state, data) {
-        state.user = data.user;
-        state.isAuthenticated = data.isAuthenticated;
+        state.activeConvos = data.user;
     },
     authNotLoggedIn (state) {
-        state.user = null;
-        state.isAuthenticated = false;
+        state.activeConvos = null;
     }
 };
 

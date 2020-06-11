@@ -27,7 +27,7 @@
       />
       <br />
       <br />
-      <label for="name-input">Description:</label>
+      <label for="desc-input">Description:</label>
       <input
         v-model="formData.description"
         id="desc-input"
@@ -39,16 +39,16 @@
       />
       <br />
       <br />
-      <label for="name-input">Type:</label>
-      <select v-model="formData.type" id="select" name="select">
+      <label for="type-input">Type:</label>
+      <select v-model="formData.type" id="type-input" name="select">
         <option value="bid">Bid</option>
         <option value="buy">Buy</option>
       </select>
       <br />
       <br />
       <div v-if="formData.type === 'bid'">
-        <label for="name-input">Ends on..:</label>
-        <input type="date" v-model="formData.date" placeholder="date" />
+        <label for="date-input">Ends on..:</label>
+        <input id="date-input" type="date" v-model="formData.date" placeholder="date" />
       </div>
       <br />
       <br />
@@ -83,7 +83,7 @@ export default {
         .post(
           //'https://localhost:3000/api/auctions',
           //`${location.origin}/api/auctions`
-          `https://localhost:3000/api/auctions/auction`,
+          `${location.origin}/api/auctions/auction`,
           this.formData,
           { withCredentials: true }
         )

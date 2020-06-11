@@ -1,66 +1,104 @@
-// Configuration file
 require("dotenv").config();
 
-// Server initialization
 const express = require("express");
-const app = express();
-const server = require("./https")(app);
-
-// Parsers configs
 const cookieParser = require("cookie-parser");
-const bodyParser = require("body-parser");
-app.use(bodyParser.json());
-app.use(require("cookie-parser")());
-app.use(bodyParser.urlencoded({
-  extended: false
-}));
-
-// Services config
-const auctionService = require("./services/auctionservices");
-const Message = require("./models/Message");
-
-// Session config
-const session = require("express-session");
+const app = express();
+const cors = require("cors");
 const mongoose = require("./mongoose");
+const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
+const passport = require("./passport");
+const logger = require("morgan");
+const errorHandler = require("error-handler");
+const server = require("./https")(app);
+const port = process.env.PORT;
+const Auction = require("./models/Auction");
+const axios = require("axios");
+const path = require("path");
+const userRoutes = require("./routes/userroutes");
+const AuctionRoutes = require("./routes/Auctionroutes");
+const messageRoutes = require("./routes/messageroutes");
 
+// Wszelkie dane przesyłamy w formacie JSON
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+//app.use(cors({credentials: true, origin: 'https://localhost:8080'}));
+
+app.use(cors({credentials: true, origin: 'http://localhost:8080'}));
+// Sesja z wykorzystaniem ciasteczek
+app.use(cookieParser());
+
+// Session store
 const sessionStore = new MongoStore({
-  mongooseConnection: mongoose.connection,
-  collection: "sessions"
+    mongooseConnection: mongoose.connection,
+    collection: "sessions"
 });
 
-const port = process.env.PORT;
-
 app.use(session({
-  secret: process.env.APP_SECRET,
-  resave: false,
-  saveUnintialized: false,
-  store: sessionStore
+    secret: process.env.APP_SECRET,
+    store: sessionStore,
+    resave: false,
+    saveUninitialized: false
 }));
-
-// Passport config
-const passport = require("./passport");
+// (   o  w  o)/
+//      '
+//     \'---- - - - - -
+//     / \ 
+// Inicjalizacja sesji
 app.use(passport.initialize());
 app.use(passport.session());
 
-// SocketIO config
-const socketio = require("socket.io");
-const io = socketio(server);
-const passportSocketIo = require("passport.socketio");
+// Poziom Logowania
+if (process.env.NODE_ENV === "development") {
+    app.use(logger("dev"));
+    app.use(errorHandler);
+} else {
+    app.use(logger("short"));
+}
 
-io.use(passportSocketIo.authorize({
-  key: "connect.sid",
-  secret: process.env.APP_SECRET,
-  store: sessionStore,
-  passport: passport,
-  cookieParser: cookieParser
-}));
+// Publiczny folder
 
-const isAuthenticated = (socket) => {
-  return socket.request.isAuthenticated;
+app.use(express.static(path.join(__dirname, "dist")));
+
+// app.use("/lib", express.static(path.normalize("./node_modules/axios/dist")));
+
+// Routing
+app.use("/api/users", userRoutes);
+app.use("/api/auctions", AuctionRoutes);
+app.use("/api/messages", messageRoutes);
+
+// Wyłapujemy odwołania do nieobsługiwanych adresów
+app.use((_, res) => {
+    res.sendStatus(404);
+});
+
+const axiosConfig = {
+  withCredentials: true,
 };
 
+axios.config = axiosConfig;
+
+// Serwer HTTPS
+// openssl req -x509 -nodes -days 365 -newkey rsa:1024 -out my.crt -keyout my.key
+
+const isAuthenticated = (socket) => {
+    return socket.request.isAuthenticated;
+};  
+
 let lock = false;
+
+const socketio = require("socket.io");
+const passportSocketIo = require("passport.socketio");
+const io = socketio(server);
+
+io.use(passportSocketIo.authorize({
+    key: "connect.sid",
+    secret: process.env.APP_SECRET,
+    store: sessionStore,
+    passport: passport,
+    cookieParser: cookieParser
+}));
 
 io.on("connection", (socket) => {
     console.log(`Made socket connection: ${socket.id}`);
@@ -122,11 +160,13 @@ io.on("connection", (socket) => {
       });
     socket.on("new-bid", async (data) => {
         if (socket.request.user.logged_in) {
-            const price = "";
-            const filter = data.id;
+            let price = "";
+            console.log(data);
+            const filter = data._id;
             let oldBidders;
             try {
                 const doc = await Auction.findById(filter);
+                console.log(filter);
                 oldBidders = doc.bidders;
                 price = doc.price;
             } catch (err) {
@@ -163,6 +203,7 @@ io.on("connection", (socket) => {
         }
     });
 });
+
 
 server.listen(port, () => {
     console.log(`Serwer działa pod adresem: https://localhost:${port}`);

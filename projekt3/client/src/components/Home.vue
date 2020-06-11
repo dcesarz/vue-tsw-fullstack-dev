@@ -29,10 +29,8 @@ export default {
   },
   methods: {
     loadAuctions() {
-      //let loadedAuctions = [];
-      console.log("well attempt was made");
       axios.get(
-        "https://localhost:3000/api/auctions",
+        `${location.origin}/api/auctions`,
         { withCredentials: true }
       ).then(resp => {
         //const thing = resp.data.filter(auction)

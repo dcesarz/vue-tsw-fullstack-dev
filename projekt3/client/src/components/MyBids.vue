@@ -1,7 +1,7 @@
 <!-- WILL SHOW ALL AUCTIONS. -->
 <template>
   <div>
-    Hello {{currentUser.username}}! Here's list of your auctions...
+    Hello {{currentUser.username}}! Here's list of auctions you've bidded on...
     <table>
       <div v-for="auction in auctions" :key="auction._id">
         <Auction :auction="auction" />
@@ -15,7 +15,7 @@ import axios from "../axios";
 import Auction from "./Auction";
 import { mapGetters } from "vuex";
 export default {
-  name: "MyAuctions",
+  name: "MyBids",
   data() {
     return {
       auctions: {}
@@ -30,12 +30,12 @@ export default {
   methods: {
     loadAuctions() {
       axios.get(
-        `${location.origin}/api/auctions`,
+        "https://localhost:3000/api/auctions",
         { withCredentials: true }
       ).then(resp => {
         //const thing = resp.data.filter(auction)
         const unfiltered = resp.data;
-        const filtered = unfiltered.filter(auction => auction.seller === this.currentUser.username);
+        const filtered = unfiltered.filter(auction => auction.bidders.includes(this.currentUser.username));
         console.log(filtered);
         this.auctions = filtered;
       })

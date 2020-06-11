@@ -31,7 +31,7 @@ export default {
       axios
       //${location.origin}/api/users/register
       //`https://localhost:3000/api/users/register`
-        .post(`https://localhost:3000/api/users/register`, this.user)
+        .post(`${location.origin}/api/users/register`, this.user)
         .then(() => {
           this.$router.push('/login');
         })

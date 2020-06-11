@@ -2,8 +2,10 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from '@/components/Home';
 import MyAuctions from '@/components/MyAuctions';
+import MyBids from '@/components/MyBids';
 import Register from '@/components/Register';
 import Login from '@/components/Login';
+import Inbox from '@/components/Inbox';
 // import MyBids from '@/components/Login';
 // import MyAuctions from '@/components/Login';
 import AuctionForm from '@/components/AuctionForm';
@@ -28,6 +30,22 @@ const routes = [
     meta: {
       requiresAuth: true
     }
+},
+{
+  path: "/my-bids",
+  name: "MyBids",
+  component: MyBids,
+  meta: {
+    requiresAuth: true
+  }
+},
+{
+  path: "/inbox",
+  name: "Inbox",
+  component: Inbox,
+  meta: {
+    requiresAuth: true
+  }
 },
   {
     path: "/404",

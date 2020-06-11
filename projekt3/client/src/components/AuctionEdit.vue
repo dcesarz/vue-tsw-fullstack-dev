@@ -112,7 +112,7 @@ export default {
       // };
       //const newUrl = 'https://localhost:3000/api/auctions/auction/' + this.oldAuction._id;
       axios
-        .put("https://localhost:3000/api/auctions", this.formData, {
+        .put(`${location.origin}/api/auctions`, this.formData, {
           withCredentials: true
         })
         .then(() => {
@@ -127,7 +127,7 @@ export default {
     startAuction () {
       axios
         .patch(
-          "https://localhost:3000/api/auctions/startauction",
+          `${location.origin}/api/auctions/startauction`,
           { _id: this.formData._id }, { withCredentials: true })
         .then(() => {
           location.reload();

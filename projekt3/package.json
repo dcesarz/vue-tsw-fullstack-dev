@@ -10,7 +10,7 @@
     "client-install": "npm install --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build --prefix client",
     "lint": "vue-cli-service lint"
   },
   "author": "Dominika Cesarz",

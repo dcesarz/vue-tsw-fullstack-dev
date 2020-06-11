@@ -17,16 +17,16 @@ const isAuth = (req, res, next) => {
     });
 };
 
-router.route("/")
-    .get(isAuth, messageservices.list)
-    .post(isAuth, messageservices.create)
-    .all(rejectMethod);
+router.route("/new")
+  .post(isAuth, messageservices.newMessage)
+  .all(rejectMethod);
 
-router.route("/message/:id")
-    .all(messageservices.validateId)
-    .get(isAuth, messageservices.read)
-    .put(isAuth, messageservices.update)
-    .delete(isAuth, messageservices.delete)
-    .all(rejectMethod);
+router.route("/inbox")
+  .get(isAuth, messageservices.inbox)
+  .all(rejectMethod);
+
+// router.route("/all")
+//   .get(isAuth, messageservices.list)
+//   .all(rejectMethod);
 
 module.exports = router;

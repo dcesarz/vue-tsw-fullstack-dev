@@ -37,7 +37,7 @@ export default {
       axios
       //`https://localhost:3000/api/users/login`
       //${location.origin}/api/users/login
-        .post(`https://localhost:3000/api/users/login`, this.formData)
+        .post(`${location.origin}/api/users/login`, this.formData)
         .then((res) => {
           console.log(res);
           this.$router.push('/');
