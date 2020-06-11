@@ -1,6 +1,15 @@
 const router = require("express").Router();
 const auctionservices = require("../services/auctionservices");
 
+const isAuth = (req, res, next) => {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.status(403).json({
+        message: "Not authenticated"
+    });
+}
+
 const rejectMethod = (_req, res) => {
     // Method Not Allowed
     res.sendStatus(405);
@@ -62,15 +71,16 @@ router
 //     .all(rejectMethod);
 
 router.route("/")
-    .get(auctionservices.list)
-    .put(auctionservices.update)
-    .post(auctionservices.create)
+    .get(isAuth, auctionservices.list)
+    .put(isAuth,auctionservices.update)
+    .post(isAuth,auctionservices.create)
     .all(rejectMethod);
     
 
 router.route("/auction/:id")
-    .all(auctionservices.validateId)
-    .delete(auctionservices.delete)
+    .all(isAuth,auctionservices.validateId)
+    .delete(isAuth,auctionservices.delete)
     .all(rejectMethod);
+
 
 module.exports = router;

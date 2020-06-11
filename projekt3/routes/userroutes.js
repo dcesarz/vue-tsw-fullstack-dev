@@ -7,8 +7,17 @@ const rejectMethod = (_req, res) => {
     res.sendStatus(405);
 };
 
+const isAuth = (req, res, next) => {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.status(403).json({
+        message: "Not authenticated"
+    });
+};
+
 router.route("/")
-    .get(userservices.list)
+    .get(isAuth, userservices.list)
     .post(userservices.create)
     .all(rejectMethod);
 
@@ -36,8 +45,8 @@ router
 router.route("/user/:id")
     .all(userservices.validateId)
     .get(userservices.read)
-    .put(userservices.update)
-    .delete(userservices.delete)
+    .put(isAuth, userservices.update)
+    .delete(isAuth, userservices.delete)
     .all(rejectMethod);
 
 

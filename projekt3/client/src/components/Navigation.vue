@@ -11,12 +11,18 @@
     <li v-if="isAuthenticated">
     <router-link to="/">Home</router-link>
       </li>
+    <li v-if="isAuthenticated">
+    <router-link to="/my-auctions">My auctions</router-link>
+    </li>
     <li v-if="!isAuthenticated">
     <router-link to="/login">Login</router-link>
       </li>
     <li v-if="!isAuthenticated">
       <router-link to="/register">Register</router-link>
       </li>
+    <li v-if="isAuthenticated">
+      <a @click="logout()">Inbox</a>
+    </li>
     <li v-if="isAuthenticated">
       <a @click="logout()">Log out</a>
       </li>

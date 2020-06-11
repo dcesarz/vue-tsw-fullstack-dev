@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from '@/components/Home';
+import MyAuctions from '@/components/MyAuctions';
 import Register from '@/components/Register';
 import Login from '@/components/Login';
 // import MyBids from '@/components/Login';
@@ -20,6 +21,14 @@ const routes = [
         requiresAuth: true
       }
   },
+  {
+    path: "/my-auctions",
+    name: "MyAuctions",
+    component: MyAuctions,
+    meta: {
+      requiresAuth: true
+    }
+},
   {
     path: "/404",
     name: "Error",

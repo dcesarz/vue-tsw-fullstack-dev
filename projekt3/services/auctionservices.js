@@ -196,51 +196,27 @@ module.exports.validateId = (req, res, next) => {
     next();
 };
 
-module.exports.startAuction = (isAuthenticated, (req, res) => {
-        const filter = {
-            _id: req.body.id,
-            seller: req.user.username
-        };
-        Auction.findOne(filter, (err, doc) => {
-            if (err) {
-                res.status(500).json(Auction.processErrors(err));
-            } else if (doc.seller === req.user.username &&
-                       doc.status === "New") {
-                doc.status = "OnSale";
-                if (doc.type === "Bid") {
-                    const tempTime = doc.duration;
-                    doc.duration = new Date(new Date().getTime() + doc.duration).getTime();
-                    console.dir(doc.duration);
-                    doc.save();
-    
-                    res.json(doc);
-                    console.dir("Auction timeout started.....");
-                    setTimeout(() => {
-                        Auction.findOne(filter, (err, doc) => {
-                            if (err) {
-                                res.status(500).json(Auction.processErrors(err));
-                            } else if (doc.latestBidder !== "") {
-                                console.dir("Auction sold");
-                                doc.status = "Sold";
-                            } else {
-                                console.dir("Not sold.");
-                                doc.status = "NotSold";
-                            }
-                            doc.save();
-                        }
-                        );
-                    }, tempTime);
-                } else {
-                    doc.save();
-                    console.dir("Product on sale");
-                    res.json(doc);
-                }
-            } else {
-                res.json({ message: "Auction has already started.." });
-            }
-        });
-    
-})
+module.exports.startAuction = (req, res) => {
+    console.dir(req.body);
+    Auction.updateOne({ _id: req.body._id }, { $set: { status: "onSale" } }, (error, doc) => {
+      if (error) {
+        res.status(500).json(processErrors(error));
+      } else {
+        res.status(201).json(doc);
+      }
+    });
+  };
+  
+module.exports.endAuction = (req, res) => {
+    console.dir(req.body);
+    Auction.updateOne({ _id: req.body._id }, { $set: { status: "sold" } }, (error, doc) => {
+      if (error) {
+        res.status(500).json(processErrors(error));
+      } else {
+        res.status(201).json(doc);
+      }
+    });
+};
 
 module.exports.newAuction = async (req, res) => {
     const auction = new Auction({

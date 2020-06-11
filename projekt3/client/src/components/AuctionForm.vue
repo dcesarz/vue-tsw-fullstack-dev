@@ -79,15 +79,6 @@ export default {
   },
   methods: {
     async newAuction() {
-      //   const auction = {
-      //     name: this.formData.name,
-      //     description: this.formData.description,
-      //     price: this.formData.price,
-      //     seller: this.$store.getters.user.username,
-      //     type: this.formData.type,
-      //     status: "New",
-      //     date: this.formData.date
-      //   };
       await axios
         .post(
           //'https://localhost:3000/api/auctions',

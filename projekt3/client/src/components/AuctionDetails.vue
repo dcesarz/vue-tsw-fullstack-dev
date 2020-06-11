@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="details">
     <tr>
       <th>Name:</th>
       <td>{{auction.name}}</td>
@@ -16,11 +16,16 @@
       <th>Price:</th>
       <td>{{auction.price}}</td>
     </tr>
+    <tr>
+      <th>Date:</th>
+      <td>{{formatted_date}}</td>
+    </tr>
   </div>
 </template>
 
 <script>
 import { mapGetters} from "vuex";
+var moment = require('moment');
 
 export default {
   name: "AuctionDetails",
@@ -33,12 +38,14 @@ export default {
   props: ["auction", "emitter"],
   data () {
     return {
+      formated_date: "",
       id: this.auction._id,
       price: ""
     };
   },
   created() {
       console.log(this.auction);
+      this.formatted_date = moment(this.auction.date).format('YYYY-MM-DD');
   }
   //methods: {
     //...mapActions(["logError"]),
@@ -79,5 +86,8 @@ li {
 }
 a {
   color: #42b983;
+}
+#details{
+  padding: 50px;
 }
 </style>

@@ -1,7 +1,7 @@
 <!-- WILL SHOW ALL AUCTIONS. -->
 <template>
   <div>
-    Hello {{currentUser.username}}! Here's list of current auctions...
+    Hello {{currentUser.username}}! Here's list of your auctions...
     <table>
       <div v-for="auction in auctions" :key="auction._id">
         <Auction :auction="auction" />
@@ -15,7 +15,7 @@ import axios from "../axios";
 import Auction from "./Auction";
 import { mapGetters } from "vuex";
 export default {
-  name: "Home",
+  name: "MyAuctions",
   data() {
     return {
       auctions: {}
@@ -36,8 +36,10 @@ export default {
         { withCredentials: true }
       ).then(resp => {
         //const thing = resp.data.filter(auction)
-        console.log(resp);
-        this.auctions = resp.data;
+        const unfiltered = resp.data;
+        const filtered = unfiltered.filter(auction => auction.seller === this.currentUser.username);
+        console.log(filtered);
+        this.auctions = filtered;
       })
     }
   },

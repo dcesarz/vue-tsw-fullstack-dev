@@ -8,16 +8,25 @@ const rejectMethod = (_req, res) => {
     res.sendStatus(405);
 };
 
+const isAuth = (req, res, next) => {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.status(403).json({
+        message: "Not authenticated"
+    });
+};
+
 router.route("/")
-    .get(messageservices.list)
-    .post(messageservices.create)
+    .get(isAuth, messageservices.list)
+    .post(isAuth, messageservices.create)
     .all(rejectMethod);
 
 router.route("/message/:id")
     .all(messageservices.validateId)
-    .get(messageservices.read)
-    .put(messageservices.update)
-    .delete(messageservices.delete)
+    .get(isAuth, messageservices.read)
+    .put(isAuth, messageservices.update)
+    .delete(isAuth, messageservices.delete)
     .all(rejectMethod);
 
 module.exports = router;
