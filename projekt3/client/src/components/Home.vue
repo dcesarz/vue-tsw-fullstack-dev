@@ -28,13 +28,20 @@ export default {
     Auction,
   },
   methods: {
+     filterOpen(a) {
+      const isOpen = a.status === "onSale";
+      if (isOpen) return true;
+      else return false;
+    },
     loadAuctions() {
       axios.get(
         `${location.origin}/api/auctions`,
         { withCredentials: true }
       ).then(resp => {
-        console.log(resp);
-        this.auctions = resp.data;
+        const unfiltered = resp.data;
+        const filtered = unfiltered.filter(this.filterOpen);
+        console.log(filtered);
+        this.auctions = filtered;
       })
     }
   },

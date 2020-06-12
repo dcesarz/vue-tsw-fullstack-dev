@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import Home from '@/components/Home';
 import MyAuctions from '@/components/MyAuctions';
 import MyBids from '@/components/MyBids';
+import MyHistory from '@/components/MyHistory';
 import Register from '@/components/Register';
 import Login from '@/components/Login';
 import Inbox from '@/components/Inbox';
@@ -32,6 +33,14 @@ const routes = [
   path: "/my-bids",
   name: "MyBids",
   component: MyBids,
+  meta: {
+    requiresAuth: true
+  }
+},
+{
+  path: "/my-history",
+  name: "MyHistory",
+  component: MyHistory,
   meta: {
     requiresAuth: true
   }

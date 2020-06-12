@@ -11,9 +11,6 @@
     <li v-if="isAuthenticated">
     <router-link to="/">Home</router-link>
       </li>
-    <li v-if="isAuthenticated">
-    <router-link to="/my-auctions">My auctions</router-link>
-    </li>
     <li v-if="!isAuthenticated">
     <router-link to="/login">Login</router-link>
       </li>
@@ -26,14 +23,14 @@
     <li v-if="isAuthenticated">
       <a @click="logout()">Log out</a>
       </li>
-<!--    <li v-if="currentUser.isAuthenticated" class="nav-item">
-      <router-link to="/my-bids/page/1">My bids</router-link>
+     <li v-if="isAuthenticated">
+    <router-link to="/my-auctions">My auctions</router-link>
     </li>
-      <li v-if="currentUser.isAuthenticated" class="nav-item">
-    <router-link to="/my-auctions/page/1">My offers</router-link>
+     <li v-if="currentUser.isAuthenticated" class="nav-item">
+      <router-link to="my-bids">My bids</router-link>
       </li>
     <li v-if="currentUser.isAuthenticated" class="nav-item">
-      <router-link to="/my-history/page/1">My History</router-link>
+      <router-link to="my-history">My History</router-link>
       </li> -->
   </ul>
 </div>

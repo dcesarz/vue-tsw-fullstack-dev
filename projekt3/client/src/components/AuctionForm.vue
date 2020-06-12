@@ -81,15 +81,12 @@ export default {
     async newAuction() {
       await axios
         .post(
-          //'https://localhost:3000/api/auctions',
-          //`${location.origin}/api/auctions`
           `${location.origin}/api/auctions/auction`,
           this.formData,
           { withCredentials: true }
         )
         .then(() => {
           location.reload();
-          //this.$router.push({ name: "Home" });
         })
         .catch(err => {
           alert(err);

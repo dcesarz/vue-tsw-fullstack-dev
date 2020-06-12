@@ -28,25 +28,25 @@ export default {
     Auction,
   },
   methods: {
+    filterWithUsername(a) {
+      const isSeller = a.seller === this.currentUser.username;
+      const isOpen = a.status === "onSale";
+      if (isSeller && isOpen) return true;
+      else return false;
+    },
     loadAuctions() {
       axios.get(
         `${location.origin}/api/auctions`,
         { withCredentials: true }
       ).then(resp => {
-        //const thing = resp.data.filter(auction)
         const unfiltered = resp.data;
-        const filtered = unfiltered.filter(auction => auction.seller === this.currentUser.username);
+        const filtered = unfiltered.filter(this.filterWithUsername);
         console.log(filtered);
         this.auctions = filtered;
       })
     }
   },
   created () {
-    // await axios.get("/api/date")
-    //   .then((res) => {
-    //     console.dir(res);
-    //     this.date = res.data.date;
-    //   });
     this.loadAuctions();
   }
 };

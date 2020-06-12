@@ -15,7 +15,6 @@
 <script>
 import Conversation from "./Conversation";
 import { mapGetters } from "vuex";
-//import io from "socket.io-client";
 import axios from '../axios'
 
 export default {

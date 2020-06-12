@@ -1,7 +1,6 @@
 const User = require("../models/user.js");
-//const passport = require("../passport");
 const bcrypt = require("../bcrypt");
-//t
+
 const isAuthenticated = (req, res, next) => {
     if (req.isAuthenticated()) {
         return next();
