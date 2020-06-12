@@ -1,6 +1,6 @@
 <template>
   <div>
-    Hello {{currentUser.username}}! Here's list of auctions you've bidded on...
+    <h1>Hello {{currentUser.username}}! Here's list of auctions you've bidded on and are still open...</h1>
     <table>
       <div v-for="auction in auctions" :key="auction._id">
         <Auction :auction="auction" />

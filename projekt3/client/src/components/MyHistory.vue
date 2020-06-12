@@ -1,6 +1,6 @@
 <template>
   <div>
-    Hello {{currentUser.username}}! Here's your history of ended auctions you've took part in or won..
+    <h1>Hello {{currentUser.username}}! Here's your history of ended auctions you've took part in or won..</h1>
     <table>
       <div v-for="auction in auctions" :key="auction._id">
         <Auction :auction="auction" />
