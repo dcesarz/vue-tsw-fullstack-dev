@@ -2,8 +2,8 @@
 <template>
   <div>
     <AuctionDetails :auction="auction" />
-    <AuctionEdit :oldAuction="auction" :emitter="emitter"/>
-    <AuctionBid :auction="auction" :emitter="emitter"/>
+    <AuctionEdit :oldAuction="auction" :emitter="emitter" />
+    <AuctionBid :auction="auction" :emitter="emitter" />
   </div>
 </template>
 
@@ -13,10 +13,11 @@ import AuctionEdit from "./AuctionEdit";
 import AuctionBid from "./AuctionBid";
 import { mapGetters } from "vuex";
 import io from "socket.io-client";
+//import axios from "../axios";
 
 export default {
   name: "Auction",
-  props: ["auction"],
+  props: ["auction","id"],
   components: {
     AuctionDetails,
     AuctionEdit,
@@ -24,46 +25,52 @@ export default {
   },
   data() {
     return {
-      emitter: io()
+      emitter: io(),
     };
   },
   computed: {
     ...mapGetters(["currentUser", "isAuthenticated"])
   },
   created() {
+        if (
+          this.isAuthenticated &&
+          this.auction.type === "bid" &&
+          this.auction.status === "onSale"
+        ) {
+          this.emitter.emit("join", {
+            _id: this.auction._id,
+            username: this.currentUser.username
+          });
+        }
+
+        this.emitter.on("new-buy", cb => {
+          console.log("new buy");
+          this.auction.status = "sold";
+          this.auction.latestBidder = cb.latestBidder;
+        });
+
+        this.emitter.on("new-bid", cb => {
+          console.log("new bid");
+          this.auction.price = cb.price;
+          this.auction.latestBidder = cb.latestBidder;
+        });
+      
+  },
+  beforeDestroy() {
+    const emitterId = this.emitter.id;
     if (
       this.isAuthenticated &&
       this.auction.type === "bid" &&
       this.auction.status === "onSale"
     ) {
-      this.emitter.emit("join", {
-        _id: this.auction._id,
-        username: this.currentUser.username
-      });
-    }
-
-    this.emitter.on("new-buy", cb => {
-      console.log("new buy");
-      this.auction.status = "sold";
-      this.auction.latestBidder = cb.latestBidder;
-    });
-
-    this.emitter.on("new-bid", cb => {
-      console.log("new bid");
-      this.auction.price = cb.price;
-      this.auction.latestBidder = cb.latestBidder;
-    });
-  },
-  beforeDestroy () {
-    if (this.isAuthenticated && this.auction.type === "bid" && this.auction.status === "onSale") {
       this.emitter.emit("leave", {
-        id: this.auction._id,
+        id: emitterId,
         username: this.currentUser.username
       });
       console.log("left");
     }
-}
-}
+  }
+};
 </script>
 
 <style scoped>

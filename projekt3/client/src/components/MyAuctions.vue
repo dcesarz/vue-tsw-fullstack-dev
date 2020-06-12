@@ -1,7 +1,7 @@
 <!-- WILL SHOW ALL AUCTIONS. -->
 <template>
   <div>
-    Hello {{currentUser.username}}! Here's list of your auctions...
+    <h1>Hello {{currentUser.username}}! Here's list of your auctions...</h1>
     <table>
       <div v-for="auction in auctions" :key="auction._id">
         <Auction :auction="auction" />

@@ -1,27 +1,36 @@
 const Message = require("../models/Message");
+const User = require("../models/User");
 
-const processErrors = (err) => {
-    const msg = {};
-    for (const key in err.errors) {
-        msg[key] = err.errors[key].message;
-    }
-    return msg;
-};
 
-/**
- * @route POST api/msgs/new
- * @desc New message
- * @access Priavte
- */
 module.exports.newMessage = (req, res) => {
-    let { to, msg } = req.body;
+
     if (req.session.passport === undefined) res.status(401).json({msg: "Unauthorized"});
     else {
-    let from = req.session.passport.user.id;
-    if (!from){
+    let recipent = req.body.recipent;
+    let content = req.body.content;
+    console.log(req.session.passport);
+    User.findOne({"_id": req.session.passport.user}, (err, user) => {
+        if (err) {
+            //done(err);
+            return res.status(400).json("Error.. :( ");
+        }
+        if (user) {
+            if(user.username == req.body.sender)
+            {
+                console.log("continue..")
+            }
+            else{
+                return res.status(400).json("You have no authority to send this message.");
+            }
+            }
+        else {
+            return res.status(400).json("Unknown id!");
+        }
+    });
+    let sender = req.body.sender;
+    if (!sender){
       return res.status(401);
     }
-    let date = Date.now();
     let n = new Message({
         sender,
         recipent,
@@ -33,27 +42,6 @@ module.exports.newMessage = (req, res) => {
   }
 };
 
-/**
- * @route GET api/msgs/filter
- * @desc A filter
- * @access Private
- */
-//  module.export.filter = async function(req, res){
-//     if (req.session.passport === undefined) res.status(401).json({msg: "Unauthorized"});
-//     else {
-//     let userId = req.session.passport.user.id;
-//     Message.aggregate([
-//       {$match:{"to": userId}}, 
-//       {$group: {"_id": {"_id":"$_id", "from":"$from", "to":"$to", "msg":"$msg", "date":"$date"}, "from":{"$first":"$from"}}}
-//     ], function(err, result) {
-//         if (err) {
-//           console.log(err);
-//         } else {
-//           res.json(result);
-//         }
-//       });
-//     }
-// };
 
 module.exports.inbox = (req, res) => {
     Message.find((error, docs) => {
@@ -65,24 +53,3 @@ module.exports.inbox = (req, res) => {
     });
   };
 
-/**
- * @route GET api/msgs/inbox
- * @desc Getting messages addressed to the logged in user.
- * @access Private
- */
-// module.exports.inboxpost = async function(req, res){
-//   if (req.session.passport === undefined) res.status(401).json({msg: "Unauthorized"});
-//   else {
-//   let userId = req.session.passport.user.id;
-//   let from = req.body.from;
-//   Message.aggregate([{ 
-//     $match: { 
-//       $or: [{'to': userId, 'from': from }, {'to': from, 'from': userId }]}}], function(err, result) {
-//       if (err) {
-//         console.log(err);
-//       } else {
-//         res.json(result);
-//       }
-//     });
-//   }
-// };

@@ -88,7 +88,8 @@ export default {
           { withCredentials: true }
         )
         .then(() => {
-          this.$router.push("/");
+          location.reload();
+          //this.$router.push({ name: "Home" });
         })
         .catch(err => {
           alert(err);

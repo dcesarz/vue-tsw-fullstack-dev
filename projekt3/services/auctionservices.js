@@ -152,29 +152,6 @@ module.exports.update = (req, res) => {
       });
   };
 
-// module.exports.update = (req, res, next) => {
-//     console.log("got hereeeeeeeeeeeeeeee")
-//     Auction.findById(req.params.id, (err, Auction) => {
-//         if (err) {
-//             next(err);
-//         } else {
-//             if (Auction) {
-//                 Auction.name = req.body.name;
-//                 Auction.price = req.body.price;
-//                 Auction.seller = req.body.seller;
-//                 Auction.type = req.body.type;
-//                 Auction.latestBidder = req.body.latestBidder;
-//                 Auction.bidders = req.body.bidders;
-//                 Auction.duration = req.body.duration;
-//                 Auction.status = req.body.status;
-//                 saveAuction(Auction, res);
-//             } else {
-//                 // Not Found
-//                 res.sendStatus(404);
-//             }
-//         }
-//     });
-// };
 
 module.exports.delete = (req, res, next) => {
     Auction.findByIdAndRemove(req.params.id, err => {

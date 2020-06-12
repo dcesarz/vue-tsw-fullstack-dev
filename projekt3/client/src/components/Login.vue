@@ -40,7 +40,7 @@ export default {
         .post(`${location.origin}/api/users/login`, this.formData)
         .then((res) => {
           console.log(res);
-          this.$router.push('/');
+          this.$router.push({ name: "Home" });
         })
         .catch((err) => {
           console.log(err);

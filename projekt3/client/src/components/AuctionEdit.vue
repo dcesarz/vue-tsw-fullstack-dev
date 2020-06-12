@@ -98,30 +98,15 @@ export default {
       this.isVisible = !this.isVisible;
     },
     updateAuction() {
-      // const auction = {
-      //   _id: this.auction.id,
-      //   name: this.auction.name,
-      //   price: this.auction.price,
-      //   type: this.auction.type,
-      //   username: this.auction.username,
-      //   status: this.auction.status,
-      //   description: this.auction.description,
-      //   date: this.auction.date,
-      //   bidders: this.auction.bidders,
-      //   latestBidder: this.auction.latestBidder
-      // };
-      //const newUrl = 'https://localhost:3000/api/auctions/auction/' + this.oldAuction._id;
       axios
         .put(`${location.origin}/api/auctions`, this.formData, {
           withCredentials: true
         })
         .then(() => {
-          location.reload();
-          //this.$router.push("/");
+          console.log("edited!")
         })
         .catch(error => {
           console.log(error);
-          //this.logError(error);
         });
     },
     startAuction () {
@@ -138,26 +123,6 @@ export default {
     },
   },
   };
-  // created () {
-  //   if (this.isAuthenticated && this.auction.type === "bid" && this.auction.status === "onSale") {
-  //     this.emitter.emit("join", {
-  //       _id: this.auction._id,
-  //       username: this.currentUser.username
-  //     });
-  //   }
-
-  //   this.emitter.on("new-buy", (cb) => {
-  //     console.log("new buy");
-  //     this.auction.status = "SOLD";
-  //     this.auction.latestBidder = cb.latestBidder;
-  //   });
-
-  //   this.emitter.on("new-bid", (cb) => {
-  //     console.log("new bid");
-  //     this.auction.price = cb.price;
-  //     this.auction.latestBidder = cb.latestBidder;
-  //   });
-  // }
 </script>
 
 <style scoped>

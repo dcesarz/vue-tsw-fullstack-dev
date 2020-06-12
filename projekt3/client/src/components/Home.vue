@@ -1,7 +1,7 @@
 <!-- WILL SHOW ALL AUCTIONS. -->
 <template>
   <div>
-    Hello {{currentUser.username}}! Here's list of current auctions...
+    <h1>Hello {{currentUser.username}}! Here's list of current auctions...</h1>
     <table>
       <div v-for="auction in auctions" :key="auction._id">
         <Auction :auction="auction" />
@@ -33,18 +33,12 @@ export default {
         `${location.origin}/api/auctions`,
         { withCredentials: true }
       ).then(resp => {
-        //const thing = resp.data.filter(auction)
         console.log(resp);
         this.auctions = resp.data;
       })
     }
   },
   created () {
-    // await axios.get("/api/date")
-    //   .then((res) => {
-    //     console.dir(res);
-    //     this.date = res.data.date;
-    //   });
     this.loadAuctions();
   }
 };

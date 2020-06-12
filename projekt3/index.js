@@ -41,10 +41,6 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }));
-// (   o  w  o)/
-//      '
-//     \'---- - - - - -
-//     / \ 
 // Inicjalizacja sesji
 app.use(passport.initialize());
 app.use(passport.session());
@@ -61,7 +57,6 @@ if (process.env.NODE_ENV === "development") {
 
 app.use(express.static(path.join(__dirname, "dist")));
 
-// app.use("/lib", express.static(path.normalize("./node_modules/axios/dist")));
 
 // Routing
 app.use("/api/users", userRoutes);
@@ -92,6 +87,15 @@ const socketio = require("socket.io");
 const passportSocketIo = require("passport.socketio");
 const io = socketio(server);
 
+let list = [];
+
+function containsObject(obj, list) {
+    for (var i = 0; i < list.length; i++){
+        if (obj.sender === list[i].sender && obj.recipent === list[i].recipent) return list[i].sid;
+    }
+    return "";
+}
+
 io.use(passportSocketIo.authorize({
     key: "connect.sid",
     secret: process.env.APP_SECRET,
@@ -112,21 +116,18 @@ io.on("connection", (socket) => {
         if (socket.request.user.logged_in) {
         }
     });
-    socket.on("leave", (data) => {
-        if (socket.request.user.logged_in) {
-            socket.leave(data.socketId);
-        }
+    socket.on('leave', (data) => {
+        console.log("emitting leaving (chat)...")
+        console.log(data);
+        console.log("Socket disconnecting");
+        socket.leave(data.id);
+        socket.disconnect();
     });
+    io.emit('message', 'Hello!');
     socket.on("new-buy", async (data) => {
         if (isAuthenticated(socket) && lock === false) {
           lock = true;
-        //   const body = {
-        //     _id: data._id,
-        //     $set: {
-        //       latestBidder: data.latestBidder,
-        //       status: data.status
-        //     }
-        //   };
+
           const filter = data.id;
           const update = {
             price: data.price,
@@ -202,6 +203,30 @@ io.on("connection", (socket) => {
             );
         }
     });
+    socket.on('establish', obj => {
+        let record = {
+            sender: obj.sender,
+            recipent: obj.recipent,
+            content: obj.content,
+        };
+        list.push(record);
+    });
+    socket.on('chatMessage', msg => {
+        let check = {
+            sender: msg.sender,
+            recipent: msg.recipent
+        };
+        let test = containsObject(check, list);
+        let obj = {
+            sender: msg.sender,
+            recipent: msg.recipent,
+            content: msg.content
+        };
+        if (test !== "") {
+            io.to(test).emit('chatMessage', obj);
+        }
+        io.to(msg.sid).emit('chatMessage', obj);
+    })
 });
 
 

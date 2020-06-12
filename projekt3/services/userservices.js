@@ -112,14 +112,9 @@ module.exports.validateId = (req, res, next) => {
     next();
 };
 
-// module.exports.login = (passport.authenticate("local"), async (req, res) => {
-//     await res.json({
-//         message: "success"
-//     });
-// })
 
 module.exports.logout = (isAuthenticated, (req, res) => {
-    console.log("Logging out");
+    console.log("Logging out..");
     req.logout();
     res.status(200).json({
         isAuth: req.isAuthenticated()
@@ -155,20 +150,6 @@ module.exports.processErrors = (err) => {
     return msg;
 };
 
-// module.exports.loggeduser = (req, res) => {
-//         console.log(req.isAuthenticated());
-//         if (req.isAuthenticated()) {
-//             console.log("auth");
-//             res.send({
-//                 username: req.user.username,
-//                 isAuth: req.isAuthenticated()
-//             });
-//         } else {
-//             res.send({
-//                 message: "Not logged in!"
-//             });
-//         }
-// };
 
 module.exports.register = (async (req, res) => {
     try {
@@ -178,7 +159,6 @@ module.exports.register = (async (req, res) => {
             password: passwordHash
         });
         console.log(req.body);
-        console.log(user);
         const doc = await user.save();
         return res.json(doc);
     } catch (err) {

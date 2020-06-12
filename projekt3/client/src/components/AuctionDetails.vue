@@ -1,42 +1,44 @@
 <template>
   <div id="details">
-    <tr>
-      <th>Name:</th>
-      <td>{{auction.name}}</td>
-    </tr>
-    <tr>
-      <th>Seller:</th>
-      <td>{{auction.seller}}</td>
-    </tr>
-    <tr>
-      <th>Description:</th>
-      <td>{{auction.description}}</td>
-    </tr>
-    <tr>
-      <th>Price:</th>
-      <td>{{auction.price}}</td>
-    </tr>
-    <tr>
-      <th>Date:</th>
-      <td>{{formatted_date}}</td>
-    </tr>
+    <h2>{{auction.name}}</h2>
+    <br />
+    <br />Seller:
+    <br />
+    {{auction.seller}}
+    <br />
+    <br />Description:
+    <br />
+    {{auction.description}}
+    <br />
+    <br />Price:
+    <br />
+    {{auction.price}}
+    <br />
+    <br />Date:
+    <br />
+    {{formatted_date}}
+    <br />
+    <br />
   </div>
 </template>
 
 <script>
-import { mapGetters} from "vuex";
-var moment = require('moment');
+import { mapGetters } from "vuex";
+var moment = require("moment");
 
 export default {
   name: "AuctionDetails",
-    computed: {
+  computed: {
     ...mapGetters(["currentUser", "isAuthenticated"]),
-    isValidBidder: function () {
-      return this.currentUser.username !== this.auction.username && this.isAuthenticated;
+    isValidBidder: function() {
+      return (
+        this.currentUser.username !== this.auction.username &&
+        this.isAuthenticated
+      );
     }
   },
   props: ["auction", "emitter"],
-  data () {
+  data() {
     return {
       formated_date: "",
       id: this.auction._id,
@@ -44,30 +46,9 @@ export default {
     };
   },
   created() {
-      console.log(this.auction);
-      this.formatted_date = moment(this.auction.date).format('YYYY-MM-DD');
+    console.log(this.auction);
+    this.formatted_date = moment(this.auction.date).format("YYYY-MM-DD");
   }
-  //methods: {
-    //...mapActions(["logError"]),
-    // buy () {
-    //   this.emitter.emit("new_buy", {
-    //     _id: this.auction._id,
-    //     highest_bidder: this.user.username,
-    //     status: "SOLD"
-    //   });
-    // },
-    // bid () {
-    //   if (this.price <= this.auction.price) {
-    //     console.log("Pay more plz");
-    //   } else {
-    //    this.emitter.emit("new_bid", {
-    //       _id: this.auction._id,
-    //       highest_bidder: this.user.username,
-    //       price: this.price
-    //     });
-    //   }
-    // }
-  //}
 };
 </script>
 
@@ -87,7 +68,7 @@ li {
 a {
   color: #42b983;
 }
-#details{
+#details {
   padding: 50px;
 }
 </style>

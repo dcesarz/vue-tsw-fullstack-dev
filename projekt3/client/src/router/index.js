@@ -6,10 +6,7 @@ import MyBids from '@/components/MyBids';
 import Register from '@/components/Register';
 import Login from '@/components/Login';
 import Inbox from '@/components/Inbox';
-// import MyBids from '@/components/Login';
-// import MyAuctions from '@/components/Login';
 import AuctionForm from '@/components/AuctionForm';
-// import Convos from '@/components/Convos';
 import Error from '@/components/Error';
 import store from "../store";
 Vue.use(Router);
@@ -71,23 +68,6 @@ const routes = [
         requiresAuth: false
       }
   },
-//   {
-//       path: "/my-bids/page/:page(\\d+)",
-//       name: "MyBids",
-//       component: MyBids
-//   },
-//   {
-//       path: "/my-auctions/page/:page(\\d+)",
-//       name: "MyAuctions",
-//       component: MyAuctions
-//   },
-//   {
-//       path: "/my-history/page/:page(\\d+)",
-//       name: "MyHistory",
-//       component: function () {
-//           return import("../components/MyHistory.vue");
-//       }
-//   },
   {
       path: "/new",
       name: "AuctionForm",
@@ -96,11 +76,6 @@ const routes = [
         requiresAuth: true
       }
   },
-//   {
-//       path: "/convos",
-//       name: "Convos",
-//       component: Convos
-//   }
 ];
 
 const router = new Router({
@@ -136,28 +111,4 @@ router.beforeEach((to, from, next) => {
   }
 })});
   
-
-// TODO register should not be reachable by logged user
-// router.beforeEach((to, from, next) => {
-//   store.dispatch("fetchCurrentUser");
-//   // console.log("Route " + to.path + " is " + isInRoutes(to.name));
-//   if (to.name === "Error") {
-//       // next({ name: "Error404" }); DONT (Infinite recursion)
-//   } else if (!isInRoutes(to.name)) {
-//       console.log("Error 404");
-//       next({ name: "Error" });
-//   } else if (to.name === "Register" || to.name === "Home") {
-//       next();
-//   } else if (to.name !== "Login" && !store.getters.currentUser.isAuth) {
-//       console.log("Not logged in. Redirecting to login page");
-//       next({ name: "Login" });
-//   } else if (to.name === "Login" && store.getters.currentUser.isAuth) {
-//       console.log("Logged in. Redirecting to home page");
-//       next({ name: "Home" });
-//   } else {
-//       // console.log("Other");
-//       next();
-//   }
-// });
-
 export default router;

@@ -25,8 +25,4 @@ router.route("/inbox")
   .get(isAuth, messageservices.inbox)
   .all(rejectMethod);
 
-// router.route("/all")
-//   .get(isAuth, messageservices.list)
-//   .all(rejectMethod);
-
 module.exports = router;
