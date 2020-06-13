@@ -1,6 +1,6 @@
 const Auction = require("../models/Auction");
-const moment = require('moment');
-const { Aggregate } = require("mongoose");
+// const moment = require('moment');
+// const { Aggregate } = require("mongoose");
 
 const isAuthenticated = (req, res, next) => {
     if (req.isAuthenticated()) {
@@ -23,8 +23,6 @@ module.exports.auctionsPage = (isAuthenticated, async (req, res) => {
     let page = parseInt(req.params.page);
     // hardcoded 10 because it makes sense  i guess
     let aggregate_options = [];
-    console.log('PAGE')
-    console.log(req.params.page);
     let limit = 3;
     const options = {
         page, limit, 
@@ -42,14 +40,14 @@ module.exports.myauctionsPage = (isAuthenticated, async (req, res) => {
 
     let aggregate_options = [];
 
-    let limit = 10;
+    let limit = 3;
     const options = {
         page, limit, 
     }
 
     let match = {
         $or: [
-             { seller: req.user.username, status: "sold" },
+             { seller: req.user.username, status: "onSale" },
              { seller: req.user.username, status: "new" }
         ]
     };
@@ -64,19 +62,19 @@ module.exports.mybidsPage = (isAuthenticated, async (req, res) => {
     let page = parseInt(req.params.page);
     let aggregate_options = [];
 
-    let limit = 10;
+    let limit = 3;
     const options = {
         page, limit, 
     }
 
     let match = {};
     match.bidders = {$in: [req.user.username]};
-    match.status = {$regex: 'onSale'};
+    match.status = 'onSale';
 
     aggregate_options.push({$match: match});
 
     const myAggregate = Auction.aggregate(aggregate_options);
-    const result = await Event.aggregatePaginate(myAggregate, options);
+    const result = await Auction.aggregatePaginate(myAggregate, options);
     res.status(200).json(result);
 });
 
@@ -84,7 +82,7 @@ module.exports.myhistoryPage = (isAuthenticated, async (req, res) => {
     let page = parseInt(req.params.page);
     let aggregate_options = [];
 
-    let limit = 10;
+    let limit = 3;
     const options = {
         page, limit, 
     }

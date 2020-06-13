@@ -6,8 +6,8 @@
       <div v-for="auction in auctions" :key="auction._id">
         <Auction :auction="auction" />
       </div>
-      <button id="btnPrevPage" @click="goToPreviousPage()">&lt;</button>
-      <button id="btnNextPage" @click="goToNextPage()">&gt;</button>
+      <button id="btnPrevPage" @click="Prev()">&lt;</button>
+      <button id="btnNextPage" @click="Next()">&gt;</button>
     </table>
   </div>
 </template>
@@ -38,19 +38,13 @@ export default {
       // having problems with plugins, so im resorting to this.
       const sumCurrent = 3 * this.currentPage;
       const sumAll = 3 * this.totalPageCount;
-      console.log("helpprev");
-      console.log(sumCurrent);
-      console.log(sumAll);
       if(sumCurrent < sumAll) return true;
       else return false;
     },
     isTherePrevPage(){
       // having problems with plugins, so im resorting to this.
       const sumCurrent = 3 * this.currentPage;
-      console.log("help");
-      console.log(sumCurrent);
-      console.log(this.totalPageCount);
-      if(sumCurrent > this.totalPageCount) return true;
+      if((sumCurrent - 3) > 0) return true;
       else return false;
     },
     updateButtonVisibility() {
@@ -67,11 +61,11 @@ export default {
         document.getElementById("btnPrevPage").style.visibility = "hidden";
       }
     },
-    goToNextPage() {
+    Next() {
       this.currentPage++;
       this.changePage(this.currentPage);
     },
-    goToPreviousPage() {
+    Prev() {
       this.currentPage--;
       this.changePage(this.currentPage);
     },
