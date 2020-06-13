@@ -77,8 +77,6 @@ const axiosConfig = {
 
 axios.config = axiosConfig;
 
-// Serwer HTTPS
-// openssl req -x509 -nodes -days 365 -newkey rsa:1024 -out my.crt -keyout my.key
 
 const isAuthenticated = (socket) => {
     return socket.request.isAuthenticated;
@@ -137,7 +135,6 @@ io.on("connection", (socket) => {
         socket.leave(data._id);
         socket.disconnect();
     });
-    //io.emit('message', 'Hello!');
     socket.on("new-buy", async (data) => {
         if (isAuthenticated(socket) && lock === false) {
           lock = true;
@@ -190,7 +187,7 @@ io.on("connection", (socket) => {
                 price = doc.price;
             } catch (err) {
                 console.log(err);
-                return io.sockets.in(data._id).emit("server-error");// todo wyswietlanie bledu
+                return io.sockets.in(data._id).emit("server-error");
             }
             const update = {
                 price: data.price,
@@ -221,37 +218,9 @@ io.on("connection", (socket) => {
             );
         }
     });
-    // socket.on('establish', obj => {
-    //     console.log("Estabilishing connection...");
-    //     let record = {
-    //         sender: obj.sender,
-    //         recipent: obj.recipent,
-    //         content: obj.content,
-    //     };
-    //     list.push(record);
-    // });
-    // socket.on('chatMessage', msg => {
-    //     console.log("Emitting chat message...");
-    //     let check = {
-    //         sender: msg.sender,
-    //         recipent: msg.recipent
-    //     };
-    //     let test = containsObject(check, list);
-    //     let obj = {
-    //         sender: msg.sender,
-    //         recipent: msg.recipent,
-    //         content: msg.content
-    //     };
-    //     if (test !== "") {
-    //         io.to(test).emit('chatMessage', obj);
-    //     }
-    //     io.to(msg.sid).emit('chatMessage', obj);
-    // })
 });
 
 
 server.listen(port, () => {
     console.log(`Serwer działa pod adresem: https://localhost:${port}`);
 });
-
-//app.use(cors({credentials: true, origin: 'https://localhost:8080'}));

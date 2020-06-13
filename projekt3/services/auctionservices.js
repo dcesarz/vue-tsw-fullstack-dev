@@ -104,75 +104,6 @@ module.exports.myhistoryPage = (isAuthenticated, async (req, res) => {
     res.status(200).json(result);
 });
 
-
-// const paginatedResults = (filter) => {
-//     return async (req, res, next) => {
-//         let tempPage = 1;
-//         if (req.params.page) {
-//             tempPage = req.params.page;
-//         }
-//         const page = parseInt(tempPage);
-//         const limit = 2;
-
-//         const skippedPages = (page - 1) * limit;
-//         try {
-//             const docs = await Auction.find(
-//                 filter
-//             ).skip(skippedPages).limit(limit + 1);
-
-//             const results = {
-//                 auctions: docs
-//             };
-//             if (docs.length > limit) {
-//                 results.nextPage = true;
-//                 docs.pop();
-//             } else {
-//                 results.nextPage = false;
-//             }
-//             if (skippedPages > 0) {
-//                 results.previousPage = true;
-//             } else {
-//                 results.previousPage = false;
-//             }
-//             res.paginatedResults = results;
-//             next();
-//         } catch (err) {
-//             console.log(err);
-//             res.status(422).json(Auction.processErrors(err));
-//         }
-//     };
-// };
-
-// async function paginatedResults2 (filter, _page) {
-//     const page = parseInt(_page);
-//     const limit = 2;
-
-//     const skippedPages = (page - 1) * limit;
-//     try {
-//         const docs = await Auction.find(
-//             filter
-//         ).skip(skippedPages).limit(limit + 1);
-//         const results = {
-//             auctions: docs
-//         };
-//         if (docs.length > limit) {
-//             results.nextPage = true;
-//             docs.pop();
-//         } else {
-//             results.nextPage = false;
-//         }
-//         if (skippedPages > 0) {
-//             results.previousPage = true;
-//         } else {
-//             results.previousPage = false;
-//         }
-//         return results;
-//     } catch (err) {
-//         console.log(err);
-//         return { myErrorMessage: err };
-//     }
-// }
-
 const saveAuction = (Auction, res) => {
     Auction.save( (err, doc) => {
         if (err) {
@@ -213,21 +144,6 @@ module.exports.list = (req, res) => {
       }
     });
   };
-
-// module.exports.listBids = (req, res, next) => {
-//     Auction.findById(req.params.id, (err, Auction) => {
-//         if (err) {
-//             next(err);
-//         } else {
-//             if (Auction) {
-//                 res.json(Auction);
-//             } else {
-//                 // Not Found
-//                 res.sendStatus(404);
-//             }
-//         }
-//     });
-// };
 
 module.exports.update = (req, res) => {
     Auction.updateOne({ _id: req.body._id }, req.body,
@@ -325,7 +241,7 @@ module.exports.patchAuction = (async (req, res) => {
                     }
                     if (body.bid) {
                         doc.bids.push(body.bid);
-                        //update.bids = bids;
+                        
                     }
                     if (body.status) {
                         doc.status = body.status;
@@ -359,57 +275,6 @@ module.exports.deleteAuction = ((req, res) => {
     }
     );
 });
-
-// module.exports.auctionPage = (paginatedResults({ status: "OnSale" }), (req, res) => {
-//     res.json(res.paginatedResults)});
-
-// module.exports.mybidsPage = (isAuthenticated, async (req, res) => {
-//         const filter = {
-//             bidders: req.user.username,
-//             status: "OnSale"
-//         };
-//         const results = await paginatedResults2(filter, req.params.page);
-//         // console.dir(results);
-//         if (results.myErrorMessage !== undefined) {
-//             res.status(422).json(Auction.processErrors(results.myErrorMessage));
-//         } else {
-//             res.json(results);
-//         }
-//     });
-
-// module.exports.myauctionsPage = (isAuthenticated, async (req, res) => {
-//     const filter = {
-//         $or: [
-//             { seller: req.user.username, status: "New" },
-//             { seller: req.user.username, status: "OnSale" }
-//         ]
-//     };
-//     const results = await paginatedResults2(filter, req.params.page);
-//     // console.dir(results);
-//     if (results.myErrorMessage !== undefined) {
-//         res.status(422).json(Auction.processErrors(results.myErrorMessage));
-//     } else {
-//         res.json(results);
-//     }
-// });
-
-// module.exports.myhistoryPage = (isAuthenticated, async (req, res) => {
-//     const filter = {
-//         $or: [
-//             { latestBidder: req.user.username, status: "Sold" },
-//             { seller: req.user.username, status: "Sold" },
-//             { latestBidder: req.user.username, status: "NotSold" },
-//             { seller: req.user.username, status: "NotSold" }
-//         ]
-//     };
-//     const results = await paginatedResults2(filter, req.params.page);
-//     // console.dir(results);
-//     if (results.myErrorMessage !== undefined) {
-//         res.status(422).json(Auction.processErrors(results.myErrorMessage));
-//     } else {
-//         res.json(results);
-//     }
-// });
 
 module.exports.processErrors = (err) => {
     const msg = {};
