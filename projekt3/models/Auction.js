@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const aggregatePaginate = require('mongoose-aggregate-paginate-v2');
 
 let AuctionSchema = new Schema({
     name: {
@@ -39,6 +40,7 @@ let AuctionSchema = new Schema({
 },{timestamps: true});
 
 delete mongoose.connection.models['Auction'];
+AuctionSchema.plugin(aggregatePaginate);
 const Auction = mongoose.model("Auction", AuctionSchema);
 
 Auction.processErrors = (err) => {

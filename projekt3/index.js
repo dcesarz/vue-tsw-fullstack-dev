@@ -117,7 +117,7 @@ io.on("connection", (socket) => {
         }
     });
     socket.on('leave', (data) => {
-        console.log("emitting leaving (chat)...")
+        console.log("emitting leave")
         console.log(data);
         console.log("Socket disconnecting");
         socket.leave(data.id);
@@ -154,7 +154,7 @@ io.on("connection", (socket) => {
               io.sockets.in(data._id).emit("error");
             } else {
               io.sockets.in(data._id).emit("new-buy", data);
-              console.log(`[Socket]: New transaction from user: ${data.highest_bidder}`);
+              console.log(`[Socket]: New transaction from user: ${data.latestBidder}`);
             }
           });
         }
@@ -195,7 +195,7 @@ io.on("connection", (socket) => {
                         io.sockets.in(data.id).emit("server-error");
                     } else {
                         io.sockets.in(data.id).emit("new-bid", update);
-                        console.log(`Socket: New bid from user: ${update.highestBidder}`);
+                        console.log(`Socket: New bid from user: ${update.latestBidder}`);
                         console.log(`Socket: Price on the bid raised to..: ${update.price}`);
                         console.log("Bid successfully posted!");
                     }

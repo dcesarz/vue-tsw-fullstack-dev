@@ -33,7 +33,7 @@ export default {
       //`https://localhost:3000/api/users/register`
         .post(`${location.origin}/api/users/register`, this.user)
         .then(() => {
-          this.$router.push('/login');
+           this.$router.push({ name: "Login" });
         })
         .catch((err) => {
           // eslint-disable-next-line

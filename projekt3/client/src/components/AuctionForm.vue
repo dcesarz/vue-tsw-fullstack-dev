@@ -86,7 +86,7 @@ export default {
           { withCredentials: true }
         )
         .then(() => {
-          location.reload();
+          this.$router.push("/page/1");
         })
         .catch(err => {
           alert(err);

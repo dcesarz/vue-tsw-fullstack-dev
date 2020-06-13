@@ -13,16 +13,20 @@ import store from "../store";
 Vue.use(Router);
 
 const routes = [
+  { 
+    path: '/', 
+    redirect: '/page/1' 
+  },
   {
-      path: "/",
+      path: "/page/:page(\\d+)",
       name: "Home",
       component: Home,
       meta: {
-        requiresAuth: true
+        requiresAuth: false
       }
   },
   {
-    path: "/my-auctions",
+    path: "/my-auctions/page/:page(\\d+)",
     name: "MyAuctions",
     component: MyAuctions,
     meta: {
@@ -30,7 +34,7 @@ const routes = [
     }
 },
 {
-  path: "/my-bids",
+  path: "/my-bids/page/:page(\\d+)",
   name: "MyBids",
   component: MyBids,
   meta: {
@@ -38,7 +42,7 @@ const routes = [
   }
 },
 {
-  path: "/my-history",
+  path: "/my-history/page/:page(\\d+)",
   name: "MyHistory",
   component: MyHistory,
   meta: {

@@ -30,7 +30,7 @@ export default {
   methods: {
     filterWithUsername(a) {
       const isSeller = a.seller === this.currentUser.username;
-      const isOpen = a.status === "onSale";
+      const isOpen = (a.status === "onSale") || (a.status === "new");
       if (isSeller && isOpen) return true;
       else return false;
     },

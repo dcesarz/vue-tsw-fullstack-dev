@@ -32,8 +32,23 @@ router.route("/auction")
 // TODO: PAGINATION !
 
 router
-    .route("/auctions/page/:page")
-    .get(auctionservices.auctionPage)
+    .route("/page/:page")
+    .get(auctionservices.auctionsPage)
+    .all(rejectMethod);
+
+router
+    .route("/my-auctions/page/:page")
+    .get(auctionservices.myauctionsPage)
+    .all(rejectMethod);
+
+router
+    .route("/my-bids/page/:page")
+    .get(auctionservices.mybidsPage)
+    .all(rejectMethod);
+
+router
+    .route("/my-history/page/:page")
+    .get(auctionservices.mybidsPage)
     .all(rejectMethod);
 
 // TODO: those below

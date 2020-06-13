@@ -40,11 +40,10 @@ export default {
         .post(`${location.origin}/api/users/login`, this.formData)
         .then((res) => {
           console.log(res);
-          this.$router.push({ name: "Home" });
+          this.$router.push("/page/1");
         })
         .catch((err) => {
           console.log(err);
-          location.reload();
         });
     },
   }

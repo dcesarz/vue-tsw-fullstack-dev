@@ -66,7 +66,6 @@ export default {
         this.isVisible = !this.isVisible;
     },
     buyItem () {
-    
       this.emitter.emit("new-buy", {
         _id: this.auction._id,
         latestBidder: this.currentUser.username,

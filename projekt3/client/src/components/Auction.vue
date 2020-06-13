@@ -2,7 +2,7 @@
 <template>
   <div>
     <AuctionDetails :auction="auction" />
-    <AuctionEdit :oldAuction="auction" :emitter="emitter" />
+    <AuctionEdit v-if="isAuthenticated" :oldAuction="auction" :emitter="emitter" />
     <AuctionBid :auction="auction" :emitter="emitter" />
   </div>
 </template>

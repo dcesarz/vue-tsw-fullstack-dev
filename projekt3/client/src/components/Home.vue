@@ -6,6 +6,8 @@
       <div v-for="auction in auctions" :key="auction._id">
         <Auction :auction="auction" />
       </div>
+      <button id="btnPrevPage" @click="goToPreviousPage()">&lt;</button>
+      <button id="btnNextPage" @click="goToNextPage()">&gt;</button>
     </table>
   </div>
 </template>
@@ -18,6 +20,10 @@ export default {
   name: "Home",
   data() {
     return {
+      currentPage: 0,
+      nextPage: false,
+      previousPage: false,
+      totalPageCount: 0,
       auctions: {}
     };
   },
@@ -25,28 +31,91 @@ export default {
     ...mapGetters(["currentUser", "isAuthenticated"])
   },
   components: {
-    Auction,
+    Auction
   },
   methods: {
-     filterOpen(a) {
-      const isOpen = a.status === "onSale";
-      if (isOpen) return true;
+    isThereNextPage(){
+      // having problems with plugins, so im resorting to this.
+      const sumCurrent = 3 * this.currentPage;
+      const sumAll = 3 * this.totalPageCount;
+      console.log("helpprev");
+      console.log(sumCurrent);
+      console.log(sumAll);
+      if(sumCurrent < sumAll) return true;
       else return false;
     },
-    loadAuctions() {
-      axios.get(
-        `${location.origin}/api/auctions`,
-        { withCredentials: true }
-      ).then(resp => {
-        const unfiltered = resp.data;
-        const filtered = unfiltered.filter(this.filterOpen);
-        console.log(filtered);
-        this.auctions = filtered;
-      })
+    isTherePrevPage(){
+      // having problems with plugins, so im resorting to this.
+      const sumCurrent = 3 * this.currentPage;
+      console.log("help");
+      console.log(sumCurrent);
+      console.log(this.totalPageCount);
+      if(sumCurrent > this.totalPageCount) return true;
+      else return false;
+    },
+    updateButtonVisibility() {
+      // console.log("Next: " + this.nextPage);
+      // console.log("Prev: " + this.previousPage);
+      if (this.nextPage) {
+        document.getElementById("btnNextPage").style.visibility = "visible";
+      } else {
+        document.getElementById("btnNextPage").style.visibility = "hidden";
+      }
+      if (this.previousPage) {
+        document.getElementById("btnPrevPage").style.visibility = "visible";
+      } else {
+        document.getElementById("btnPrevPage").style.visibility = "hidden";
+      }
+    },
+    goToNextPage() {
+      this.currentPage++;
+      this.changePage(this.currentPage);
+    },
+    goToPreviousPage() {
+      this.currentPage--;
+      this.changePage(this.currentPage);
+    },
+    changePage(page) {
+      axios
+        .get(`${location.origin}/api/auctions/page/${this.currentPage}`)
+        .then(resp => {
+        this.auctions = resp.data.docs;
+        this.totalPageCount = resp.data.totalPages;
+        this.nextPage = this.isThereNextPage();
+        this.previousPage = this.isTherePrevPage();
+          console.log(page);
+          if (history.pushState) {
+            var newURL =
+              window.location.protocol +
+              "//" +
+              window.location.host +
+              "/page/" +
+              this.currentPage;
+            window.history.pushState({ path: newURL }, "", newURL);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   },
-  created () {
-    this.loadAuctions();
+  created() {
+    this.currentPage = parseInt(this.$route.params.page);
+    axios
+      .get(`${location.origin}/api/auctions/page/${this.currentPage}`)
+      .then(resp => {
+        console.log(resp);
+        this.auctions = resp.data.docs;
+        this.totalPageCount = resp.data.totalPages;
+        this.nextPage = this.isThereNextPage();
+        this.previousPage = this.isTherePrevPage();
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  },
+  updated() {
+    this.updateButtonVisibility();
   }
 };
 </script>

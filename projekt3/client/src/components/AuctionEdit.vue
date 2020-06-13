@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div id="edit" v-if="oldAuction.seller === currentUser.username">
+    <div
+      id="edit"
+      v-if="(oldAuction.seller === currentUser.username) && (oldAuction.status ===  `new`)"
+    >
       <button @click="toggleVisibility()">Edit this auction</button>
       <div v-show="isVisible">
         <form>
@@ -58,7 +61,12 @@
           <input type="button" @click="updateAuction()" value="Submit" />
           <br />
           <br />
-          <input type="button" value="Start the auction" v-if="oldAuction.status === 'new'" @click="startAuction()" />
+          <input
+            type="button"
+            value="Start the auction"
+            v-if="oldAuction.status === 'new'"
+            @click="startAuction()"
+          />
           <br />
           <br />
         </form>
@@ -81,7 +89,7 @@ export default {
       isVisible: false,
       formData: {
         _id: this.oldAuction._id,
-        username: this.oldAuction.username,
+        seller: this.oldAuction.seller,
         name: this.oldAuction.name,
         price: this.oldAuction.price,
         date: this.oldAuction.date,
@@ -103,26 +111,34 @@ export default {
           withCredentials: true
         })
         .then(() => {
-          console.log("edited!")
+          console.log("edited!");
         })
         .catch(error => {
           console.log(error);
         });
     },
-    startAuction () {
+    startAuction() {
       axios
         .patch(
           `${location.origin}/api/auctions/startauction`,
-          { _id: this.formData._id }, { withCredentials: true })
+          { _id: this.formData._id },
+          { withCredentials: true }
+        )
         .then(() => {
-          location.reload();
+          console.log("edited..");
         })
-        .catch((error) => {
+        .catch(error => {
           this.logError(error);
         });
-    },
+    }
   },
-  };
+  created(){
+    //(oldAuction.seller === currentUser.username) && (oldAuction.state ===  `new`)
+    console.log("lookie here");
+    console.log((this.oldAuction.seller === this.currentUser.username) && (this.oldAuction.status ===  'new'));
+    console.log("edit rendered");
+  }
+};
 </script>
 
 <style scoped>

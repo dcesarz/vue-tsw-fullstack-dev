@@ -32,7 +32,7 @@ export default {
     ...mapGetters(["currentUser", "isAuthenticated"]),
     isValidBidder: function() {
       return (
-        this.currentUser.username !== this.auction.username &&
+        this.currentUser.username !== this.auction.seller &&
         this.isAuthenticated
       );
     }
