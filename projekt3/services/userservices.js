@@ -64,7 +64,7 @@ module.exports.read = (req, res, next) => {
 };
 
 module.exports.list = (req, res, next) => {
-    User.find({}, (err, users) => {
+    User.find({username: {$ne: req.body.current}}, (err, users) => {
         if (err) {
             next(err);
         } else {

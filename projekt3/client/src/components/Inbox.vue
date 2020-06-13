@@ -1,11 +1,20 @@
 <!-- WILL SHOW SINGLE AUCTION. -->
 <template>
   <div>
-    <label for="name-input">Get to convo!:</label>
-    <input id="name-input" type="text" v-model="usrSearch" placeholder="Username..." />
+    <label for="usr-input">Get to convo!:</label>
     <br />
     <br />
-    <input type="button" @click="findUserConvo" value="Search for user.." />
+    <select id="usr-input" v-model="usrSearch">
+      <option v-for="user in users" :key="user">{{user}}</option>
+    </select>
+    <br />
+    <br />
+    <input
+      type="button"
+      v-if="(usrSearch !== null) && (usrSearch !== '')"
+      @click="findUserConvo"
+      value="Connect with this user"
+    />
     <br />
     <br />
     <Conversation
@@ -32,7 +41,8 @@ export default {
       messages: {},
       renderConvo: false,
       usrSearch: "",
-      room: null
+      room: null,
+      users: []
     };
   },
   computed: {
@@ -58,7 +68,7 @@ export default {
                 },
                 { withCredentials: true }
               )
-              .then( resp => {
+              .then(resp => {
                 this.room = resp.data;
               })
               .catch(err => {
@@ -66,24 +76,42 @@ export default {
                 console.log(err);
               });
           } else {
-            this.room = resp.data 
+            this.room = resp.data;
           }
         })
         .catch(err => {
           console.log("there shouldnt be an error here");
           console.log(err);
         });
-         axios
+      axios
         .post(
           `${location.origin}/api/messages/room`,
           { user1: this.currentUser.username, user2: this.usrSearch },
           { withCredentials: true }
         )
-        .then (resp => {
+        .then(resp => {
           this.messages = resp.data;
           this.renderConvo = true;
-        })
+        });
     }
+  },
+  async created() {
+    console.log("here");
+    console.log(this.usrSearch);
+    await axios
+      .get(`${location.origin}/api/users/`, { withCredentials: true })
+      .then(resp => {
+        this.users = [];
+        for (let [key, value] of Object.entries(resp.data)) {
+          console.log(`${key}: ${value.username}`);
+          console.log(this.currentUser.username);
+          console.log(value.username);
+          if (this.currentUser.username !== value.username) {
+            this.users.push(value.username);
+          }
+        }
+        console.log(this.users);
+      });
   }
 };
 </script>
