@@ -104,13 +104,10 @@ export default {
         this.users = [];
         for (let [key, value] of Object.entries(resp.data)) {
           console.log(`${key}: ${value.username}`);
-          console.log(this.currentUser.username);
-          console.log(value.username);
           if (this.currentUser.username !== value.username) {
             this.users.push(value.username);
           }
         }
-        console.log(this.users);
       });
   }
 };
