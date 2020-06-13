@@ -18,6 +18,8 @@ const path = require("path");
 const userRoutes = require("./routes/userroutes");
 const AuctionRoutes = require("./routes/Auctionroutes");
 const messageRoutes = require("./routes/messageroutes");
+const auctionServices = require("./services/auctionservices");
+const roomRoutes = require("./routes/roomroutes");
 
 // Wszelkie dane przesyłamy w formacie JSON
 app.use(express.urlencoded({ extended: false }));
@@ -62,6 +64,7 @@ app.use(express.static(path.join(__dirname, "dist")));
 app.use("/api/users", userRoutes);
 app.use("/api/auctions", AuctionRoutes);
 app.use("/api/messages", messageRoutes);
+app.use("/api/rooms", roomRoutes);
 
 // Wyłapujemy odwołania do nieobsługiwanych adresów
 app.use((_, res) => {
@@ -85,6 +88,7 @@ let lock = false;
 
 const socketio = require("socket.io");
 const passportSocketIo = require("passport.socketio");
+const { Console } = require("console");
 const io = socketio(server);
 
 let list = [];
@@ -107,11 +111,21 @@ io.use(passportSocketIo.authorize({
 io.on("connection", (socket) => {
     console.log(`Made socket connection: ${socket.id}`);
     const username = socket.request.user.username;
+
     socket.on("join", (data) => {
         if (socket.request.user.logged_in) {
-            socket.join(data.id);
+            console.log("Joined room " + data._id);
+            socket.join(data._id);
         }
     });
+    socket.on("chatMessage",(data) => {
+        let obj = {
+            sender: data.sender,
+            recipent: data.recipent,
+            content: data.content
+        };
+        io.sockets.in(data._id).emit("chatMessage", obj);
+    })
     socket.on("start", (data) => {
         if (socket.request.user.logged_in) {
         }
@@ -120,34 +134,37 @@ io.on("connection", (socket) => {
         console.log("emitting leave")
         console.log(data);
         console.log("Socket disconnecting");
-        socket.leave(data.id);
+        socket.leave(data._id);
         socket.disconnect();
     });
-    io.emit('message', 'Hello!');
+    //io.emit('message', 'Hello!');
     socket.on("new-buy", async (data) => {
         if (isAuthenticated(socket) && lock === false) {
           lock = true;
 
-          const filter = data.id;
+          console.log("look2");
+          console.log(data);
+
+          const filter = data._id;
           const update = {
-            price: data.price,
             latestBidder: data.latestBidder,
-            status: 'sold'
+            status: 'sold',
+            price: data.price
           }
 
           Auction.findByIdAndUpdate(filter, update,
             (err, doc) => {
                 if (err) {
                     console.log(err);
-                    io.sockets.in(data.id).emit("server-error");
+                    io.sockets.in(data._id).emit("server-error");
                 } else {
-                    io.sockets.in(data.id).emit("new-buy", update);
+                    io.sockets.in(data._id).emit("new-buy", update);
                     console.log(`Socket: New buy from user: ${update.latestBidder}`);
                     console.log("Buy successfully posted!");
                 }
             }
         );
-          await auctionService.partialUpdate(body, (error) => {
+          await auctionServices.partialUpdate(body, (error) => {
             lock = false;
             console.dir(data);
             if (error) {
@@ -162,6 +179,7 @@ io.on("connection", (socket) => {
     socket.on("new-bid", async (data) => {
         if (socket.request.user.logged_in) {
             let price = "";
+            console.log("look3");
             console.log(data);
             const filter = data._id;
             let oldBidders;
@@ -172,7 +190,7 @@ io.on("connection", (socket) => {
                 price = doc.price;
             } catch (err) {
                 console.log(err);
-                return io.sockets.in(data.id).emit("server-error");// todo wyswietlanie bledu
+                return io.sockets.in(data._id).emit("server-error");// todo wyswietlanie bledu
             }
             const update = {
                 price: data.price,
@@ -192,9 +210,9 @@ io.on("connection", (socket) => {
                 (err, doc) => {
                     if (err) {
                         console.log(err);
-                        io.sockets.in(data.id).emit("server-error");
+                        io.sockets.in(data._id).emit("server-error");
                     } else {
-                        io.sockets.in(data.id).emit("new-bid", update);
+                        io.sockets.in(data._id).emit("new-bid", update);
                         console.log(`Socket: New bid from user: ${update.latestBidder}`);
                         console.log(`Socket: Price on the bid raised to..: ${update.price}`);
                         console.log("Bid successfully posted!");
@@ -203,30 +221,32 @@ io.on("connection", (socket) => {
             );
         }
     });
-    socket.on('establish', obj => {
-        let record = {
-            sender: obj.sender,
-            recipent: obj.recipent,
-            content: obj.content,
-        };
-        list.push(record);
-    });
-    socket.on('chatMessage', msg => {
-        let check = {
-            sender: msg.sender,
-            recipent: msg.recipent
-        };
-        let test = containsObject(check, list);
-        let obj = {
-            sender: msg.sender,
-            recipent: msg.recipent,
-            content: msg.content
-        };
-        if (test !== "") {
-            io.to(test).emit('chatMessage', obj);
-        }
-        io.to(msg.sid).emit('chatMessage', obj);
-    })
+    // socket.on('establish', obj => {
+    //     console.log("Estabilishing connection...");
+    //     let record = {
+    //         sender: obj.sender,
+    //         recipent: obj.recipent,
+    //         content: obj.content,
+    //     };
+    //     list.push(record);
+    // });
+    // socket.on('chatMessage', msg => {
+    //     console.log("Emitting chat message...");
+    //     let check = {
+    //         sender: msg.sender,
+    //         recipent: msg.recipent
+    //     };
+    //     let test = containsObject(check, list);
+    //     let obj = {
+    //         sender: msg.sender,
+    //         recipent: msg.recipent,
+    //         content: msg.content
+    //     };
+    //     if (test !== "") {
+    //         io.to(test).emit('chatMessage', obj);
+    //     }
+    //     io.to(msg.sid).emit('chatMessage', obj);
+    // })
 });
 
 

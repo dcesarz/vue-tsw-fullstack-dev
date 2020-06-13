@@ -86,7 +86,7 @@ export default {
           { withCredentials: true }
         )
         .then(() => {
-          this.$router.push("/page/1");
+          this.$router.push("my-auctions/page/1");
         })
         .catch(err => {
           alert(err);

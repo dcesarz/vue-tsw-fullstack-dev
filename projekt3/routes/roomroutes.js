@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const messageservices = require("../services/messageservices");
+const roomservices = require("../services/roomservices");
 // Uwierzytelnianie
 
 // Wyłapywanie odwołań nieobsługiwanymi metodami HTTP
@@ -18,16 +18,11 @@ const isAuth = (req, res, next) => {
 };
 
 router.route("/new")
-  .post(isAuth, messageservices.newMessage)
+  .post(isAuth, roomservices.newRoom)
   .all(rejectMethod);
 
-router.route("/inbox")
-  .get(isAuth, messageservices.inbox)
-  .all(rejectMethod);
-
-router.route("/room")
-  .post(isAuth, messageservices.findRoomsMessages)
+router.route("/find")
+  .post(roomservices.findByTwo)
   .all(rejectMethod);
 
 module.exports = router;
-

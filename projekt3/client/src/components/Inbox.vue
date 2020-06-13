@@ -8,14 +8,19 @@
     <input type="button" @click="findUserConvo" value="Search for user.." />
     <br />
     <br />
-    <Conversation v-if="renderConvo" :filteredMessages="filteredMessages" :contact="usernameSearch"/>
+    <Conversation
+      v-if="renderConvo"
+      :room="room"
+      :filteredMessages="messages"
+      :contact="usrSearch"
+    />
   </div>
 </template>
 
 <script>
 import Conversation from "./Conversation";
 import { mapGetters } from "vuex";
-import axios from '../axios'
+import axios from "../axios";
 
 export default {
   name: "Inbox",
@@ -24,42 +29,61 @@ export default {
   },
   data() {
     return {
-       messages: {},
-       renderConvo: false,
-       usrSearch: ""
+      messages: {},
+      renderConvo: false,
+      usrSearch: "",
+      room: null
     };
   },
-  props:
-      ["filteredMessages", "usernameSearch"]
-  ,
   computed: {
     ...mapGetters(["currentUser", "isAuthenticated"])
   },
   methods: {
-      filterWithUsername(a){
-          const search = a.sender === this.usrSearch || a.recipent === this.usrSearch;
-          const current = a.sender === this.currentUser.username || a.recipent === this.currentUser.username;
-          if(search && current) return true;
-          else return false;
-      },
-      findUserConvo(){
-        axios.get(
-            `${location.origin}/api/messages/inbox`,
-            { withCredentials: true }
-        ).then(resp => {
-            const unfiltered = resp.data;
-            this.usernameSearch = this.usrSearch;
-            const filtered = unfiltered.filter(this.filterWithUsername)
-            this.filteredMessages = filtered;
-            this.renderConvo = true;
+    async findUserConvo() {
+      await axios
+        .post(
+          `${location.origin}/api/rooms/find`,
+          { user1: this.currentUser.username, user2: this.usrSearch },
+          { withCredentials: true }
+        )
+        .then(resp => {
+          console.dir(resp.data);
+          if (resp.data === null) {
+            axios
+              .post(
+                `${location.origin}/api/rooms/new`,
+                {
+                  user1: this.currentUser.username,
+                  user2: this.usrSearch
+                },
+                { withCredentials: true }
+              )
+              .then( resp => {
+                this.room = resp.data;
+              })
+              .catch(err => {
+                console.log("Error making a room");
+                console.log(err);
+              });
+          } else {
+            this.room = resp.data 
+          }
         })
-        .catch((err) => {
-          this.usernameSearch = this.usrSearch;
-          this.filteredMessages = null;
-          this.renderConvo = true;
+        .catch(err => {
+          console.log("there shouldnt be an error here");
           console.log(err);
         });
-      },
+         axios
+        .post(
+          `${location.origin}/api/messages/room`,
+          { user1: this.currentUser.username, user2: this.usrSearch },
+          { withCredentials: true }
+        )
+        .then (resp => {
+          this.messages = resp.data;
+          this.renderConvo = true;
+        })
+    }
   }
 };
 </script>

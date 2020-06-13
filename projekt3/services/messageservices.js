@@ -53,3 +53,19 @@ module.exports.inbox = (req, res) => {
     });
   };
 
+module.exports.findRoomsMessages = (req, res) => {
+    let filtr = {
+        $or: [
+             { sender: req.body.user1, recipent: req.body.user2},
+             { recipent: req.body.user1, sender: req.body.user2}
+        ]
+    };
+    Message.find(filtr, function (err, doc) {
+        if (err) {
+            res.json(err);
+          } else {
+            res.json(doc);
+          }
+      });
+}
+

@@ -112,6 +112,7 @@ export default {
         })
         .then(() => {
           console.log("edited!");
+          //this.$router.push("my-auctions/page/1");
         })
         .catch(error => {
           console.log(error);
@@ -125,7 +126,8 @@ export default {
           { withCredentials: true }
         )
         .then(() => {
-          console.log("edited..");
+          console.log("started");
+          this.$router.push("/page/1");
         })
         .catch(error => {
           this.logError(error);
@@ -133,8 +135,6 @@ export default {
     }
   },
   created(){
-    //(oldAuction.seller === currentUser.username) && (oldAuction.state ===  `new`)
-    console.log("lookie here");
     console.log((this.oldAuction.seller === this.currentUser.username) && (this.oldAuction.status ===  'new'));
     console.log("edit rendered");
   }

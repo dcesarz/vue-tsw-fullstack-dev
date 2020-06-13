@@ -96,7 +96,7 @@ export default {
   created() {
     this.currentPage = parseInt(this.$route.params.page);
     axios
-      .get(`${location.origin}/api/auctions/page/${this.currentPage}`)
+      .get(`${location.origin}/api/auctions/my-bids/page/${this.currentPage}`)
       .then(resp => {
         console.log(resp);
         this.auctions = resp.data.docs;

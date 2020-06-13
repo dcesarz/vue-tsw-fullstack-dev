@@ -20,8 +20,8 @@
           </div>
         </div>
         <div v-else-if="auction.status === 'sold'">
-          <tr><th>Bought for:</th><td> ${{ auction.price }}</td></tr>
-          <tr><th>Buyer:</th><td> ${{ auction.latestBidder }}</td></tr>
+          <tr><th>Bought for:</th><td> {{ auction.price }}</td></tr>
+          <tr><th>Buyer:</th><td> {{ auction.latestBidder }}</td></tr>
         </div>
       </div>
     </div>
@@ -66,11 +66,15 @@ export default {
         this.isVisible = !this.isVisible;
     },
     buyItem () {
+      console.log("bought for:")
+      console.log(this.auction.price);
       this.emitter.emit("new-buy", {
         _id: this.auction._id,
         latestBidder: this.currentUser.username,
+        price: this.auction.price,
         status: "sold"
       });
+      this.$forceUpdate();
     },
     bidItem () {
       if (this.formData.price <= this.auction.price) {
@@ -82,6 +86,7 @@ export default {
           price: this.formData.price
         });
       }
+      this.$forceUpdate();
     },
   created () {
     if (this.isAuthenticated && this.auction.type === "bid" && this.auction.status === "onSale") {

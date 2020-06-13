@@ -4,7 +4,7 @@
     <h1>Hello {{currentUser.username}}! Here's list of current auctions...</h1>
     <table>
       <div v-for="auction in auctions" :key="auction._id">
-        <Auction :auction="auction" />
+        <Auction v-if="auction.state !== 'sold'" :auction="auction" />
       </div>
       <button id="btnPrevPage" @click="Prev()">&lt;</button>
       <button id="btnNextPage" @click="Next()">&gt;</button>

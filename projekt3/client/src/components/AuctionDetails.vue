@@ -14,10 +14,12 @@
     <br />
     {{auction.price}}
     <br />
+    <div v-if="auction.type === 'bid'">
     <br />Date:
     <br />
     {{formatted_date}}
     <br />
+    </div>
     <br />
   </div>
 </template>

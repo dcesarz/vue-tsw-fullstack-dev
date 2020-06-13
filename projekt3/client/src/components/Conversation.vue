@@ -23,39 +23,19 @@ export default {
       messageContent: "",
       emitter: io(),
       sid: "",
-      mssgs: {},
-      message: {}
+      mssgs: [],
+      message: {},
+      conversation: null
     };
   },
   computed: {
     ...mapGetters(["currentUser", "isAuthenticated"])
   },
-  props: ["filteredMessages", "contact"],
+  props: ["filteredMessages", "contact", "room"],
   components: {
     SingleMessage
   },
   methods: {
-    filterWithUsername(a) {
-      const search = a.sender === this.contact || a.recipent === this.contact;
-      const current =
-        a.sender === this.currentUser.username ||
-        a.recipent === this.currentUser.username;
-      if (search && current) return true;
-      else return false;
-    },
-    findUserConvo() {
-      axios
-        .get(`${location.origin}/api/messages/inbox`, { withCredentials: true })
-        .then(resp => {
-          const unfiltered = resp.data;
-          const filtered = unfiltered.filter(this.filterWithUsername);
-          this.filteredMessages = filtered;
-        })
-        .catch(err => {
-          this.filteredMessages = null;
-          console.log(err);
-        });
-    },
     async newMessage() {
       const formData = {
         sender: this.currentUser.username,
@@ -71,9 +51,8 @@ export default {
             sender: res.data.sender,
             recipent: res.data.recipent,
             content: res.data.content,
-            sid: this.sid
+            _id: this.room._id
           };
-          this.message = res.data;
           this.emitter.emit("chatMessage", data);
         })
         .catch(err => {
@@ -83,26 +62,14 @@ export default {
   },
   created() {
     this.mssgs = this.filteredMessages;
-    window.onbeforeunload = function() {
-      this.emitter.emit("leave", {
-        id: this.sid
-      });
-    };
-    this.emitter.on("message", message => {
-      console.log(message);
-      this.sid = this.emitter.id;
-      let obj = {
-        sender: this.currentUser.username,
-        recipent: this.contact,
-        sid: this.sid
-      };
-      this.emitter.emit("establish", obj);
-    });
-    this.emitter.on("chatMessage", message => {
-      this.findUserConvo();
-      console.log(message);
-      this.mssgs.push(this.message);
-    });
+    this.emitter.emit("join", {
+      _id : this.room._id
+    }
+    );
+    this.emitter.on("chatMessage", message=> {
+      this.mssgs.push(message);
+    })
+
   }
 };
 </script>

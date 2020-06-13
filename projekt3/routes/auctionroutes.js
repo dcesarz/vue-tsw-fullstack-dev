@@ -48,7 +48,7 @@ router
 
 router
     .route("/my-history/page/:page")
-    .get(auctionservices.mybidsPage)
+    .get(auctionservices.myhistoryPage)
     .all(rejectMethod);
 
 // TODO: those below

@@ -27,11 +27,13 @@ module.exports.auctionsPage = (isAuthenticated, async (req, res) => {
     const options = {
         page, limit, 
     }
-    aggregate_options.push();
+
+    let match = {};
+    match.status = "onSale"
+    aggregate_options.push({$match: match});
 
     const myAggregate = Auction.aggregate(aggregate_options);
     const result = await Auction.aggregatePaginate(myAggregate, options);
-    console.log(result);
     res.status(200).json(result);
 });
 
@@ -68,8 +70,9 @@ module.exports.mybidsPage = (isAuthenticated, async (req, res) => {
     }
 
     let match = {};
-    match.bidders = {$in: [req.user.username]};
+    match.bidders = req.user.username;
     match.status = 'onSale';
+   
 
     aggregate_options.push({$match: match});
 
@@ -97,7 +100,7 @@ module.exports.myhistoryPage = (isAuthenticated, async (req, res) => {
     aggregate_options.push({$match: match});
 
     const myAggregate = Auction.aggregate(aggregate_options);
-    const result = await Event.aggregatePaginate(myAggregate, options);
+    const result = await Auction.aggregatePaginate(myAggregate, options);
     res.status(200).json(result);
 });
 
