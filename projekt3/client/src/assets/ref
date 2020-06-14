@@ -1,0 +1,151 @@
+
+//for reference;
+// auction-card : auction component div
+
+
+// font-family: $nice-font;
+
+// .card {
+//   background-color: whitesmoke;
+//   border-radius: 10px;
+//   box-shadow: 0px 4px 10px rgba(black, 0.1);
+//   padding: 15px;
+//   margin-left: auto;
+//   margin-right: auto;
+//   width: 50%;
+// }
+
+// .from-you {
+//   right: 0px;
+//   color: blue;
+// }
+
+// .from-smn {
+//   left: 0px;
+//   color: red;
+// }
+
+// #history {
+//   background-color: whitesmoke;
+//   border-radius: 10px;
+//   box-shadow: 0px 4px 10px rgba(black, 0.1);
+//   padding: 15px;
+//   margin-left: auto;
+//   margin-right: auto;
+//   width: 50%;
+//   max-height: 10em;
+//   overflow: scroll;
+// }
+
+// .chat-window {
+//   background-color: whitesmoke;
+//   border-radius: 10px;
+//   box-shadow: 0px 4px 10px rgba(black, 0.1);
+//   padding: 15px;
+//   margin-left: auto;
+//   margin-right: auto;
+//   width: 50%;
+// }
+
+// .btn {
+//   background: white;
+//   border-radius: 10px;
+//   border: 1px solid; 
+//   color: black;
+//   text-transform: uppercase;
+//   text-align: center;
+//   text-decoration: none;
+//   padding: 10px;
+//   display: inline-block;
+//   outline: none;
+// }
+
+// .btn2 {
+//   font-family: $nice-font;
+//   background: white;
+//   border-radius: 10px;
+//   border: 1px solid; 
+//   color: black;
+//   text-transform: uppercase;
+//   text-align: center;
+//   text-decoration: none;
+//   padding: 10px;
+//   display: inline-block;
+//   outline: none;
+//   min-width: 25%;
+//   max-width: 25%;
+// }
+
+// .form-control {
+//   width: 50%;
+//   text-align: center;
+//   font-style: italic;
+// }
+
+// .bold {
+//   font-weight: bold;
+// }
+
+// @media (min-width: 550px){
+//   .nav .btn2 {
+//     font-family: $nice-font;
+//     font-size: $font-size;
+//     background: white;
+//     border-radius: 10px;
+//     border: 1px solid; 
+//     color: black;
+//     text-transform: uppercase;
+//     text-align: center;
+//     text-decoration: none;
+//     padding: 10px;
+//     display: inline-block;
+//     outline: none;
+//     min-width: 25%;
+//     max-width: 25%;
+//   }
+// }
+
+// @media (max-width: 550px){
+//   .nav .btn2 {
+//     font-family: $nice-font;
+//     font-size: $font-size/2;
+//     background: white;
+//     border-radius: 10px;
+//     border: 1px solid; 
+//     color: black;
+//     text-transform: uppercase;
+//     text-align: center;
+//     text-decoration: none;
+//     padding: 10px;
+//     display: inline-block;
+//     outline: none;
+//     min-width: 25%;
+//     max-width: 25%;
+//   }
+// }
+
+// .nav {
+//   background-color: #000033;
+//   border-radius: 25px;
+// }
+
+// .nav .btn2 {
+//   margin: 10px;
+// }
+
+// .nav a {
+//   font-weight: bold;
+//   color: black;
+// }
+
+// .nav a.router-link-exact-active {
+//   color: #42b983;
+// }
+
+// .app {
+//   font-family: Avenir, Helvetica, Arial, sans-serif;
+//   text-align: center;
+//   color: #2c3e50;
+// }
+
+

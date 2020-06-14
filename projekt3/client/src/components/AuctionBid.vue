@@ -74,7 +74,7 @@ export default {
         price: this.auction.price,
         status: "sold"
       });
-      this.$forceUpdate();
+      this.$router.push("/my-history/page/1");
     },
     bidItem () {
       if (this.formData.price <= this.auction.price) {
@@ -100,24 +100,7 @@ export default {
 }
 </script>
 
-<style scoped>
-h1,
-h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-tr
-{
-    padding: 10px;
-}
+
+<style>
+@import '../assets/style.css';
 </style>

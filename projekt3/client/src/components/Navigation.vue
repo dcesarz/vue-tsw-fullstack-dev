@@ -60,22 +60,7 @@ export default {
     }
 };
 </script>
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  background-color:lightslategray;
-  padding: 1%;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: white;
-  text-decoration: none;
-}
+
+<style>
+@import '../assets/style.css';
 </style>

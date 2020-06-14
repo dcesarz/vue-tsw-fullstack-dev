@@ -56,10 +56,9 @@ export default {
           { user1: this.currentUser.username, user2: this.usrSearch },
           { withCredentials: true }
         )
-        .then(resp => {
-          console.dir(resp.data);
+        .then(async resp => {
           if (resp.data === null) {
-            axios
+            await axios
               .post(
                 `${location.origin}/api/rooms/new`,
                 {
@@ -113,20 +112,7 @@ export default {
 };
 </script>
 
-<style scoped>
-h1,
-h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+
+<style>
+@import '../assets/style.css';
 </style>

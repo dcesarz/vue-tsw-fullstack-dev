@@ -61,16 +61,16 @@
           <input type="button" @click="updateAuction()" value="Submit" />
           <br />
           <br />
-          <input
-            type="button"
-            value="Start the auction"
-            v-if="oldAuction.status === 'new'"
-            @click="startAuction()"
-          />
           <br />
           <br />
         </form>
       </div>
+      <input
+        type="button"
+        value="Start the auction"
+        v-if="oldAuction.status === 'new'"
+        @click="startAuction()"
+      />
     </div>
   </div>
 </template>
@@ -134,30 +134,17 @@ export default {
         });
     }
   },
-  created(){
-    console.log((this.oldAuction.seller === this.currentUser.username) && (this.oldAuction.status ===  'new'));
+  created() {
+    console.log(
+      this.oldAuction.seller === this.currentUser.username &&
+        this.oldAuction.status === "new"
+    );
     console.log("edit rendered");
   }
 };
 </script>
 
-<style scoped>
-h1,
-h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-tr {
-  padding: 10px;
-}
+
+<style>
+@import '../assets/style.css';
 </style>
