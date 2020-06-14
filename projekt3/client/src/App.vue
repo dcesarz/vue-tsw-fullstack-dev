@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <!-- do ur own fancy logo. take control of ur destiny. -->
-    <!--<img alt="logo" src="./assets/logo.png"> -->
+    <div class="banner">
+    <img alt="banner" src="./assets/banner2.jpg">
+    </div>
     <navigation/>
     <router-view/>
   </div>
@@ -25,6 +27,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>

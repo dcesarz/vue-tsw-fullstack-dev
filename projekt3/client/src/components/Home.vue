@@ -2,13 +2,11 @@
 <template>
   <div>
     <h1>Hello {{currentUser.username}}! Here's list of current auctions...</h1>
-    <table>
-      <div v-for="auction in auctions" :key="auction._id">
+      <div class="auction-list" v-for="auction in auctions" :key="auction._id">
         <Auction v-if="auction.state !== 'sold'" :auction="auction" />
       </div>
-      <button id="btnPrevPage" @click="Prev()">&lt;</button>
-      <button id="btnNextPage" @click="Next()">&gt;</button>
-    </table>
+      <button class="white-button" id="btnPrevPage" @click="Prev()">&lt;</button>
+      <button class="white-button" id="btnNextPage" @click="Next()">&gt;</button>
   </div>
 </template>
 
@@ -46,20 +44,6 @@ export default {
       const sumCurrent = 3 * this.currentPage;
       if((sumCurrent - 3) > 0) return true;
       else return false;
-    },
-    updateButtonVisibility() {
-      // console.log("Next: " + this.nextPage);
-      // console.log("Prev: " + this.previousPage);
-      if (this.nextPage) {
-        document.getElementById("btnNextPage").style.visibility = "visible";
-      } else {
-        document.getElementById("btnNextPage").style.visibility = "hidden";
-      }
-      if (this.previousPage) {
-        document.getElementById("btnPrevPage").style.visibility = "visible";
-      } else {
-        document.getElementById("btnPrevPage").style.visibility = "hidden";
-      }
     },
     Next() {
       this.currentPage++;
@@ -109,7 +93,16 @@ export default {
       });
   },
   updated() {
-    this.updateButtonVisibility();
+      if (this.nextPage) {
+        document.getElementById("btnNextPage").style.visibility = "visible";
+      } else {
+        document.getElementById("btnNextPage").style.visibility = "hidden";
+      }
+      if (this.previousPage) {
+        document.getElementById("btnPrevPage").style.visibility = "visible";
+      } else {
+        document.getElementById("btnPrevPage").style.visibility = "hidden";
+      }
   }
 };
 </script>

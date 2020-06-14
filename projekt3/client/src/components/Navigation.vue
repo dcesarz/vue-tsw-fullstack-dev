@@ -1,35 +1,32 @@
 <template>
 <div>
-  <div>
-    <h1>Welcome to Auction app!</h1>
-  </div>
-  <ul>
+  <ul id="nav">
     <li v-if="isAuthenticated">
-    <router-link to="/new">New auction</router-link>
+    <router-link class="nav-link" to="/new">New auction</router-link>
       </li>
     <li>
-    <router-link to="/page/1">Home</router-link>
+    <router-link class="nav-link" to="/page/1">Home</router-link>
     </li>
     <li v-if="!isAuthenticated">
-    <router-link to="/login">Login</router-link>
+    <router-link class="nav-link" to="/login">Login</router-link>
       </li>
     <li v-if="!isAuthenticated">
-      <router-link to="/register">Register</router-link>
+      <router-link class="nav-link" to="/register">Register</router-link>
       </li>
     <li v-if="isAuthenticated">
-      <router-link to="/inbox">Inbox</router-link>
+      <router-link class="nav-link" to="/inbox">Inbox</router-link>
     </li>
     <li v-if="isAuthenticated">
       <a @click="logout()">Log out</a>
       </li>
      <li v-if="isAuthenticated">
-    <router-link to="/my-auctions/page/1">My auctions</router-link>
+    <router-link class="nav-link" to="/my-auctions/page/1">My auctions</router-link>
     </li>
-     <li v-if="isAuthenticated" class="nav-item">
-      <router-link to="/my-bids/page/1">My bids</router-link>
+     <li v-if="isAuthenticated">
+      <router-link class="nav-link" to="/my-bids/page/1">My bids</router-link>
       </li>
-    <li v-if="isAuthenticated" class="nav-item">
-      <router-link to="/my-history/page/1">My History</router-link>
+    <li v-if="isAuthenticated">
+      <router-link class="nav-link" to="/my-history/page/1">My History</router-link>
       </li> 
   </ul>
 </div>

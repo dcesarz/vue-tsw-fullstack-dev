@@ -11,7 +11,8 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --prefix client",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "quickstart": "cd client && npm run build && cd .. && node index.js"
   },
   "author": "Dominika Cesarz",
   "license": "ISC",

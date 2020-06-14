@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="message-box">
+    <div class="message-box">
       <h2>{{message.sender}}</h2>
       <div>{{message.content}}</div>
     </div>

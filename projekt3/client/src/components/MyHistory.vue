@@ -2,13 +2,11 @@
 <template>
   <div>
     <h1>Hello {{currentUser.username}}! Here's your history of auctions...</h1>
-    <table>
-      <div v-for="auction in auctions" :key="auction._id">
+      <div class="auction-list" v-for="auction in auctions" :key="auction._id">
         <Auction :auction="auction" />
       </div>
-      <button id="btnPrevPage" @click="Prev()">&lt;</button>
-      <button id="btnNextPage" @click="Next()">&gt;</button>
-    </table>
+      <button class="white-button" id="btnPrevPage" @click="Prev()">&lt;</button>
+      <button class="white-button" id="btnNextPage" @click="Next()">&gt;</button>
   </div>
 </template>
 

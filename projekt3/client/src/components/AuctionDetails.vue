@@ -15,7 +15,7 @@
     {{auction.price}}
     <br />
     <div v-if="auction.type === 'bid'">
-    <br />Date:
+    <br />Ends on..:
     <br />
     {{formatted_date}}
     <br />

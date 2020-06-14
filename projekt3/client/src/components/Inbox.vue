@@ -1,7 +1,7 @@
 <!-- WILL SHOW SINGLE AUCTION. -->
 <template>
   <div>
-    <label for="usr-input">Get to convo!:</label>
+    <h1 class="label" for="usr-input">Get to convo!:</h1>
     <br />
     <br />
     <select id="usr-input" v-model="usrSearch">
@@ -10,6 +10,7 @@
     <br />
     <br />
     <input
+      class="white-button"
       type="button"
       v-if="(usrSearch !== null) && (usrSearch !== '')"
       @click="findUserConvo"
@@ -79,7 +80,6 @@ export default {
           }
         })
         .catch(err => {
-          console.log("there shouldnt be an error here");
           console.log(err);
         });
       axios
@@ -95,14 +95,12 @@ export default {
     }
   },
   async created() {
-    console.log("here");
-    console.log(this.usrSearch);
     await axios
       .get(`${location.origin}/api/users/`, { withCredentials: true })
       .then(resp => {
         this.users = [];
+        // eslint-disable-next-line 
         for (let [key, value] of Object.entries(resp.data)) {
-          console.log(`${key}: ${value.username}`);
           if (this.currentUser.username !== value.username) {
             this.users.push(value.username);
           }

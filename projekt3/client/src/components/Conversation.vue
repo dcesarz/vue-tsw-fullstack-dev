@@ -1,11 +1,14 @@
 <template>
   <div>
-    Connected to {{contact}}, enjoy your convo!
+    <h2>Connected to {{contact}}, enjoy your convo!</h2>
     <br />
-    <input id="message-input" v-model="messageContent" type="text" placeholder="Message..." />
-    <input type="button" @click="newMessage" value="Send message.." />
+    <div class="convo">
+    <input class="form-text" id="message-input" v-model="messageContent" type="text" placeholder="Message..." />
+    <input class="white-button" type="button" @click="newMessage" value="Send message.." />
+    
     <div id="history" v-for="message in mssgs" :key="message._id">
       <div><SingleMessage :message="message" /></div>
+    </div>
     </div>
   </div>
 </template>

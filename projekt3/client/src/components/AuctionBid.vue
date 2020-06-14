@@ -3,7 +3,7 @@
       <div v-if="auction.type === 'bid'">
         <div v-if="auction.status === 'onSale'">
           <div v-if="isValidBidder">
-            <tr><th><button @click="bidItem()">Bid</button></th>
+            <tr><th><button class="white-button" @click="bidItem()">Bid</button></th>
             <td><input v-model="formData.price" type="number" min="1" step="1" placeholder="Your bid" size="9" ></td></tr>
           </div>
           <tr><th>Latest bidder:</th><td> {{ auction.latestBidder }}</td></tr>
@@ -16,7 +16,7 @@
       <div v-else-if="auction.type === 'buy'">
         <div v-if="auction.status === 'onSale'">
           <div v-if="isValidBidder">
-            <tr><td><button @click="buyItem()">Buy</button></td></tr>
+            <tr><td><button class="white-button" @click="buyItem()">Buy</button></td></tr>
           </div>
         </div>
         <div v-else-if="auction.status === 'sold'">
@@ -35,9 +35,6 @@ export default {
   computed: {
     ...mapGetters(["currentUser", "isAuthenticated"]),
     isValidBidder: function() {
-        console.log((this.currentUser.username !== this.auction.seller) &&
-        this.isAuthenticated);
-        console.log(this.auction.status);
       return (
         ((this.currentUser.username !== this.auction.seller) &&
         this.isAuthenticated)

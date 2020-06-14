@@ -57,7 +57,7 @@ if (process.env.NODE_ENV === "development") {
 
 // Publiczny folder
 
-app.use(express.static(path.join(__dirname, "dist")));
+app.use(express.static(path.join(__dirname, "client/dist")));
 
 
 // Routing
@@ -129,8 +129,6 @@ io.on("connection", (socket) => {
         }
     });
     socket.on('leave', (data) => {
-        console.log("emitting leave")
-        console.log(data);
         console.log("Socket disconnecting");
         socket.leave(data._id);
         socket.disconnect();
@@ -138,10 +136,6 @@ io.on("connection", (socket) => {
     socket.on("new-buy", async (data) => {
         if (isAuthenticated(socket) && lock === false) {
           lock = true;
-
-          console.log("look2");
-          console.log(data);
-
           const filter = data._id;
           const update = {
             latestBidder: data.latestBidder,
@@ -176,13 +170,10 @@ io.on("connection", (socket) => {
     socket.on("new-bid", async (data) => {
         if (socket.request.user.logged_in) {
             let price = "";
-            console.log("look3");
-            console.log(data);
             const filter = data._id;
             let oldBidders;
             try {
                 const doc = await Auction.findById(filter);
-                console.log(filter);
                 oldBidders = doc.bidders;
                 price = doc.price;
             } catch (err) {

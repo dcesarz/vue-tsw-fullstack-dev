@@ -1,10 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
-$nice-font: 'Opens Sans', serif;
+$my-font: 'Opens Sans', sans-serif;
 $font-size: 20px;
+$breakpoints: (phone: 640px, 
+               tablet: 768px, 
+               desktop: 1024px) !default;
 
 h1,
 h2 {
+  color: #31343A;
+  font-family: $my-font;
   font-weight: normal;
+  text-shadow: 1px 4px 10px rgba(0, 0, 0, 0.05); 
 }
 ul {
   list-style-type: none;
@@ -14,20 +20,100 @@ li {
   display: inline-block;
   margin: 0 10px;
 }
-#nav-link {
+#nav{
+  padding-top: 1%;
+  padding-bottom: 1%;
+  background-color: #31343A;
+  .nav-link, li, router-link {
+    text-decoration: none;
+    color: whitesmoke;
+  }
+}
+
+
+  .banner {
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+  }
+
+
+.auction-card {
+  border-radius: 10px;
+  max-width: 500px;
+  position: relative;
+  padding: 10%;
+  margin: auto;
+  border-width: 1px;
+  border-color: #31343A;
+  box-shadow: 3px 4px 10px rgba(#31343A, 0.1);
+}
+.message-box {
+  border-radius: 30px;
+  max-width: 455px;
+  padding: 10px;
+  margin: auto;
+  box-shadow: 3px 4px 10px rgba(#31343A, 0.1);
+}
+
+.convo {
+  border-radius: 10px;
+  max-width: 600px;
+  position: relative;
+  padding: 7%;
+  margin: auto;
+  border-width: 1px;
+  border-color: #31343A;
+  box-shadow: 3px 4px 10px rgba(#31343A, 0.1);
+}
+
+.form-card{
+  border-radius: 10px;
+  max-width: 500px;
+  max-height: 500px;
+  position: relative;
+  padding: 5%;
+  margin: auto;
+  border-width: 1px;
+  border-color: #31343A;
+  box-shadow: 3px 4px 10px rgba(#31343A, 0.1);
+}
+
+.form-text {
+  color: #222;
+  background-color: #FFF;
+  border: 1px solid #DADEE8;
+  border-radius: 30px;
+  font-size: 14px;
+  font-family: "Nunito Sans", sans-serif;
+  line-height: 1.5;
+  padding: 10px;
+  display: block;
+  width: 90%;
+  transition: all 0.2s linear; }
+
+.white-button {
+  margin: 10px;
+  border-radius: 30px;
+  border: 1px solid;
+  font-size: 14px;
+  font-family: $my-font;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-align: center;
   text-decoration: none;
-  color: azure;
-}
-auction-card {
-  padding: 2%;
-  margin: 0 10px;
-  border-width: 1px;
-  border-color: azure;
-  box-shadow: 0px 4px 10px rgba(#606569, 0.1);
-}
-#message-box {
-  padding: 5px;
-  border-style: solid;
-  border-color: black;
-  border-width: 1px;
-}
+  line-height: 1.5;
+  padding: 10px 30px;
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s linear; 
+  color: #31343A;
+  background-color: whitesmoke;
+  border-color: whitesmoke;
+  box-shadow: 1px 4px 10px rgba(0, 0, 0, 0.1); }
+  .btn--white:hover, .btn--white:focus {
+    color: #31343A;
+    background-color: #FFFFFF;
+    border-color: #FFFFFF; }

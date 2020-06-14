@@ -1,6 +1,6 @@
 <!-- WILL SHOW SINGLE AUCTION. -->
 <template>
-  <div id="auction-card">
+  <div class="auction-card">
     <AuctionDetails :auction="auction" />
     <AuctionEdit v-if="isAuthenticated" :oldAuction="auction" :emitter="emitter" />
     <AuctionBid :auction="auction" :emitter="emitter" />

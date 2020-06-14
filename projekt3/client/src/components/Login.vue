@@ -2,14 +2,14 @@
   <div class="login">
     <h2>Log in</h2>
     <hr>
-      <form @submit.prevent="handleSubmit" ref="form">
-        <input v-model="formData.username" type="text" name="username" id="username"
+      <form class="form-card" @submit.prevent="handleSubmit" ref="form">
+        <input class="form-text" v-model="formData.username" type="text" name="username" id="username"
         placeholder="Username" minLength="3" required="">
         <br><br>
-        <input v-model="formData.password" type="password" name="password" id="password"
+        <input class="form-text" v-model="formData.password" type="password" name="password" id="password"
         placeholder="Password" required="">
         <br><br>
-        <button type="submit">Log in</button>
+        <button class="white-button" type="submit">Log in</button>
       </form>
   </div>
 </template>

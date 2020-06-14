@@ -2,14 +2,14 @@
   <div class="register">
     <h2>Register</h2>
     <hr>
-    <form @submit.prevent="handleSubmit()">
+    <form class="form-card" @submit.prevent="handleSubmit()">
       <input v-model="user.username" type="text" name="username" id="username"
       placeholder="Username" minLength="3" required="">
       <br><br>
       <input v-model="user.password" type="password" name="password" id="password"
       placeholder="Password" required="">
       <br><br>
-      <button type="submit">Register</button>
+      <button class="white-button" type="submit">Register</button>
     </form>
   </div>
 </template>

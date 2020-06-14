@@ -2,13 +2,11 @@
 <template>
   <div>
     <h1>Hello {{currentUser.username}}! Here's list of your active auctions...</h1>
-    <table>
-      <div v-for="auction in auctions" :key="auction._id">
+      <div class="auction-list" v-for="auction in auctions" :key="auction._id">
         <Auction :auction="auction" />
       </div>
-      <button id="btnPrevPage" @click="Prev()">&lt;</button>
-      <button id="btnNextPage" @click="Next()">&gt;</button>
-    </table>
+      <button class="white-button" id="btnPrevPage" @click="Prev()">&lt;</button>
+      <button class="white-button" id="btnNextPage" @click="Next()">&gt;</button>
   </div>
 </template>
 
@@ -47,20 +45,6 @@ export default {
       if((sumCurrent - 3) > 0) return true;
       else return false;
     },
-    updateButtonVisibility() {
-      // console.log("Next: " + this.nextPage);
-      // console.log("Prev: " + this.previousPage);
-      if (this.nextPage) {
-        document.getElementById("btnNextPage").style.visibility = "visible";
-      } else {
-        document.getElementById("btnNextPage").style.visibility = "hidden";
-      }
-      if (this.previousPage) {
-        document.getElementById("btnPrevPage").style.visibility = "visible";
-      } else {
-        document.getElementById("btnPrevPage").style.visibility = "hidden";
-      }
-    },
     Next() {
       this.currentPage++;
       this.changePage(this.currentPage);
@@ -69,6 +53,7 @@ export default {
       this.currentPage--;
       this.changePage(this.currentPage);
     },
+    //eslint-disable-next-line
     changePage(page) {
       axios
         .get(`${location.origin}/api/auctions/my-auctions/page/${this.currentPage}`)
@@ -77,7 +62,6 @@ export default {
         this.totalPageCount = resp.data.totalPages;
         this.nextPage = this.isThereNextPage();
         this.previousPage = this.isTherePrevPage();
-          console.log(page);
           if (history.pushState) {
             var newURL =
               window.location.protocol +
@@ -98,7 +82,6 @@ export default {
     axios
       .get(`${location.origin}/api/auctions/my-auctions/page/${this.currentPage}`)
       .then(resp => {
-        console.log(resp);
         this.auctions = resp.data.docs;
         this.totalPageCount = resp.data.totalPages;
         this.nextPage = this.isThereNextPage();
@@ -109,7 +92,16 @@ export default {
       });
   },
   updated() {
-    this.updateButtonVisibility();
+      if (this.nextPage) {
+        document.getElementById("btnNextPage").style.visibility = "visible";
+      } else {
+        document.getElementById("btnNextPage").style.visibility = "hidden";
+      }
+      if (this.previousPage) {
+        document.getElementById("btnPrevPage").style.visibility = "visible";
+      } else {
+        document.getElementById("btnPrevPage").style.visibility = "hidden";
+      }
   }
 };
 </script>

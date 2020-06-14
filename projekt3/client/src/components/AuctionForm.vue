@@ -1,11 +1,11 @@
 <template>
   <div>
-    <form>
-      <label for="name-input">Name:</label>
+    <form class="form-card">
+      <label class="label" for="name-input">Name:</label>
       <input
         v-model="formData.name"
         id="name-input"
-        class="input"
+        class="form-text"
         type="text"
         minlength="3"
         placeholder="Name"
@@ -14,11 +14,11 @@
       />
       <br />
       <br />
-      <label for="price-input">Price:</label>
+      <label class="label" for="price-input">Price:</label>
       <input
         v-model="formData.price"
         id="price-input"
-        class="input"
+        class="form-text"
         type="number"
         min="1"
         step="1"
@@ -27,11 +27,11 @@
       />
       <br />
       <br />
-      <label for="desc-input">Description:</label>
+      <label class="label" for="desc-input">Description:</label>
       <input
         v-model="formData.description"
         id="desc-input"
-        class="input"
+        class="form-text"
         type="text"
         placeholder="Description"
         required
@@ -39,7 +39,7 @@
       />
       <br />
       <br />
-      <label for="type-input">Type:</label>
+      <label class="label" for="type-input">Type:</label>
       <select v-model="formData.type" id="type-input" name="select">
         <option value="bid">Bid</option>
         <option value="buy">Buy</option>
@@ -47,12 +47,12 @@
       <br />
       <br />
       <div v-if="formData.type === 'bid'">
-        <label for="date-input">Ends on..:</label>
+        <label class="label" for="date-input">Ends on..:</label>
         <input id="date-input" type="date" v-model="formData.date" placeholder="date" />
       </div>
       <br />
       <br />
-      <input type="button" @click="newAuction()" value="Submit">
+      <input class="white-button" type="button" @click="newAuction()" value="Submit">
       <br />
       <br />
     </form>
