@@ -100,8 +100,6 @@ export default {
       this.isVisible = !this.isVisible;
     },
     buyItem() {
-      console.log("bought for:");
-      console.log(this.auction.price);
       this.emitter.emit("new-buy", {
         _id: this.auction._id,
         latestBidder: this.currentUser.username,

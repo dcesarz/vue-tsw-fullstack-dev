@@ -33,7 +33,6 @@ export default {
   },
   methods: {
     isThereNextPage(){
-      // having problems with plugins, so im resorting to this.
       const sumCurrent = 3 * this.currentPage;
       const sumAll = 3 * this.totalPageCount;
       if(sumCurrent < sumAll) return true;
@@ -45,8 +44,6 @@ export default {
       else return false;
     },
     updateButtonVisibility() {
-      // console.log("Next: " + this.nextPage);
-      // console.log("Prev: " + this.previousPage);
       if (this.nextPage) {
         document.getElementById("btnNextPage").style.visibility = "visible";
       } else {
@@ -95,7 +92,6 @@ export default {
     axios
       .get(`${location.origin}/api/auctions/my-history/page/${this.currentPage}`)
       .then(resp => {
-        console.log(resp);
         this.auctions = resp.data.docs;
         this.totalPageCount = resp.data.totalPages;
         this.nextPage = this.isThereNextPage();

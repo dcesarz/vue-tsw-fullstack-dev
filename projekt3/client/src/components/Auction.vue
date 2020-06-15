@@ -13,7 +13,6 @@ import AuctionEdit from "./AuctionEdit";
 import AuctionBid from "./AuctionBid";
 import { mapGetters } from "vuex";
 import io from "socket.io-client";
-//import axios from "../axios";
 
 export default {
   name: "Auction",
@@ -42,15 +41,11 @@ export default {
           });
         }
         this.emitter.on("new-buy", cb => {
-          console.log("new buy");
-          console.dir(cb);
           this.auction.status = cb.status;
           this.auction.latestBidder = cb.latestBidder;
         });
 
         this.emitter.on("new-bid", cb => {
-          console.log("new bid");
-          console.dir(cb);
           this.auction.price = cb.price;
           this.auction.latestBidder = cb.latestBidder;
         });
@@ -65,7 +60,6 @@ export default {
         id: this.auction._id,
         username: this.currentUser.username
       });
-      console.log("left");
     }
   }
 };

@@ -82,7 +82,6 @@ export default {
     axios
       .get(`${location.origin}/api/auctions/my-bids/page/${this.currentPage}`)
       .then(resp => {
-        console.log(resp);
         this.auctions = resp.data.docs;
         this.totalPageCount = resp.data.totalPages;
         this.nextPage = this.isThereNextPage();

@@ -162,17 +162,14 @@ export default {
   },
   methods: {
     async newAuction() {
-      console.log("1");
       await axios
         .post(`${location.origin}/api/auctions/auction`, this.formData, {
           withCredentials: true
         })
         .then(() => {
-          console.log("2");
           this.$router.push("my-auctions/page/1");
         })
         .catch(err => {
-          console.log("3");
           alert(err);
         });
     }

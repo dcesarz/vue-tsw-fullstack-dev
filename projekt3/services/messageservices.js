@@ -8,10 +8,8 @@ module.exports.newMessage = (req, res) => {
     else {
     let recipent = req.body.recipent;
     let content = req.body.content;
-    console.log(req.session.passport);
     User.findOne({"_id": req.session.passport.user}, (err, user) => {
         if (err) {
-            //done(err);
             return res.status(400).json("Error.. :( ");
         }
         if (user) {

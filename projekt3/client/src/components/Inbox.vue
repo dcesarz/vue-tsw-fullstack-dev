@@ -94,11 +94,8 @@ export default {
           { withCredentials: true }
         )
         .then(resp => {
-          console.log("smsmsmssmsm");
           const chat = resp.data;
           this.messages = chat;
-          // this.$set(this.messages, chat, chat);
-          // this.messages = resp.data;
           this.renderConvo = true;
           this.rerenderConvo = !this.rerenderConvo;
           this.emitter.emit("leave", {
