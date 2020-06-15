@@ -1,56 +1,100 @@
 <template>
   <div class="login">
     <h2>Log in</h2>
-    <hr>
-      <form class="form-card" @submit.prevent="handleSubmit" ref="form">
-        <input class="form-text" v-model="formData.username" type="text" name="username" id="username"
-        placeholder="Username" minLength="3" required="">
-        <br><br>
-        <input class="form-text" v-model="formData.password" type="password" name="password" id="password"
-        placeholder="Password" required="">
-        <br><br>
-        <button class="white-button" type="submit">Log in</button>
-      </form>
+    <hr />
+    <form class="form-card" @submit.prevent="handleSubmit" ref="form">
+      <label
+        v-if="$v.formData.username.$invalid && $v.formData.username.$dirty"
+        class="warning-label"
+        for="date-input"
+      >Login cannot be empty or shorter than 3 characters!</label>
+      <br />
+      <input
+        @input="$v.$touch()"
+        class="form-text"
+        v-model="formData.username"
+        type="text"
+        name="username"
+        id="username"
+        placeholder="Username"
+        maxlength="30"
+        minlength="3"
+        required
+      />
+      <br />
+      <br />
+      <label
+        v-if="$v.formData.password.$invalid && $v.formData.password.$dirty"
+        class="warning-label"
+        for="date-input"
+      >Password cannot be empty or shorter than 3 characters!</label>
+      <br />
+      <input
+        @input="$v.$touch()"
+        class="form-text"
+        v-model="formData.password"
+        type="password"
+        name="password"
+        id="password"
+        placeholder="Password"
+        maxlength="30"
+        required
+      />
+      <br />
+      <br />
+      <button v-if="!($v.$invalid)" class="white-button" type="submit">Log in</button>
+    </form>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
-import axios from '../axios';
+import { mapGetters, mapActions } from "vuex";
+import axios from "../axios";
+const { required, minLength } = require("vuelidate/lib/validators");
 
 export default {
-  name: 'Login',
+  name: "Login",
   data() {
     return {
       formData: {
-        username: '',
-        password: '',
-      },
+        username: "",
+        password: ""
+      }
     };
   },
+  validations: {
+    formData: {
+      username: {
+        required,
+        minLength: minLength(3)
+      },
+      password: {
+        required,
+        minLength: minLength(3)
+      }
+    }
+  },
   computed: {
-    ...mapGetters(['currentUser']),
+    ...mapGetters(["currentUser"])
   },
   methods: {
-    ...mapActions(['fetchCurrentUser']),
+    ...mapActions(["fetchCurrentUser"]),
     async handleSubmit() {
-      axios
-      //`https://localhost:3000/api/users/login`
-      //${location.origin}/api/users/login
+      await axios
         .post(`${location.origin}/api/users/login`, this.formData)
-        .then((res) => {
+        .then(res => {
           console.log(res);
           this.$router.push("/page/1");
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
-    },
+    }
   }
 };
 </script>
 
 
 <style>
-@import '../assets/style.css';
+@import "../assets/style.css";
 </style>

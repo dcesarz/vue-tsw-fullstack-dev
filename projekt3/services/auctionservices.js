@@ -28,8 +28,9 @@ module.exports.auctionsPage = (isAuthenticated, async (req, res) => {
         page, limit, 
     }
 
-    let match = {};
-    match.status = "onSale"
+    let match = {
+        status: "onSale"
+    };
     aggregate_options.push({$match: match});
 
     const myAggregate = Auction.aggregate(aggregate_options);

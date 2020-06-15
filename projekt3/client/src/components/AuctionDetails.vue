@@ -14,11 +14,17 @@
     <br />
     {{auction.price}}
     <br />
+    <br />
+    <br />
+    {{auction.status}}
+    <br />
+    <br />
+    <br />
     <div v-if="auction.type === 'bid'">
-    <br />Ends on..:
-    <br />
-    {{formatted_date}}
-    <br />
+      <br />Ends on..:
+      <br />
+      {{formatted_date}}
+      <br />
     </div>
     <br />
   </div>
@@ -56,5 +62,5 @@ export default {
 
 
 <style>
-@import '../assets/style.css';
+@import "../assets/style.css";
 </style>

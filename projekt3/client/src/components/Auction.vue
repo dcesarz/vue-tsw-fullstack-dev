@@ -34,7 +34,6 @@ export default {
   created() {
         if (
           this.isAuthenticated &&
-          this.auction.type === "bid" &&
           this.auction.status === "onSale"
         ) {
           this.emitter.emit("join", {
@@ -42,29 +41,28 @@ export default {
             username: this.currentUser.username
           });
         }
-
         this.emitter.on("new-buy", cb => {
           console.log("new buy");
-          this.auction.status = "sold";
+          console.dir(cb);
+          this.auction.status = cb.status;
           this.auction.latestBidder = cb.latestBidder;
         });
 
         this.emitter.on("new-bid", cb => {
           console.log("new bid");
+          console.dir(cb);
           this.auction.price = cb.price;
           this.auction.latestBidder = cb.latestBidder;
         });
       
   },
   beforeDestroy() {
-    const emitterId = this.emitter.id;
     if (
       this.isAuthenticated &&
-      this.auction.type === "bid" &&
       this.auction.status === "onSale"
     ) {
       this.emitter.emit("leave", {
-        id: emitterId,
+        id: this.auction._id,
         username: this.currentUser.username
       });
       console.log("left");

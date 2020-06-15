@@ -22,7 +22,7 @@ export default {
       nextPage: false,
       previousPage: false,
       totalPageCount: 0,
-      auctions: {}
+      auctions: {},
     };
   },
   computed: {

@@ -112,7 +112,7 @@ io.on("connection", (socket) => {
 
     socket.on("join", (data) => {
         if (socket.request.user.logged_in) {
-            console.log("Joined room " + data._id);
+            console.log("Joined room/auction " + data._id);
             socket.join(data._id);
         }
     });
@@ -155,16 +155,6 @@ io.on("connection", (socket) => {
                 }
             }
         );
-          await auctionServices.partialUpdate(body, (error) => {
-            lock = false;
-            console.dir(data);
-            if (error) {
-              io.sockets.in(data._id).emit("error");
-            } else {
-              io.sockets.in(data._id).emit("new-buy", data);
-              console.log(`[Socket]: New transaction from user: ${data.latestBidder}`);
-            }
-          });
         }
       });
     socket.on("new-bid", async (data) => {

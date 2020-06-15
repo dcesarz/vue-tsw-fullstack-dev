@@ -3,12 +3,23 @@
     <h2>Connected to {{contact}}, enjoy your convo!</h2>
     <br />
     <div class="convo">
-    <input class="form-text" id="message-input" v-model="messageContent" type="text" placeholder="Message..." />
-    <input class="white-button" type="button" @click="newMessage" value="Send message.." />
-    
-    <div id="history" v-for="message in mssgs" :key="message._id">
-      <div><SingleMessage :message="message" /></div>
-    </div>
+      <input
+        maxlength="255"
+        oninput="this.value = this.value.slice(0, this.maxLength)"
+        class="form-text"
+        id="message-input"
+        v-model="messageContent"
+        type="text"
+        placeholder="Message..."
+      />
+      <input class="white-button" type="button" @click="newMessage" value="Send message.." />
+      <div id="history" v-for="message in mssgs" :key="message._id">
+        <div>
+          <SingleMessage :message="message" />
+        </div>
+      </div>
+      <div id="bottom-chat">
+      </div>
     </div>
   </div>
 </template>
@@ -17,14 +28,12 @@
 import SingleMessage from "./SingleMessage";
 import axios from "../axios";
 import { mapGetters } from "vuex";
-import io from "socket.io-client";
 
 export default {
   name: "Conversation",
   data() {
     return {
       messageContent: "",
-      emitter: io(),
       sid: "",
       mssgs: [],
       message: {},
@@ -34,7 +43,7 @@ export default {
   computed: {
     ...mapGetters(["currentUser", "isAuthenticated"])
   },
-  props: ["filteredMessages", "contact", "room"],
+  props: ["emitter","filteredMessages", "contact", "room"],
   components: {
     SingleMessage
   },
@@ -57,6 +66,7 @@ export default {
             _id: this.room._id
           };
           this.emitter.emit("chatMessage", data);
+          document.getElementById("bottom-chat").scrollIntoView();
         })
         .catch(err => {
           alert(err);
@@ -66,18 +76,17 @@ export default {
   created() {
     this.mssgs = this.filteredMessages;
     this.emitter.emit("join", {
-      _id : this.room._id
-    }
-    );
-    this.emitter.on("chatMessage", message=> {
+      _id: this.room._id
+    });
+    this.emitter.on("chatMessage", message => {
       this.mssgs.push(message);
-    })
-
+      this.messageContent = "";
+    });
   }
 };
 </script>
 
 
 <style>
-@import '../assets/style.css';
+@import "../assets/style.css";
 </style>

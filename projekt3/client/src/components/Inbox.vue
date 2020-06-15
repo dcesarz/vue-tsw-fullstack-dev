@@ -19,10 +19,12 @@
     <br />
     <br />
     <Conversation
+      :key="rerenderConvo"
       v-if="renderConvo"
       :room="room"
       :filteredMessages="messages"
       :contact="usrSearch"
+      :emitter="emitter"
     />
   </div>
 </template>
@@ -31,6 +33,7 @@
 import Conversation from "./Conversation";
 import { mapGetters } from "vuex";
 import axios from "../axios";
+import io from "socket.io-client";
 
 export default {
   name: "Inbox",
@@ -40,10 +43,12 @@ export default {
   data() {
     return {
       messages: {},
+      rerenderConvo: false,
       renderConvo: false,
       usrSearch: "",
       room: null,
-      users: []
+      users: [],
+      emitter: io()
     };
   },
   computed: {
@@ -82,15 +87,23 @@ export default {
         .catch(err => {
           console.log(err);
         });
-      axios
+      await axios
         .post(
           `${location.origin}/api/messages/room`,
           { user1: this.currentUser.username, user2: this.usrSearch },
           { withCredentials: true }
         )
         .then(resp => {
-          this.messages = resp.data;
+          console.log("smsmsmssmsm");
+          const chat = resp.data;
+          this.messages = chat;
+          // this.$set(this.messages, chat, chat);
+          // this.messages = resp.data;
           this.renderConvo = true;
+          this.rerenderConvo = !this.rerenderConvo;
+          this.emitter.emit("leave", {
+            _id: this.room._id
+          });
         });
     }
   },
@@ -99,7 +112,7 @@ export default {
       .get(`${location.origin}/api/users/`, { withCredentials: true })
       .then(resp => {
         this.users = [];
-        // eslint-disable-next-line 
+        // eslint-disable-next-line
         for (let [key, value] of Object.entries(resp.data)) {
           if (this.currentUser.username !== value.username) {
             this.users.push(value.username);
@@ -112,5 +125,5 @@ export default {
 
 
 <style>
-@import '../assets/style.css';
+@import "../assets/style.css";
 </style>

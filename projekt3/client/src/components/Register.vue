@@ -2,20 +2,55 @@
   <div class="register">
     <h2>Register</h2>
     <hr>
-    <form class="form-card" @submit.prevent="handleSubmit()">
-      <input v-model="user.username" type="text" name="username" id="username"
-      placeholder="Username" minLength="3" required="">
-      <br><br>
-      <input v-model="user.password" type="password" name="password" id="password"
-      placeholder="Password" required="">
-      <br><br>
-      <button class="white-button" type="submit">Register</button>
+    <form class="form-card" @submit.prevent="handleSubmit" ref="form">
+      <label
+        v-if="$v.formData.username.$invalid && $v.formData.username.$dirty"
+        class="warning-label"
+        for="date-input"
+      >Login cannot be empty or shorter than 3 characters!</label>
+      <br />
+      <input
+        @input="$v.$touch()"
+        class="form-text"
+        v-model="formData.username"
+        type="text"
+        name="username"
+        id="username"
+        placeholder="Username"
+        maxlength="30"
+        minlength="3"
+        required
+      />
+      <br />
+      <br />
+      <label
+        v-if="$v.formData.password.$invalid && $v.formData.password.$dirty"
+        class="warning-label"
+        for="date-input"
+      >Password cannot be empty or shorter than 3 characters!</label>
+      <br />
+      <input
+        @input="$v.$touch()"
+        class="form-text"
+        v-model="formData.password"
+        type="password"
+        name="password"
+        id="password"
+        placeholder="Password"
+        maxlength="30"
+        required
+      />
+      <br />
+      <br />
+      <button v-if="!($v.$invalid)" class="white-button" type="submit">Register</button>
     </form>
   </div>
 </template>
 
 <script>
 import axios from '../axios';
+const { required, minLength } = require("vuelidate/lib/validators");
+
 export default {
   name: 'Register',
   data() {
@@ -25,6 +60,18 @@ export default {
         password: '',
       },
     };
+  },
+  validations: {
+    formData: {
+      username: {
+        required,
+        minLength: minLength(3)
+      },
+      password: {
+        required,
+        minLength: minLength(3)
+      }
+    }
   },
   methods: {
     handleSubmit() {

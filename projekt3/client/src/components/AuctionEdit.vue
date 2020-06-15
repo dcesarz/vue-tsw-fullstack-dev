@@ -8,6 +8,12 @@
       <div v-show="isVisible">
         <form class="form-card">
           <label class="label" for="name-input">Name:</label>
+          <br />
+          <label
+            class="warning-label"
+            for="name-input"
+            v-if="$v.formData.name.$invalid && $v.formData.name.$dirty"
+          >Name cannot be empty or less than 3 characters long!</label>
           <input
             v-model="formData.name"
             id="name-input"
@@ -17,10 +23,17 @@
             placeholder="Name"
             required
             maxlength="50"
+            @input="$v.$touch()"
           />
           <br />
           <br />
           <label class="label" for="price-input">Price:</label>
+          <br />
+          <label
+            v-if="$v.formData.price.$invalid && $v.formData.price.$dirty"
+            class="warning-label"
+            for="price-input"
+          >Price is required!</label>
           <input
             v-model="formData.price"
             id="price-input"
@@ -28,12 +41,23 @@
             type="number"
             min="1"
             step="1"
+            max="999999999"
+            maxlength="9"
+            oninput="this.value = this.value.slice(0, this.maxLength)"
+            size="9"
             placeholder="Price"
-            required
+            @input="$v.$touch()"
+          />
           />
           <br />
           <br />
           <label class="label" for="name-input">Description:</label>
+          <br />
+          <label
+            class="warning-label"
+            for="desc-input"
+            v-if="$v.formData.description.$invalid && $v.formData.description.$dirty"
+          >Description cannot be empty or have less than 3 characters!</label>
           <input
             v-model="formData.description"
             id="desc-input"
@@ -42,11 +66,18 @@
             placeholder="Description"
             required
             maxlength="255"
+            @input="$v.$touch()"
           />
           <br />
           <br />
           <label class="label" for="name-input">Type:</label>
-          <select v-model="formData.type" id="select" name="select">
+          <br />
+          <label
+            v-if="$v.formData.type.$invalid && $v.formData.type.$dirty"
+            class="warning-label"
+            for="type-input"
+          >The type is required!</label>
+          <select v-model="formData.type" id="type-input" name="select">
             <option value="bid">Bid</option>
             <option value="buy">Buy</option>
           </select>
@@ -54,7 +85,13 @@
           <br />
           <div v-if="formData.type === 'bid'">
             <label class="label" for="name-input">Ends on..:</label>
-            <input type="date" v-model="formData.date" placeholder="date" />
+            <br />
+            <label
+              v-if="$v.formData.date.$invalid && $v.formData.date.$dirty"
+              class="warning-label"
+              for="date-input"
+            >Date cannot be empty or earlier than tommorrow!</label>
+            <input type="date" @input="$v.$touch()" v-model="formData.date" placeholder="date" />
           </div>
           <br />
           <br />
@@ -67,16 +104,27 @@
       </div>
       <input
         class="white-button"
+        v-if="(formData.type === 'bid' &&
+            !$v.formData.name.$invalid &&
+            !$v.formData.date.$invalid &&
+            !$v.formData.price.$invalid &&
+            !$v.formData.type.$invalid &&
+            !$v.formData.description.$invalid )||
+          (formData.type === 'buy' &&  
+            !$v.formData.name.$invalid && 
+            !$v.formData.price.$invalid && 
+            !$v.formData.type.$invalid && 
+            !$v.formData.description.$invalid ) "
         type="button"
-        value="Start the auction"
-        v-if="oldAuction.status === 'new'"
         @click="startAuction()"
+        value="Start the auction"
       />
     </div>
   </div>
 </template>
 
 <script>
+const { required, minLength } = require("vuelidate/lib/validators");
 import axios from "../axios";
 import { mapGetters } from "vuex";
 export default {
@@ -102,6 +150,27 @@ export default {
       }
     };
   },
+  validations: {
+    formData: {
+      name: {
+        required,
+        minLength: minLength(3)
+      },
+      description: {
+        required,
+        minLength: minLength(3)
+      },
+      price: {
+        required
+      },
+      type: {
+        required
+      },
+      date: {
+        minValue: value => value > new Date().toISOString()
+      }
+    }
+  },
   methods: {
     toggleVisibility() {
       this.isVisible = !this.isVisible;
@@ -112,8 +181,11 @@ export default {
           withCredentials: true
         })
         .then(() => {
+          this.oldAuction.date = this.formData.date;
+          this.oldAuction.description = this.formData.description;
+          this.oldAuction.name = this.formData.name;
+          this.oldAuction.prize = this.formData.prize;
           console.log("edited!");
-          //this.$router.push("my-auctions/page/1");
         })
         .catch(error => {
           console.log(error);
@@ -133,11 +205,11 @@ export default {
           this.logError(error);
         });
     }
-  },
+  }
 };
 </script>
 
 
 <style>
-@import '../assets/style.css';
+@import "../assets/style.css";
 </style>
