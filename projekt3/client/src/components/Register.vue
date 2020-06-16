@@ -55,7 +55,7 @@ export default {
   name: 'Register',
   data() {
     return {
-      user: {
+      formData: {
         username: '',
         password: '',
       },
@@ -78,7 +78,7 @@ export default {
       axios
       //${location.origin}/api/users/register
       //`https://localhost:3000/api/users/register`
-        .post(`${location.origin}/api/users/register`, this.user)
+        .post(`${location.origin}/api/users/register`, this.formData)
         .then(() => {
            this.$router.push({ name: "Login" });
         })
