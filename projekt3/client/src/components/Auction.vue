@@ -40,12 +40,12 @@ export default {
             username: this.currentUser.username
           });
         }
-        this.emitter.on("new-buy", cb => {
+        this.emitter.on("buy", cb => {
           this.auction.status = cb.status;
           this.auction.latestBidder = cb.latestBidder;
         });
 
-        this.emitter.on("new-bid", cb => {
+        this.emitter.on("bid", cb => {
           this.auction.price = cb.price;
           this.auction.latestBidder = cb.latestBidder;
         });

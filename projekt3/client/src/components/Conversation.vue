@@ -82,6 +82,14 @@ export default {
       this.mssgs.push(message);
       this.messageContent = "";
     });
+  },
+  beforeDestroy() {
+    if (
+      this.isAuthenticated) {
+      this.emitter.emit("leave", {
+        _id: this.room._id,
+      });
+    }
   }
 };
 </script>

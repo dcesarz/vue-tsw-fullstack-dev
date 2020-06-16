@@ -1,7 +1,4 @@
 const Auction = require("../models/Auction");
-// const moment = require('moment');
-// const { Aggregate } = require("mongoose");
-
 const isAuthenticated = (req, res, next) => {
     if (req.isAuthenticated()) {
         return next();

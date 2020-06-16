@@ -111,12 +111,14 @@ io.on("connection", (socket) => {
     const username = socket.request.user.username;
 
     socket.on("join", (data) => {
+        console.log("2");
         if (socket.request.user.logged_in) {
             console.log("Joined room/auction " + data._id);
             socket.join(data._id);
         }
     });
     socket.on("chatMessage",(data) => {
+        console.log("3");
         let obj = {
             sender: data.sender,
             recipent: data.recipent,
@@ -129,11 +131,11 @@ io.on("connection", (socket) => {
         }
     });
     socket.on('leave', (data) => {
-        console.log("Socket disconnecting");
+        console.log(`Socket ${data._id} disconnecting`);
         socket.leave(data._id);
         socket.disconnect();
     });
-    socket.on("new-buy", async (data) => {
+    socket.on("buy", async (data) => {
         if (isAuthenticated(socket) && lock === false) {
           lock = true;
           const filter = data._id;
@@ -149,7 +151,7 @@ io.on("connection", (socket) => {
                     console.log(err);
                     io.sockets.in(data._id).emit("server-error");
                 } else {
-                    io.sockets.in(data._id).emit("new-buy", update);
+                    io.sockets.in(data._id).emit("buy", update);
                     console.log(`Socket: New buy from user: ${update.latestBidder}`);
                     console.log("Buy successfully posted!");
                 }
@@ -157,7 +159,7 @@ io.on("connection", (socket) => {
         );
         }
       });
-    socket.on("new-bid", async (data) => {
+    socket.on("bid", async (data) => {
         if (socket.request.user.logged_in) {
             let price = "";
             const filter = data._id;
@@ -190,7 +192,7 @@ io.on("connection", (socket) => {
                         console.log(err);
                         io.sockets.in(data._id).emit("server-error");
                     } else {
-                        io.sockets.in(data._id).emit("new-bid", update);
+                        io.sockets.in(data._id).emit("bid", update);
                         console.log(`Socket: New bid from user: ${update.latestBidder}`);
                         console.log(`Socket: Price on the bid raised to..: ${update.price}`);
                         console.log("Bid successfully posted!");

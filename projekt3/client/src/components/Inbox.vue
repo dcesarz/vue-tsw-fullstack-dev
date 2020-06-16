@@ -98,9 +98,6 @@ export default {
           this.messages = chat;
           this.renderConvo = true;
           this.rerenderConvo = !this.rerenderConvo;
-          this.emitter.emit("leave", {
-            _id: this.room._id
-          });
         });
     }
   },

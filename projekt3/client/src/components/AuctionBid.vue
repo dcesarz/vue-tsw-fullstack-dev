@@ -53,14 +53,14 @@
         </div>
       </div>
       <div v-if="auction.status === 'sold'">
-        <tr>
-          <th>Bought for:</th>
-          <td>{{ auction.price }}</td>
-        </tr>
-        <tr>
-          <th>Buyer:</th>
-          <td>{{ auction.latestBidder }}</td>
-        </tr>
+          <br>
+          Bought for:
+          <br>
+          {{ auction.price }}
+          <br>
+          Buyer:
+          {{ auction.latestBidder }}
+          <br>
       </div>
     </div>
   </div>
@@ -100,7 +100,7 @@ export default {
       this.isVisible = !this.isVisible;
     },
     buyItem() {
-      this.emitter.emit("new-buy", {
+      this.emitter.emit("buy", {
         _id: this.auction._id,
         latestBidder: this.currentUser.username,
         price: this.auction.price,
@@ -111,7 +111,7 @@ export default {
       if (this.formData.price <= this.auction.price) {
         console.log("Not enough : (!");
       } else {
-        this.emitter.emit("new-bid", {
+        this.emitter.emit("bid", {
           _id: this.auction._id,
           latestBidder: this.currentUser.username,
           price: this.formData.price

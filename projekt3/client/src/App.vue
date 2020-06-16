@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <!-- do ur own fancy logo. take control of ur destiny. -->
     <div class="banner">
     <img alt="banner" src="./assets/banner2.jpg">
     </div>
