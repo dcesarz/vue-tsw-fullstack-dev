@@ -158,7 +158,7 @@ io.on("connection", (socket) => {
     socket.on("buy", async (data) => {
         if (isAuthenticated(socket) && lock === false) {
           lock = true;
-          const filter = data._id;
+          const filter = data.auctionId;
           const update = {
             latestBidder: data.latestBidder,
             status: 'sold',
@@ -181,7 +181,7 @@ io.on("connection", (socket) => {
     socket.on("bid", async (data) => {
         if (socket.request.user.logged_in) {
             let price = "";
-            const filter = data._id;
+            const filter = data.auctionId;
             let oldBidders;
             try {
                 const doc = await Auction.findById(filter);

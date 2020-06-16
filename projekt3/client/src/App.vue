@@ -21,7 +21,7 @@ export default {
     if (this.$store.getters.isAuthenticated) {
       this.$store.dispatch("commitConnectSocket");
       this.$store.getters.socket.emit("joinUser", {
-        _id: this.$store.getters.currentUser._id
+        _id: this.$store.getters.currentUser.username
       });
     }
   }

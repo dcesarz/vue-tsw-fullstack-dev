@@ -12,7 +12,6 @@ import AuctionDetails from "./AuctionDetails";
 import AuctionEdit from "./AuctionEdit";
 import AuctionBid from "./AuctionBid";
 import { mapGetters } from "vuex";
-import io from "socket.io-client";
 
 export default {
   name: "Auction",
@@ -24,7 +23,7 @@ export default {
   },
   data() {
     return {
-      emitter: io({ transports: ["websocket"] }),
+      emitter: this.$store.getters.socket,
     };
   },
   computed: {
@@ -41,15 +40,15 @@ export default {
     }
   },
   created() {
-        if (
-          this.isAuthenticated &&
-          this.auction.status === "onSale"
-        ) {
-          this.emitter.emit("joinAuction", {
-            _id: this.auction._id,
-            username: this.currentUser.username
-          });
-        }
+        // if (
+        //   this.isAuthenticated &&
+        //   this.auction.status === "onSale"
+        // ) {
+        //   this.emitter.emit("joinAuction", {
+        //     _id: this.auction._id,
+        //     username: this.currentUser.username
+        //   });
+        // }
         this.emitter.on("buy", cb => {
           this.auction.status = cb.status;
           this.auction.latestBidder = cb.latestBidder;
@@ -61,17 +60,17 @@ export default {
         });
       
   },
-  beforeDestroy() {
-    if (
-      this.isAuthenticated &&
-      this.auction.status === "onSale"
-    ) {
-      this.emitter.emit("leave", {
-        id: this.auction._id,
-        username: this.currentUser.username
-      });
-    }
-  }
+  // beforeDestroy() {
+  //   if (
+  //     this.isAuthenticated &&
+  //     this.auction.status === "onSale"
+  //   ) {
+  //     this.emitter.emit("leave", {
+  //       id: this.auction._id,
+  //       username: this.currentUser.username
+  //     });
+  //   }
+  // }
 };
 </script>
 

@@ -41,7 +41,6 @@ module.exports.auctionsPage = (isAuthenticated, async (req, res) => {
     const options = {
         page, limit,
     }
-
     let match = {
         status: "onSale"
     };

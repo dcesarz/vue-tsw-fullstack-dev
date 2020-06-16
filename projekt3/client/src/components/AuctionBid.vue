@@ -53,14 +53,13 @@
         </div>
       </div>
       <div v-if="auction.status === 'sold'">
-          <br>
-          Bought for:
-          <br>
-          {{ auction.price }}
-          <br>
-          Buyer:
-          {{ auction.latestBidder }}
-          <br>
+        <br />Bought for:
+        <br />
+        {{ auction.price }}
+        <br />
+        Buyer:
+        {{ auction.latestBidder }}
+        <br />
       </div>
     </div>
   </div>
@@ -101,7 +100,8 @@ export default {
     },
     buyItem() {
       this.emitter.emit("buy", {
-        _id: this.auction._id,
+        _id: this.$store.getters.currentUser.username,
+        auctionId: this.auction._id,
         latestBidder: this.currentUser.username,
         price: this.auction.price,
         status: "sold"
@@ -112,12 +112,13 @@ export default {
         console.log("Not enough : (!");
       } else {
         this.emitter.emit("bid", {
-          _id: this.auction._id,
+          _id: this.$store.getters.currentUser.username,
+          auctionId: this.auction._id,
           latestBidder: this.currentUser.username,
           price: this.formData.price
         });
       }
-    },
+    }
     // created() {
     //   if (
     //     this.isAuthenticated &&

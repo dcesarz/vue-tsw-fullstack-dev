@@ -14,12 +14,6 @@
     <br />
     {{auction.price}}
     <br />
-    <br />
-    <br />
-    {{auction.status}}
-    <br />
-    <br />
-    <br />
     <div v-if="auction.type === 'bid'">
       <br />Ends on..:
       <br />

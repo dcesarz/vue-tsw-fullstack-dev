@@ -33,7 +33,6 @@
 import Conversation from "./Conversation";
 import { mapGetters } from "vuex";
 import axios from "../axios";
-import io from "socket.io-client";
 
 export default {
   name: "Inbox",
@@ -48,7 +47,7 @@ export default {
       usrSearch: "",
       room: null,
       users: [],
-      emitter: io({ transports: ["websocket"] }),
+      emitter: this.$store.getters.socket,
     };
   },
   computed: {
