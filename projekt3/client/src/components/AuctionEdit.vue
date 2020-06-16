@@ -184,8 +184,9 @@ export default {
           this.oldAuction.date = this.formData.date;
           this.oldAuction.description = this.formData.description;
           this.oldAuction.name = this.formData.name;
-          this.oldAuction.prize = this.formData.prize;
-          console.log("edited!");
+          this.oldAuction.price = this.formData.price;
+          this.toggleVisibility();
+           this.$emit('edited', this.oldAuction)
         })
         .catch(error => {
           console.log(error);

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="auction.type === 'bid'">
-      <div v-if="auction.status === 'onSale'">
+      <div v-if="auction.status === 'onSale' && isOngoing">
         <div v-if="isValidBidder">
           <button
             v-if="auction.type === 'bid' && (formData.price > auction.price)"

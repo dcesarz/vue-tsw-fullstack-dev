@@ -111,14 +111,12 @@ io.on("connection", (socket) => {
     const username = socket.request.user.username;
 
     socket.on("join", (data) => {
-        console.log("2");
         if (socket.request.user.logged_in) {
             console.log("Joined room/auction " + data._id);
             socket.join(data._id);
         }
     });
     socket.on("chatMessage",(data) => {
-        console.log("3");
         let obj = {
             sender: data.sender,
             recipent: data.recipent,
@@ -149,11 +147,10 @@ io.on("connection", (socket) => {
             (err, doc) => {
                 if (err) {
                     console.log(err);
-                    io.sockets.in(data._id).emit("server-error");
+                    io.sockets.in(data._id).emit("error");
                 } else {
                     io.sockets.in(data._id).emit("buy", update);
                     console.log(`Socket: New buy from user: ${update.latestBidder}`);
-                    console.log("Buy successfully posted!");
                 }
             }
         );
@@ -170,7 +167,7 @@ io.on("connection", (socket) => {
                 price = doc.price;
             } catch (err) {
                 console.log(err);
-                return io.sockets.in(data._id).emit("server-error");
+                return io.sockets.in(data._id).emit("error");
             }
             const update = {
                 price: data.price,
@@ -190,12 +187,11 @@ io.on("connection", (socket) => {
                 (err, doc) => {
                     if (err) {
                         console.log(err);
-                        io.sockets.in(data._id).emit("server-error");
+                        io.sockets.in(data._id).emit("error");
                     } else {
                         io.sockets.in(data._id).emit("bid", update);
                         console.log(`Socket: New bid from user: ${update.latestBidder}`);
                         console.log(`Socket: Price on the bid raised to..: ${update.price}`);
-                        console.log("Bid successfully posted!");
                     }
                 }
             );

@@ -2,7 +2,7 @@
 <template>
   <div class="auction-card">
     <AuctionDetails :auction="auction" />
-    <AuctionEdit v-if="isAuthenticated" :oldAuction="auction" :emitter="emitter" />
+    <AuctionEdit v-if="isAuthenticated" v-on:edited="emittedEdit" :oldAuction="auction" :emitter="emitter" />
     <AuctionBid :auction="auction" :emitter="emitter" />
   </div>
 </template>
@@ -29,6 +29,16 @@ export default {
   },
   computed: {
     ...mapGetters(["currentUser", "isAuthenticated"])
+  },
+  methods: {
+    emittedEdit(value){
+      console.log(value);
+      this.auction.price = value.price;
+      this.auction.description = value.description;
+      this.auction.name = value.name;
+      this.auction.date = value.date;
+      this.auction.type = value.type;
+    }
   },
   created() {
         if (

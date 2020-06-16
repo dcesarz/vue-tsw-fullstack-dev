@@ -3,8 +3,10 @@ const auctionservices = require("../services/auctionservices");
 
 const isAuth = (req, res, next) => {
     if (req.isAuthenticated()) {
+        console.log("authentication worked");
         return next();
     }
+    console.log("authentication failed");
     res.status(403).json({
         message: "Not authenticated"
     });
@@ -16,17 +18,14 @@ const rejectMethod = (_req, res) => {
 };
 
 router.route("/startauction")
-    .patch(auctionservices.startAuction)
+    .patch(isAuth, auctionservices.startAuction)
     .all(rejectMethod);
 
-router.route("/auction/:id")
-    .get(auctionservices.read)
-    .all(rejectMethod);
 
 router.route("/auction")
-    .post(auctionservices.newAuction)
-    .patch(auctionservices.patchAuction)
-    .delete(auctionservices.deleteAuction)
+    .post(isAuth, auctionservices.newAuction)
+    .patch(isAuth, auctionservices.patchAuction)
+    .delete(isAuth, auctionservices.deleteAuction)
     .all(rejectMethod);
 
 // TODO: PAGINATION !
@@ -38,17 +37,17 @@ router
 
 router
     .route("/my-auctions/page/:page")
-    .get(auctionservices.myauctionsPage)
+    .get(isAuth, auctionservices.myauctionsPage)
     .all(rejectMethod);
 
 router
     .route("/my-bids/page/:page")
-    .get(auctionservices.mybidsPage)
+    .get(isAuth, auctionservices.mybidsPage)
     .all(rejectMethod);
 
 router
     .route("/my-history/page/:page")
-    .get(auctionservices.myhistoryPage)
+    .get(isAuth, auctionservices.myhistoryPage)
     .all(rejectMethod);
 
 router.route("/")
@@ -59,9 +58,10 @@ router.route("/")
     
 
 router.route("/auction/:id")
-    .all(isAuth,auctionservices.validateId)
     .delete(isAuth,auctionservices.delete)
+    .get(auctionservices.read)
     .all(rejectMethod);
+
 
 
 module.exports = router;
