@@ -3,10 +3,8 @@ const auctionservices = require("../services/auctionservices");
 
 const isAuth = (req, res, next) => {
     if (req.isAuthenticated()) {
-        console.log("authentication worked");
         return next();
     }
-    console.log("authentication failed");
     res.status(403).json({
         message: "Not authenticated"
     });

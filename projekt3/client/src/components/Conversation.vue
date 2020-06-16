@@ -75,7 +75,7 @@ export default {
   },
   created() {
     this.mssgs = this.filteredMessages;
-    this.emitter.emit("join", {
+    this.emitter.emit("joinConvo", {
       _id: this.room._id
     });
     this.emitter.on("chatMessage", message => {

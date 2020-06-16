@@ -1,22 +1,31 @@
 <template>
   <div id="app">
     <div class="banner">
-    <img alt="banner" src="./assets/banner2.jpg">
+      <img alt="banner" src="./assets/banner2.jpg" />
     </div>
-    <navigation/>
-    <router-view/>
+    <navigation />
+    <router-view />
   </div>
 </template>
 
 <script>
-import Navigation from './components/Navigation.vue'
+import Navigation from "./components/Navigation.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     Navigation
+  },
+  async created() {
+    await this.$store.dispatch("fetchCurrentUser");
+    if (this.$store.getters.isAuthenticated) {
+      this.$store.dispatch("commitConnectSocket");
+      this.$store.getters.socket.emit("joinUser", {
+        _id: this.$store.getters.currentUser._id
+      });
+    }
   }
-}
+};
 </script>
 
 <style>

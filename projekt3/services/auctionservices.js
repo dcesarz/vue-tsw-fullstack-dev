@@ -22,13 +22,13 @@ const checkAuctions = (req, res) => {
         date: { $lte: new Date() },
         status: 'onSale'
     }
+    // eslint-disable-next-line
     Auction.update(filter, { "$set": { status: 'sold' } }, { "multi": true }, (err, res) => {
         if (err) {
             console.log("error updating auctions");
             console.log(err);
         } else {
             console.log("auctions updated!");
-            console.log(res);
         }
     });
 };
@@ -49,7 +49,6 @@ module.exports.auctionsPage = (isAuthenticated, async (req, res) => {
 
     const myAggregate = Auction.aggregate(aggregate_options);
     const result = await Auction.aggregatePaginate(myAggregate, options);
-    console.log(result);
     res.status(200).json(result);
 });
 

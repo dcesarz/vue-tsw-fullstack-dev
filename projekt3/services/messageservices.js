@@ -13,7 +13,7 @@ module.exports.newMessage = (req, res) => {
             return res.status(400).json("Error.. :( ");
         }
         if (user) {
-            if(user.username == req.body.sender)
+            if(user.username === req.body.sender)
             {
                 console.log("continue..")
             }

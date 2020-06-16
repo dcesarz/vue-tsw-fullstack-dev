@@ -118,17 +118,17 @@ export default {
         });
       }
     },
-    created() {
-      if (
-        this.isAuthenticated &&
-        this.auction.status === "onSale"
-      ) {
-        this.emitter.emit("join", {
-          _id: this.auction._id,
-          username: this.currentUser.username
-        });
-      }
-    }
+    // created() {
+    //   if (
+    //     this.isAuthenticated &&
+    //     this.auction.status === "onSale"
+    //   ) {
+    //     this.emitter.emit("joinAuction", {
+    //       _id: this.auction._id,
+    //       username: this.currentUser.username
+    //     });
+    //   }
+    // }
   }
 };
 </script>

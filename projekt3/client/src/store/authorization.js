@@ -1,21 +1,20 @@
-//import axios from "axios";
-// import router from "../router";
 import axios from '../axios';
+import io from "socket.io-client";
+
 const state = {
         user: {},
-        isAuthenticated: false
+        isAuthenticated: false,
+        socket: null
 };
 
 const getters = {
     currentUser: state => state.user,
     isAuthenticated: state => state.isAuthenticated
 };
-//`${location.origin}/api/users/currentuser
+
 const actions = {
     fetchCurrentUser ({ commit }) {
         return new Promise((resolve, reject) => {
-            //https://localhost:3000/api/users/currentuser
-            //`${location.origin}/api/users/currentuser`
             axios.get(`${location.origin}/api/users/currentuser`)
                 .then((resp) => {
                     console.dir(resp.data);
@@ -28,6 +27,11 @@ const actions = {
                     reject(err);
                 });
         });
+    },
+    commitConnectSocket({commit})
+    {
+        commit("connectSocket");
+        console.log("Socket for user was created!");
     }
 };
 
@@ -39,6 +43,12 @@ const mutations = {
     authNotLoggedIn (state) {
         state.user = null;
         state.isAuthenticated = false;
+    },
+    connectSocket () {
+        state.socket = io({ transports: ["websocket"] });
+    },
+    disconnectSocket () {
+        state.socket = null;
     }
 };
 

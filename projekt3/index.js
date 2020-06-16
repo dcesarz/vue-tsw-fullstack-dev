@@ -106,16 +106,38 @@ io.use(passportSocketIo.authorize({
     cookieParser: cookieParser
 }));
 
+io.set('transports', ['websocket']);
+
 io.on("connection", (socket) => {
     console.log(`Made socket connection: ${socket.id}`);
     const username = socket.request.user.username;
 
-    socket.on("join", (data) => {
+    socket.on("joinUser", (data) => {
+        console.dir(`User: "${username}" joined room { ${data._id} } (self)`);
+        socket.join(data._id);
+    });
+
+    socket.on("leaveUser", (data) => {
         if (socket.request.user.logged_in) {
-            console.log("Joined room/auction " + data._id);
+            console.dir(`User: "${username}" has left room { ${data._id} } (self)`);
+            socket.leave(data._id);
+        }
+    });
+
+    socket.on("joinConvo", (data) => {
+        if (socket.request.user.logged_in) {
+            console.log(`User: "${username}" joined conversation room ` + data._id);
             socket.join(data._id);
         }
     });
+
+    socket.on("joinAuction", (data) => {
+        if (socket.request.user.logged_in) {
+            console.log(`User: "${username}" joined auction room ` + data._id);
+            socket.join(data._id);
+        }
+    });
+
     socket.on("chatMessage",(data) => {
         let obj = {
             sender: data.sender,
@@ -150,7 +172,7 @@ io.on("connection", (socket) => {
                     io.sockets.in(data._id).emit("error");
                 } else {
                     io.sockets.in(data._id).emit("buy", update);
-                    console.log(`Socket: New buy from user: ${update.latestBidder}`);
+                    console.log(`New buy from user: ${update.latestBidder}`);
                 }
             }
         );

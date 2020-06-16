@@ -48,7 +48,7 @@ export default {
       usrSearch: "",
       room: null,
       users: [],
-      emitter: io()
+      emitter: io({ transports: ["websocket"] }),
     };
   },
   computed: {

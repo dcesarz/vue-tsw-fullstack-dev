@@ -24,7 +24,7 @@ export default {
   },
   data() {
     return {
-      emitter: io(),
+      emitter: io({ transports: ["websocket"] }),
     };
   },
   computed: {
@@ -45,7 +45,7 @@ export default {
           this.isAuthenticated &&
           this.auction.status === "onSale"
         ) {
-          this.emitter.emit("join", {
+          this.emitter.emit("joinAuction", {
             _id: this.auction._id,
             username: this.currentUser.username
           });
