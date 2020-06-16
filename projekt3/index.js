@@ -22,7 +22,7 @@ const auctionServices = require("./services/auctionservices");
 const roomRoutes = require("./routes/roomroutes");
 
 // Wszelkie dane przesyłamy w formacie JSON
-app.use(express.urlencoded({ extended: false }));
+//app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 //app.use(cors({credentials: true, origin: 'https://localhost:8080'}));
@@ -171,7 +171,7 @@ io.on("connection", (socket) => {
                     console.log(err);
                     io.sockets.in(data._id).emit("error");
                 } else {
-                    io.sockets.in(data._id).emit("buy", update);
+                    io.sockets.emit("buy", update);
                     console.log(`New buy from user: ${update.latestBidder}`);
                 }
             }
@@ -211,7 +211,7 @@ io.on("connection", (socket) => {
                         console.log(err);
                         io.sockets.in(data._id).emit("error");
                     } else {
-                        io.sockets.in(data._id).emit("bid", update);
+                        io.sockets.emit("bid", update);
                         console.log(`Socket: New bid from user: ${update.latestBidder}`);
                         console.log(`Socket: Price on the bid raised to..: ${update.price}`);
                     }

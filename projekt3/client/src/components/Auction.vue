@@ -50,11 +50,13 @@ export default {
         //   });
         // }
         this.emitter.on("buy", cb => {
+          console.log("broadcast intercepted?");
           this.auction.status = cb.status;
           this.auction.latestBidder = cb.latestBidder;
         });
 
         this.emitter.on("bid", cb => {
+          console.log("broadcast intercepted?");
           this.auction.price = cb.price;
           this.auction.latestBidder = cb.latestBidder;
         });
