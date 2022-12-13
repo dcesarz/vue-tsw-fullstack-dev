@@ -29,7 +29,7 @@
     "dotenv": "^8.2.0",
     "error-handler": "^1.0.0",
     "errorhandler": "^1.5.1",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-session": "^1.17.1",
     "https": "^1.0.0",
     "local": "^0.3.3",
